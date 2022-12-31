@@ -17,7 +17,7 @@ namespace HorangUnityLibrary.Utilities
 	
 	public static class Logging
 	{
-		private static string[] LoggerPriorityColorPrefix =
+		private static readonly string[] LoggerPriorityColorPrefix =
 		{
 			"<color=#2d75eb>",
 			"<color=#ebebeb>",
@@ -40,21 +40,12 @@ namespace HorangUnityLibrary.Utilities
 
 		private const char OpenBracket = '[';
 		private const string CloseBracket = "] ";
-		
-		public static string ToLog(this string message, LogPriority logPriority)
-		{
-#if SHOW_LOG
-			Log(message, logPriority);
-#endif
-		
-			return message;
-		}
 
-		public static void Log(string message, LogPriority priority)
+		public static string Log(LogPriority priority, string message)
 		{
 #if SHOW_LOG
 			var st = new StackTrace(true);
-			var sf = st.GetFrame(_isInternalLogCall ? 2 : 1);
+			var sf = st.GetFrame(1);
 			var fn = Path.GetFileNameWithoutExtension(sf.GetFileName()?.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries)[^1]);
 			var sb = new StringBuilder(FontBoldPrefix);
 			
@@ -76,7 +67,6 @@ namespace HorangUnityLibrary.Utilities
 			{
 				case LogPriority.Debug:
 				case LogPriority.Verbose:
-				case LogPriority.Information:
 					UnityEngine.Debug.Log(sb.ToString());
 					break;
 				case LogPriority.Warning:
@@ -86,10 +76,14 @@ namespace HorangUnityLibrary.Utilities
 				case LogPriority.Exception:
 					UnityEngine.Debug.LogError(sb.ToString());
 					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(priority), priority, null);
 			}
 			
 			sb.Clear();
 #endif
+
+			return message;
 		}
 	}
 }
