@@ -20,9 +20,9 @@ namespace HorangUnityLibrary.Modules
 		{
 			var key = baseModule.GetType();
 
-			if (VerificationModuleExist(key))
+			if (ValidateModuleExist(key))
 			{
-				Log.Print("Already exist module.", LogPriority.Error);
+				Log.Print($"[{key}] module already exist.", LogPriority.Error);
 
 				return;
 			}
@@ -30,12 +30,24 @@ namespace HorangUnityLibrary.Modules
 			modules.Add(key, baseModule);
 		}
 
+		public void RemoveModule(Type type)
+		{
+			if (ValidateModuleExist(type) is false)
+			{
+				Log.Print($"Cannot find [{type}] module.", LogPriority.Error);
+				
+				return;
+			}
+			
+			modules.Remove(type);
+		}
+
 		[CanBeNull]
 		public T GetModule<T>(Type type) where T : BaseModule
 		{
-			if (VerificationModuleExist(type) is false)
+			if (ValidateModuleExist(type) is false)
 			{
-				Log.Print("Cannot find module.", LogPriority.Error);
+				Log.Print($"Cannot find [{type}] module.", LogPriority.Error);
 
 				return null;
 			}
@@ -70,7 +82,7 @@ namespace HorangUnityLibrary.Modules
 			onLateUpdate?.Invoke();
 		}
 
-		private bool VerificationModuleExist(Type t)
+		private bool ValidateModuleExist(Type t)
 		{
 			return modules.ContainsKey(t);
 		}

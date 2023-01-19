@@ -3,9 +3,14 @@ namespace HorangUnityLibrary.Modules
 	public interface IModule
 	{
 		/// <summary>
-		/// Bind module to module manager by action subscriber. (If not call this method, the module is not working.)
+		/// Bind module to module manager with action subscriber. (If not call this method, the module is not working.)
 		/// </summary>
-		public void UseModule();
+		public void ActiveModule();
+
+		/// <summary>
+		/// Unbind module from module manager with action de-subscriber.
+		/// </summary>
+		public void InactiveModule();
 
 		/// <summary>
 		/// Initialize only once when application turn on. (Working like Unity's Awake method.)

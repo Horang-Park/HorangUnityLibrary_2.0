@@ -16,7 +16,7 @@ namespace HorangUnityLibrary.Modules
 			injectedModuleManager = moduleManager;
 		}
 
-		public virtual void UseModule()
+		public virtual void ActiveModule()
 		{
 			if (isThisModuleActivated)
 			{
@@ -30,6 +30,22 @@ namespace HorangUnityLibrary.Modules
 			injectedModuleManager.onLateUpdate += LateUpdate;
 
 			isThisModuleActivated = true;
+		}
+
+		public virtual void InactiveModule()
+		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
+			injectedModuleManager.onInitializeOnce -= InitializeOnce;
+			injectedModuleManager.onInitializeLate -= InitializeLate;
+			injectedModuleManager.onUpdate -= Update;
+			injectedModuleManager.onFixedUpdate -= FixedUpdate;
+			injectedModuleManager.onLateUpdate -= LateUpdate;
+
+			isThisModuleActivated = false;
 		}
 
 		public virtual void InitializeOnce()

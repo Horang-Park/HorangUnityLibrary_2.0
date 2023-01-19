@@ -10,7 +10,7 @@ namespace HorangUnityLibrary
 			Log.Print("\"Requester\" module has been registered.");
 		}
 
-		public override void UseModule()
+		public override void ActiveModule()
 		{
 			if (isThisModuleActivated)
 			{
@@ -19,9 +19,23 @@ namespace HorangUnityLibrary
 				return;
 			}
 			
-			base.UseModule();
+			base.ActiveModule();
 			
-			Log.Print("\"Requester\" module has been set use mode.");
+			Log.Print("Module are activated");
+		}
+
+		public override void InactiveModule()
+		{
+			if (isThisModuleActivated is false)
+			{
+				Log.Print("Already inactivated module.", LogPriority.Warning);
+				
+				return;
+			}
+			
+			base.InactiveModule();
+			
+			Log.Print("Module are inactivated");
 		}
 
 		public void DoSomething()
