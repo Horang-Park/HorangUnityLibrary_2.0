@@ -1,9 +1,10 @@
 ﻿using Editor.DefineSymbol;
+using HorangUnityLibrary.Utilities;
 using UnityEditor;
 
 namespace Editor.Tools
 {
-	public class ShowLog
+	public abstract class ShowLog
 	{
 		[MenuItem("Tools/Debug Mode/Log/Enable")]
 		private static void EnableLog()
