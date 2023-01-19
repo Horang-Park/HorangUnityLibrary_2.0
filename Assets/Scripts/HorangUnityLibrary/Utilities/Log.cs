@@ -119,7 +119,7 @@ namespace HorangUnityLibrary.Utilities
 		/// <summary>
 		/// Export log to provided file path. (Log history will be clear its operation done.)
 		/// </summary>
-		/// <param name="directoryPath">To export directory (If can't find directory, generate automatically)</param>
+		/// <param name="directoryPath">To export directory (If can't find directory, it will generate directory automatically)</param>
 		/// <returns>If operation is not complete will return false, success is true</returns>
 		public static async UniTask<bool> ExportLogHistory(string directoryPath)
 		{
