@@ -8,7 +8,7 @@ public class Tester : MonoBehaviour
 {
 	[SerializeField] private ModuleManager moduleManager;
 
-	private Requester req;
+	private ModuleExample tes;
 
 	private void Awake()
 	{
@@ -18,9 +18,9 @@ public class Tester : MonoBehaviour
 
 	private void Start()
 	{
-		moduleManager.RegisterModule(new Requester(moduleManager));
+		moduleManager.RegisterModule(new ModuleExample(moduleManager));
 
-		req = moduleManager.GetModule<Requester>(typeof(Requester));
+		tes = moduleManager.GetModule<ModuleExample>(typeof(ModuleExample));
 	}
 
 	private async void Update()
@@ -32,19 +32,19 @@ public class Tester : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			req.ActiveModule();
-			req.DoSomething();
+			tes.ActiveModule();
+			tes.DoSomething();
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F2))
 		{
-			req.InactiveModule();
-			req.DoSomething();
+			tes.InactiveModule();
+			tes.DoSomething();
 		}
 
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
-			moduleManager.UnregisterModule(typeof(Requester));
+			moduleManager.UnregisterModule(typeof(ModuleExample));
 		}
 	}
 }

@@ -3,9 +3,9 @@ using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary
 {
-	public class Requester : BaseModule
+	public class ModuleExample : BaseModule
 	{
-		public Requester(ModuleManager moduleManager) : base(moduleManager)
+		public ModuleExample(ModuleManager moduleManager) : base(moduleManager)
 		{
 			Log.Print("\"Requester\" module has been registered.");
 		}
