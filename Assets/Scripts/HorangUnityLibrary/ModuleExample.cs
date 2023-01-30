@@ -7,6 +7,7 @@ namespace HorangUnityLibrary
 	{
 		public ModuleExample(ModuleManager moduleManager) : base(moduleManager)
 		{
+			isModuleCanBeUnregister = false;
 		}
 
 		public override bool ActiveModule()

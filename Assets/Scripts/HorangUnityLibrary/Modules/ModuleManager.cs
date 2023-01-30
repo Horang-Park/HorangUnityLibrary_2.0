@@ -60,6 +60,13 @@ namespace HorangUnityLibrary.Modules
 			}
 
 			var targetModule = modules[type];
+
+			if (targetModule.isModuleCanBeUnregister is false)
+			{
+				Log.Print($"[{ToString()}] module cannot unregister.", LogPriority.Warning);
+				
+				return;
+			}
 			
 			targetModule.InactiveModule();
 			targetModule.isRegistered = false;

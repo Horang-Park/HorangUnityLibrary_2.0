@@ -6,6 +6,7 @@ namespace HorangUnityLibrary.Modules
 	public abstract class BaseModule : IModule, IDisposable
 	{
 		public bool isRegistered;
+		public bool isModuleCanBeUnregister = true;
 		
 		protected bool isThisModuleActivated;
 		

@@ -21,57 +21,20 @@ public class Tester : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			stopwatchModule.ActiveModule();
+			ModuleManager.Instance.RegisterModule(new ModuleExample(ModuleManager.Instance));
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F2))
 		{
-			stopwatchModule.InactiveModule();
+			ModuleManager.Instance.UnregisterModule(typeof(ModuleExample));
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
-			stopwatchModule.Start("TEST");
+			ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F4))
-		{
-			var t = stopwatchModule.Stop("TEST");
-		}
-		
-		if (Input.GetKeyDown(KeyCode.F5))
-		{
-			stopwatchModule.Pause("TEST");
-		}
-		
-		if (Input.GetKeyDown(KeyCode.F6))
-		{
-			stopwatchModule.Resume("TEST");
-		}
-
-		if (Input.GetKeyDown(KeyCode.F7))
-		{
-			moduleExample.ActiveModule();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.F8))
-		{
-			moduleExample.InactiveModule();
-		}
-		
-		if (Input.GetKeyDown(KeyCode.F9))
-		{
-			moduleExample.DoSomething();
-		}
-
-		if (Input.GetKeyDown(KeyCode.F11))
-		{
-			ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
-
-			stopwatchModule = ModuleManager.Instance.GetModule<StopwatchModule>(typeof(StopwatchModule));
-		}
-
-		if (Input.GetKeyDown(KeyCode.F12))
 		{
 			ModuleManager.Instance.UnregisterModule(typeof(StopwatchModule));
 		}
