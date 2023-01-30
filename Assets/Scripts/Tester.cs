@@ -6,7 +6,7 @@ using UnityEngine;
 public class Tester : MonoBehaviour
 {
 	private ModuleExample moduleExample;
-	private StopwatchModule mainTestModule;
+	private StopwatchModule stopwatchModule;
 
 	private void Start()
 	{
@@ -14,39 +14,39 @@ public class Tester : MonoBehaviour
 		ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
 
 		moduleExample = ModuleManager.Instance.GetModule<ModuleExample>(typeof(ModuleExample));
-		mainTestModule = ModuleManager.Instance.GetModule<StopwatchModule>(typeof(StopwatchModule));
+		stopwatchModule = ModuleManager.Instance.GetModule<StopwatchModule>(typeof(StopwatchModule));
 	}
 
-	private async void Update()
+	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			mainTestModule.ActiveModule();
+			stopwatchModule.ActiveModule();
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F2))
 		{
-			mainTestModule.InactiveModule();
+			stopwatchModule.InactiveModule();
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
-			mainTestModule.Start("TEST");
+			stopwatchModule.Start("TEST");
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F4))
 		{
-			var t = mainTestModule.Stop("TEST");
+			var t = stopwatchModule.Stop("TEST");
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F5))
 		{
-			mainTestModule.Pause("TEST");
+			stopwatchModule.Pause("TEST");
 		}
 		
 		if (Input.GetKeyDown(KeyCode.F6))
 		{
-			mainTestModule.Resume("TEST");
+			stopwatchModule.Resume("TEST");
 		}
 
 		if (Input.GetKeyDown(KeyCode.F7))
@@ -68,7 +68,7 @@ public class Tester : MonoBehaviour
 		{
 			ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
 
-			mainTestModule = ModuleManager.Instance.GetModule<StopwatchModule>(typeof(StopwatchModule));
+			stopwatchModule = ModuleManager.Instance.GetModule<StopwatchModule>(typeof(StopwatchModule));
 		}
 
 		if (Input.GetKeyDown(KeyCode.F12))
