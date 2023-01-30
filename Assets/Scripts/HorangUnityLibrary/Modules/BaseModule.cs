@@ -1,8 +1,9 @@
+using System;
 using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Modules
 {
-	public abstract class BaseModule : IModule
+	public abstract class BaseModule : IModule, IDisposable
 	{
 		public bool isRegistered;
 		
@@ -120,6 +121,11 @@ namespace HorangUnityLibrary.Modules
 			}
 
 			return true;
+		}
+
+		public void Dispose()
+		{
+			Log.Print($"{ToString()} module are disposed.");
 		}
 	}
 }

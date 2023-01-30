@@ -53,6 +53,7 @@ namespace HorangUnityLibrary.Modules
 			
 			targetModule.InactiveModule();
 			targetModule.isRegistered = false;
+			targetModule.Dispose();
 			
 			modules.Remove(type);
 			
