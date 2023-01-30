@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HorangUnityLibrary.Utilities;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -8,7 +9,12 @@ namespace HorangUnityLibrary.Modules
 {
 	public class ModuleManager : MonoBehaviour
 	{
-		private Dictionary<Type, BaseModule> modules = new();
+		[InspectorReadonly] public int registeredModuleCount;
+		[InspectorReadonly] public List<string> registeredModules = new();
+		[InspectorReadonly] public int activatedModuleCount;
+		[InspectorReadonly] public List<string> activatedModules = new();
+
+		private readonly Dictionary<Type, BaseModule> modules = new();
 
 		public Action onInitializeOnce;
 		public Action onInitializeLate;
@@ -26,8 +32,10 @@ namespace HorangUnityLibrary.Modules
 
 				return;
 			}
-			
+
 			modules.Add(key, baseModule);
+			
+			UpdateInspector();
 		}
 
 		public void RemoveModule(Type type)
@@ -40,19 +48,21 @@ namespace HorangUnityLibrary.Modules
 			}
 			
 			modules.Remove(type);
+			
+			UpdateInspector();
 		}
 
 		[CanBeNull]
 		public T GetModule<T>(Type type) where T : BaseModule
 		{
-			if (ValidateModuleExist(type) is false)
+			if (ValidateModuleExist(type))
 			{
-				Log.Print($"Cannot find [{type}] module.", LogPriority.Error);
-
-				return null;
+				return modules[type] as T;
 			}
+			
+			Log.Print($"Cannot find [{type}] module.", LogPriority.Error);
 
-			return modules[type] as T;
+			return null;
 		}
 
 		private void Awake()
@@ -85,6 +95,12 @@ namespace HorangUnityLibrary.Modules
 		private bool ValidateModuleExist(Type t)
 		{
 			return modules.ContainsKey(t);
+		}
+
+		private void UpdateInspector()
+		{
+			registeredModuleCount = modules.Count;
+			registeredModules = modules.Keys.Select(key => key.ToString()).ToList();
 		}
 	}
 }

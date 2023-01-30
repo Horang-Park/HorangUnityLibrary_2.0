@@ -1,7 +1,3 @@
-using System;
-using HorangUnityLibrary.Utilities;
-using UniRx;
-
 namespace HorangUnityLibrary.Modules
 {
 	public abstract class BaseModule : IModule
@@ -30,6 +26,9 @@ namespace HorangUnityLibrary.Modules
 			injectedModuleManager.onLateUpdate += LateUpdate;
 
 			isThisModuleActivated = true;
+
+			injectedModuleManager.activatedModuleCount++;
+			injectedModuleManager.activatedModules.Add(ToString());
 		}
 
 		public virtual void InactiveModule()
@@ -46,6 +45,9 @@ namespace HorangUnityLibrary.Modules
 			injectedModuleManager.onLateUpdate -= LateUpdate;
 
 			isThisModuleActivated = false;
+
+			injectedModuleManager.activatedModuleCount--;
+			injectedModuleManager.activatedModules.Remove(ToString());
 		}
 
 		public virtual void InitializeOnce()
@@ -60,10 +62,6 @@ namespace HorangUnityLibrary.Modules
 
 		public virtual void InitializeLate()
 		{
-			if (isThisModuleInitialized)
-			{
-				return;
-			}
 		}
 
 		public virtual void Update()
