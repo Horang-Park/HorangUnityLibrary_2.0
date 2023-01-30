@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcc7eac3cd824113b5cc5dc75e999ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moduleManager: {fileID: 1338265939}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,9 +382,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b31df69bf0804c79b7b7cc3d094c22e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnLoadObject: 0
+  gameObjectHideFlags: 8
   registeredModuleCount: 0
-  activatedModuleCount: 0
   registeredModules: []
+  activatedModuleCount: 0
+  activatedModules: []
 --- !u!4 &1338265940
 Transform:
   m_ObjectHideFlags: 0

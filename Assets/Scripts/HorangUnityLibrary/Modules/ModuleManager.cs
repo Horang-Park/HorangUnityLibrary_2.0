@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.Foundation;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HorangUnityLibrary.Modules
 {
-	public class ModuleManager : MonoBehaviour
+	public class ModuleManager : MonoSingleton<ModuleManager>
 	{
+		[Header("Module Manager Status")]
 		[InspectorReadonly] public int registeredModuleCount;
 		[InspectorReadonly] public List<string> registeredModules = new();
 		[InspectorReadonly] public int activatedModuleCount;
@@ -73,9 +75,9 @@ namespace HorangUnityLibrary.Modules
 			return null;
 		}
 
-		private void Awake()
+		protected override void Awake()
 		{
-			gameObject.hideFlags = HideFlags.NotEditable;
+			base.Awake();
 			
 			onInitializeOnce?.Invoke();
 		}

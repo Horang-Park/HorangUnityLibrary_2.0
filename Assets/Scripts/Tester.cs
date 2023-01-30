@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Tester : MonoBehaviour
 {
-	[SerializeField] private ModuleManager moduleManager;
-
 	private ModuleExample tes;
 
 	private void Awake()
@@ -18,9 +16,9 @@ public class Tester : MonoBehaviour
 
 	private void Start()
 	{
-		moduleManager.RegisterModule(new ModuleExample(moduleManager));
+		ModuleManager.Instance.RegisterModule(new ModuleExample(ModuleManager.Instance));
 
-		tes = moduleManager.GetModule<ModuleExample>(typeof(ModuleExample));
+		tes = ModuleManager.Instance.GetModule<ModuleExample>(typeof(ModuleExample));
 	}
 
 	private async void Update()
@@ -44,7 +42,7 @@ public class Tester : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.F3))
 		{
-			moduleManager.UnregisterModule(typeof(ModuleExample));
+			ModuleManager.Instance.UnregisterModule(typeof(ModuleExample));
 		}
 	}
 }
