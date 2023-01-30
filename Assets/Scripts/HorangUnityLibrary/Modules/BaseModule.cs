@@ -12,6 +12,10 @@ namespace HorangUnityLibrary.Modules
 		private bool isThisModuleInitialized;
 		private readonly ModuleManager injectedModuleManager;
 
+		/// <summary>
+		/// Make module to active.
+		/// </summary>
+		/// <returns>If module activation working successfully, will return true</returns>
 		public virtual bool ActiveModule()
 		{
 			if (ModuleValidateCheckOnActivate() is false)
@@ -33,6 +37,10 @@ namespace HorangUnityLibrary.Modules
 			return true;
 		}
 
+		/// <summary>
+		/// Make module to inactive.
+		/// </summary>
+		/// <returns>if module inactivation working successfully, will return true</returns>
 		public virtual bool InactiveModule()
 		{
 			if (ModuleValidateCheckOnInactivate() is false)

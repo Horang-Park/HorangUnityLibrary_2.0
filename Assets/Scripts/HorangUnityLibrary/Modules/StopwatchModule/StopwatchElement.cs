@@ -13,6 +13,9 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 		public new bool IsRunning { get; private set; }
 		public bool IsPaused { get; private set; }
 
+		/// <summary>
+		/// Start stopwatch.
+		/// </summary>
 		public new void Start()
 		{
 			base.Start();
@@ -23,6 +26,10 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			IsRunning = true;
 		}
 
+		/// <summary>
+		/// Stop stopwatch.
+		/// </summary>
+		/// <returns>Elapsed time into millisecond</returns>
 		public new long Stop()
 		{
 			base.Stop();
@@ -40,6 +47,9 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			return elapsedTime;
 		}
 
+		/// <summary>
+		/// Pause stopwatch.
+		/// </summary>
 		public void Pause()
 		{
 			base.Stop();
@@ -50,6 +60,9 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			IsPaused = true;
 		}
 
+		/// <summary>
+		/// Resume stopwatch its status is pause.
+		/// </summary>
 		public void Resume()
 		{
 			base.Start();

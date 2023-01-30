@@ -24,6 +24,10 @@ namespace HorangUnityLibrary.Modules
 		public Action onFixedUpdate;
 		public Action onLateUpdate;
 
+		/// <summary>
+		/// Register module to module manager.
+		/// </summary>
+		/// <param name="baseModule">To register module</param>
 		public void RegisterModule(BaseModule baseModule)
 		{
 			var key = baseModule.GetType();
@@ -42,6 +46,10 @@ namespace HorangUnityLibrary.Modules
 			UpdateInspector();
 		}
 
+		/// <summary>
+		/// Unregister module from module manager.
+		/// </summary>
+		/// <param name="type">To unregistering module type</param>
 		public void UnregisterModule(Type type)
 		{
 			if (ValidateModuleExist(type) is false)
@@ -62,6 +70,12 @@ namespace HorangUnityLibrary.Modules
 			UpdateInspector();
 		}
 
+		/// <summary>
+		/// To getting module that already registered.
+		/// </summary>
+		/// <param name="type">To get a module type</param>
+		/// <typeparam name="T">Type that inheritance BaseModule</typeparam>
+		/// <returns>Specific module or null</returns>
 		[CanBeNull]
 		public T GetModule<T>(Type type) where T : BaseModule
 		{

@@ -36,6 +36,10 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			return true;
 		}
 
+		/// <summary>
+		/// Start stopwatch. If parameter named stopwatch is not exist, it will make new one.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
 		public void Start(string name)
 		{
 			if (isThisModuleActivated is false)
@@ -78,6 +82,11 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			stopwatchElement.Start();
 		}
 
+		/// <summary>
+		/// Stop stopwatch.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
+		/// <returns>If stopwatch is invalid, it will return null. otherwise elapsed time into millisecond</returns>
 		public long? Stop(string name)
 		{
 			if (isThisModuleActivated is false)
@@ -106,6 +115,10 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			return stopwatchElement.Stop();
 		}
 
+		/// <summary>
+		/// Pause stopwatch its status is running.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
 		public void Pause(string name)
 		{
 			if (isThisModuleActivated is false)
@@ -141,6 +154,10 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			stopwatchElement.Pause();
 		}
 
+		/// <summary>
+		/// Resume stopwatch its status is paused.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
 		public void Resume(string name)
 		{
 			if (isThisModuleActivated is false)
@@ -169,6 +186,11 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			stopwatchElement.Resume();
 		}
 
+		/// <summary>
+		/// The first start date and time of parameter named stopwatch.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
+		/// <returns>If stopwatch is invalid, it will return null. otherwise first start datetime</returns>
 		public DateTime? StopwatchStartDateTime(string name)
 		{
 			if (isThisModuleActivated is false)
@@ -188,6 +210,11 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			return stopwatches[key].StopwatchStartDateTime;
 		}
 		
+		/// <summary>
+		/// The most last stopped date and time of parameter named stopwatch.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
+		/// <returns>If stopwatch is invalid, it will return null. otherwise datetime</returns>
 		public DateTime? StopwatchLastStopDateTime(string name)
 		{
 			if (isThisModuleActivated is false)
@@ -207,6 +234,11 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			return stopwatches[key].StopwatchLastStopDateTime;
 		}
 		
+		/// <summary>
+		/// The most last elapsed time when stopwatch is stopped.
+		/// </summary>
+		/// <param name="name">Name of stopwatch</param>
+		/// <returns>If stopwatch is invalid, it will return null. otherwise last elapsed time into millisecond</returns>
 		public long? StopwatchLastElapsedTime(string name)
 		{
 			if (isThisModuleActivated is false)

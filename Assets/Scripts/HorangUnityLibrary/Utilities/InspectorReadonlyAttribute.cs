@@ -29,6 +29,7 @@ namespace HorangUnityLibrary.Utilities
 				case SerializedPropertyType.Float:
 					EditorGUI.LabelField(position, label.text, property.floatValue.ToString("F6"));
 					break;
+				case SerializedPropertyType.Generic:
 				case SerializedPropertyType.String:
 				case SerializedPropertyType.Color:
 				case SerializedPropertyType.ObjectReference:
@@ -52,11 +53,9 @@ namespace HorangUnityLibrary.Utilities
 				case SerializedPropertyType.BoundsInt:
 				case SerializedPropertyType.ManagedReference:
 				case SerializedPropertyType.Hash128:
-				case SerializedPropertyType.Generic:
+				default:
 					EditorGUI.PropertyField(position, property, label, true);
 					break;
-				default:
-					throw new ArgumentOutOfRangeException();
 			}
 			
 			GUI.enabled = true;
@@ -64,6 +63,9 @@ namespace HorangUnityLibrary.Utilities
 	}
 }
 
+/// <summary>
+/// Show read-only property on inspector.
+/// </summary>
 [AttributeUsage(AttributeTargets.All)]
 public class InspectorReadonlyAttribute : PropertyAttribute
 {
