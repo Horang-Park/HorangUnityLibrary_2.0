@@ -84,11 +84,16 @@ namespace HorangUnityLibrary.Modules
 		/// <typeparam name="T">Type that inheritance BaseModule</typeparam>
 		/// <returns>Specific module or null</returns>
 		[CanBeNull]
-		public T GetModule<T>(Type type) where T : BaseModule
+		public T GetModule<T>(Type type, bool useFromRmi = false) where T : BaseModule
 		{
 			if (ValidateModuleExist(type))
 			{
 				return modules[type] as T;
+			}
+
+			if (useFromRmi)
+			{
+				return null;
 			}
 			
 			Log.Print($"Cannot find [{type}] module.", LogPriority.Error);

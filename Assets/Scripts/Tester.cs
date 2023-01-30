@@ -1,6 +1,9 @@
+using System;
 using HorangUnityLibrary;
 using HorangUnityLibrary.Modules;
 using HorangUnityLibrary.Modules.StopwatchModule;
+using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEngine;
 
 public class Tester : MonoBehaviour
@@ -15,28 +18,21 @@ public class Tester : MonoBehaviour
 
 		moduleExample = ModuleManager.Instance.GetModule<ModuleExample>(typeof(ModuleExample));
 		stopwatchModule = ModuleManager.Instance.GetModule<StopwatchModule>(typeof(StopwatchModule));
+
+		stopwatchModule.ActiveModule();
 	}
 
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			ModuleManager.Instance.RegisterModule(new ModuleExample(ModuleManager.Instance));
+			var d = RMIManager.Instance.Run(typeof(Tester), "Bim");
 		}
-		
-		if (Input.GetKeyDown(KeyCode.F2))
-		{
-			ModuleManager.Instance.UnregisterModule(typeof(ModuleExample));
-		}
-		
-		if (Input.GetKeyDown(KeyCode.F3))
-		{
-			ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
-		}
-		
-		if (Input.GetKeyDown(KeyCode.F4))
-		{
-			ModuleManager.Instance.UnregisterModule(typeof(StopwatchModule));
-		}
+	}
+
+	[RMI]
+	private void Bim()
+	{
+		Log.Print("apsodfjapojpfoj");
 	}
 }

@@ -61,12 +61,12 @@ namespace HorangUnityLibrary.Utilities
 			GUI.enabled = true;
 		}
 	}
-}
-
-/// <summary>
-/// Show read-only property on inspector.
-/// </summary>
-[AttributeUsage(AttributeTargets.All)]
-public class InspectorReadonlyAttribute : PropertyAttribute
-{
+	
+	/// <summary>
+	/// Show read-only property on inspector.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.All)]
+	public class InspectorReadonlyAttribute : PropertyAttribute
+	{
+	}
 }
