@@ -1,22 +1,21 @@
+using HorangUnityLibrary.Utilities;
+
 namespace HorangUnityLibrary.Modules
 {
 	public abstract class BaseModule : IModule
 	{
+		public bool isRegistered;
+		
 		protected bool isThisModuleActivated;
 		
 		private bool isThisModuleInitialized;
 		private readonly ModuleManager injectedModuleManager;
 
-		protected BaseModule(ModuleManager moduleManager)
+		public virtual bool ActiveModule()
 		{
-			injectedModuleManager = moduleManager;
-		}
-
-		public virtual void ActiveModule()
-		{
-			if (isThisModuleActivated)
+			if (ModuleValidateCheckOnActivate() is false)
 			{
-				return;
+				return false;
 			}
 			
 			injectedModuleManager.onInitializeOnce += InitializeOnce;
@@ -29,15 +28,17 @@ namespace HorangUnityLibrary.Modules
 
 			injectedModuleManager.activatedModuleCount++;
 			injectedModuleManager.activatedModules.Add(ToString());
+
+			return true;
 		}
 
-		public virtual void InactiveModule()
+		public virtual bool InactiveModule()
 		{
-			if (isThisModuleActivated is false)
+			if (ModuleValidateCheckOnInactivate() is false)
 			{
-				return;
+				return false;
 			}
-			
+
 			injectedModuleManager.onInitializeOnce -= InitializeOnce;
 			injectedModuleManager.onInitializeLate -= InitializeLate;
 			injectedModuleManager.onUpdate -= Update;
@@ -48,6 +49,8 @@ namespace HorangUnityLibrary.Modules
 
 			injectedModuleManager.activatedModuleCount--;
 			injectedModuleManager.activatedModules.Remove(ToString());
+
+			return true;
 		}
 
 		public virtual void InitializeOnce()
@@ -74,6 +77,49 @@ namespace HorangUnityLibrary.Modules
 
 		public virtual void LateUpdate()
 		{
+		}
+
+		protected BaseModule(ModuleManager moduleManager)
+		{
+			injectedModuleManager = moduleManager;
+		}
+
+		protected bool ModuleValidateCheckOnActivate()
+		{
+			if (isRegistered is false)
+			{
+				Log.Print($"{ToString()} module are not registered.", LogPriority.Error);
+				
+				return false;
+			}
+			
+			if (isThisModuleActivated)
+			{
+				Log.Print($"{ToString()} module are already activated.", LogPriority.Warning);
+				
+				return false;
+			}
+
+			return true;
+		}
+		
+		protected bool ModuleValidateCheckOnInactivate()
+		{
+			if (isRegistered is false)
+			{
+				Log.Print($"{ToString()} module are not registered.", LogPriority.Error);
+				
+				return false;
+			}
+			
+			if (isThisModuleActivated is false)
+			{
+				Log.Print($"{ToString()} module are already inactivated.", LogPriority.Warning);
+				
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

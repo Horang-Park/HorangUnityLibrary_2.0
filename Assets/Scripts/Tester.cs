@@ -18,7 +18,7 @@ public class Tester : MonoBehaviour
 
 	private void Start()
 	{
-		moduleManager.AddModule(new Requester(moduleManager));
+		moduleManager.RegisterModule(new Requester(moduleManager));
 
 		req = moduleManager.GetModule<Requester>(typeof(Requester));
 	}
@@ -40,6 +40,11 @@ public class Tester : MonoBehaviour
 		{
 			req.InactiveModule();
 			req.DoSomething();
+		}
+
+		if (Input.GetKeyDown(KeyCode.F3))
+		{
+			moduleManager.UnregisterModule(typeof(Requester));
 		}
 	}
 }

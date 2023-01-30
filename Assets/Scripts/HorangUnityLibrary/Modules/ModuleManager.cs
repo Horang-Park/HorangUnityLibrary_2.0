@@ -22,7 +22,7 @@ namespace HorangUnityLibrary.Modules
 		public Action onFixedUpdate;
 		public Action onLateUpdate;
 
-		public void AddModule(BaseModule baseModule)
+		public void RegisterModule(BaseModule baseModule)
 		{
 			var key = baseModule.GetType();
 
@@ -34,11 +34,13 @@ namespace HorangUnityLibrary.Modules
 			}
 
 			modules.Add(key, baseModule);
+
+			baseModule.isRegistered = true;
 			
 			UpdateInspector();
 		}
 
-		public void RemoveModule(Type type)
+		public void UnregisterModule(Type type)
 		{
 			if (ValidateModuleExist(type) is false)
 			{
@@ -46,6 +48,11 @@ namespace HorangUnityLibrary.Modules
 				
 				return;
 			}
+
+			var targetModule = modules[type];
+			
+			targetModule.InactiveModule();
+			targetModule.isRegistered = false;
 			
 			modules.Remove(type);
 			
