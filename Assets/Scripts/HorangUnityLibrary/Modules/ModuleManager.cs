@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace HorangUnityLibrary.Modules
 {
-	public class ModuleManager : MonoSingleton<ModuleManager>
+	public class ModuleManager : BaseManager<ModuleManager>
 	{
 		[Header("Module Manager Status")]
 		[InspectorReadonly] public int registeredModuleCount;

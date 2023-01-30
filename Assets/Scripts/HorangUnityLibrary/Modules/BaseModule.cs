@@ -83,6 +83,9 @@ namespace HorangUnityLibrary.Modules
 		protected BaseModule(ModuleManager moduleManager)
 		{
 			injectedModuleManager = moduleManager;
+			
+			// ReSharper disable once VirtualMemberCallInConstructor
+			Log.Print($"{ToString()} module has been registered.");
 		}
 
 		protected bool ModuleValidateCheckOnActivate()

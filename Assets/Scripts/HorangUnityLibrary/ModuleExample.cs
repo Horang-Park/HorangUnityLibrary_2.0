@@ -3,11 +3,10 @@ using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary
 {
-	public class ModuleExample : BaseModule
+	public sealed class ModuleExample : BaseModule
 	{
 		public ModuleExample(ModuleManager moduleManager) : base(moduleManager)
 		{
-			Log.Print("\"Requester\" module has been registered.");
 		}
 
 		public override bool ActiveModule()

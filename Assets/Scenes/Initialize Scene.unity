@@ -362,7 +362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1338265940}
-  - component: {fileID: 1338265939}
+  - component: {fileID: 1338265941}
   m_Layer: 0
   m_Name: Module Manager
   m_TagString: Untagged
@@ -370,24 +370,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1338265939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1338265938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b31df69bf0804c79b7b7cc3d094c22e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dontDestroyOnLoadObject: 0
-  gameObjectHideFlags: 8
-  registeredModuleCount: 0
-  registeredModules: []
-  activatedModuleCount: 0
-  activatedModules: []
 --- !u!4 &1338265940
 Transform:
   m_ObjectHideFlags: 0
@@ -403,3 +385,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1338265941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338265938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74c92911b2de4cceb31061e50de9354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoadObject: 0
+  gameObjectHideFlags: 8
+  registeredModuleCount: 0
+  registeredModules: []
+  activatedModuleCount: 0
+  activatedModules: []
