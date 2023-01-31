@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 {
-	public class RmiManager : BaseManager<RmiManager>
+	public class RmiManager : SingletonBaseManager<RmiManager>
 	{
 		private readonly Dictionary<int, (object, MethodBase)> rmiMethods = new();
 

@@ -4,19 +4,22 @@ using System.Linq;
 using HorangUnityLibrary.Managers;
 using HorangUnityLibrary.Utilities;
 using HorangUnityLibrary.Utilities.CustomAttribute;
-using HorangUnityLibrary.Utilities.Foundation;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HorangUnityLibrary.Modules
 {
-	public class ModuleManager : BaseManager<ModuleManager>
+	public class ModuleManager : SingletonBaseManager<ModuleManager>
 	{
 		[Header("Module Manager Status")]
-		[InspectorReadonly] public int registeredModuleCount;
-		[InspectorReadonly] public List<string> registeredModules = new();
-		[InspectorReadonly] public int activatedModuleCount;
-		[InspectorReadonly] public List<string> activatedModules = new();
+		[InspectorReadonly]
+		public int registeredModuleCount;
+		[InspectorReadonly]
+		public List<string> registeredModules = new();
+		[InspectorReadonly]
+		public int activatedModuleCount;
+		[InspectorReadonly]
+		public List<string> activatedModules = new();
 
 		private readonly Dictionary<Type, BaseModule> modules = new();
 
