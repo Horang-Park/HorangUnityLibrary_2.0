@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 305883989}
   - component: {fileID: 305883988}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Image Font Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -414,7 +414,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoadObject: 0
   gameObjectHideFlags: 0
-  digits: []
 --- !u!4 &305883989
 Transform:
   m_ObjectHideFlags: 0
