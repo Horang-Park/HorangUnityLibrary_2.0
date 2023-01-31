@@ -1,6 +1,6 @@
 using System;
 using HorangUnityLibrary;
-using HorangUnityLibrary.Managers.RMI;
+using HorangUnityLibrary.Managers.RemoteMethodInterface;
 using HorangUnityLibrary.Modules;
 using HorangUnityLibrary.Modules.StopwatchModule;
 using HorangUnityLibrary.Utilities;

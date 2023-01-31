@@ -8,7 +8,7 @@ using HorangUnityLibrary.Utilities.Foundation;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Managers.RMI
+namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 {
 	public class RmiManager : BaseManager<RmiManager>
 	{
@@ -101,7 +101,7 @@ namespace HorangUnityLibrary.Managers.RMI
 			foreach (var type in types)
 			{
 				var methodInfos = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-					.Where(mi => mi.GetCustomAttribute<RMI>() is not null)
+					.Where(mi => mi.GetCustomAttribute<RemoteMethodInterface.RMI>() is not null)
 					.ToList();
 
 				foreach (var mi in methodInfos)

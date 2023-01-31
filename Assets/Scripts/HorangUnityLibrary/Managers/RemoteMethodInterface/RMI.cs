@@ -1,6 +1,6 @@
 using System;
 
-namespace HorangUnityLibrary.Managers.RMI
+namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 {
 	/// <summary>
 	/// RMI attribute for use Remote Method Interface
