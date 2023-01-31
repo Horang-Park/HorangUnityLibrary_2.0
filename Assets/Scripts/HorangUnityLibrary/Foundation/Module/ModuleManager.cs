@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HorangUnityLibrary.Managers;
+using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Utilities;
 using HorangUnityLibrary.Utilities.CustomAttribute;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Modules
+namespace HorangUnityLibrary.Foundation.Module
 {
 	public class ModuleManager : SingletonBaseManager<ModuleManager>
 	{

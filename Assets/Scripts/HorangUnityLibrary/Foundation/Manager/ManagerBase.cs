@@ -1,7 +1,6 @@
-using HorangUnityLibrary.Utilities.Foundation;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Managers
+namespace HorangUnityLibrary.Foundation.Manager
 {
 	public class SingletonBaseManager<T> : MonoSingleton<T> where T : SingletonBaseManager<T>
 	{}

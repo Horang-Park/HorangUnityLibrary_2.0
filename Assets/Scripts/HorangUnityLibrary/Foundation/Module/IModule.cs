@@ -1,4 +1,4 @@
-namespace HorangUnityLibrary.Modules
+namespace HorangUnityLibrary.Foundation.Module
 {
 	public interface IModule
 	{

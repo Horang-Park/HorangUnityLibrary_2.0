@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HorangUnityLibrary.Foundation.Module;
 using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Modules.StopwatchModule

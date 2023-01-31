@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HorangUnityLibrary.Foundation.Manager;
+using HorangUnityLibrary.Foundation.Module;
 using HorangUnityLibrary.Modules;
 using HorangUnityLibrary.Utilities;
 using JetBrains.Annotations;

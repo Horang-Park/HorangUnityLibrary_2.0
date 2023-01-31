@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Managers.NumberImageFont
