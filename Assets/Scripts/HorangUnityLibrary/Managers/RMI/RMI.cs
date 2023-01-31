@@ -1,7 +1,10 @@
 using System;
 
-namespace HorangUnityLibrary.Utilities.CustomAttribute
+namespace HorangUnityLibrary.Managers.RMI
 {
+	/// <summary>
+	/// RMI attribute for use Remote Method Interface
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
 	// ReSharper disable once InconsistentNaming
 	public class RMI : Attribute
@@ -11,4 +14,3 @@ namespace HorangUnityLibrary.Utilities.CustomAttribute
 		}
 	}
 }
-

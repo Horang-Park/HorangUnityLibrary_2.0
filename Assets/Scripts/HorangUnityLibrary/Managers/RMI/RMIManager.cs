@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HorangUnityLibrary.Modules;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using HorangUnityLibrary.Utilities;
 using HorangUnityLibrary.Utilities.Foundation;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Utilities
+namespace HorangUnityLibrary.Managers.RMI
 {
 	public class RmiManager : BaseManager<RmiManager>
 	{

@@ -1,9 +1,9 @@
 using System;
 using HorangUnityLibrary;
+using HorangUnityLibrary.Managers.RMI;
 using HorangUnityLibrary.Modules;
 using HorangUnityLibrary.Modules.StopwatchModule;
 using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEngine;
 
 public class Tester : MonoBehaviour
