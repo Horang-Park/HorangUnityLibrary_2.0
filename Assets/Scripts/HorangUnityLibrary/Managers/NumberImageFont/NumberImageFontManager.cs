@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
+using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Managers.NumberImageFont
 {
 	public class NumberImageFontManager : MonoBaseManager
 	{
-		public Digit[] digits;
+		private Digit[] digits;
 
 		public void SetValue(int value)
 		{
@@ -28,6 +29,15 @@ namespace HorangUnityLibrary.Managers.NumberImageFont
 			base.Awake();
 
 			digits = GetComponentsInChildren<Digit>();
+
+			if (digits.Length >= 1)
+			{
+				return;
+			}
+			
+			Log.Print("Cannot find Digit components in children. This component will be destroy.", LogPriority.Error);
+				
+			Destroy(this);
 		}
 
 		private void Start()

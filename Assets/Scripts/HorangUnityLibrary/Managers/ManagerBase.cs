@@ -1,4 +1,3 @@
-using System;
 using HorangUnityLibrary.Utilities.Foundation;
 using UnityEngine;
 
