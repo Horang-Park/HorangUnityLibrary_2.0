@@ -26,13 +26,20 @@ public class Tester : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			var d = RMIManager.Instance.Run(typeof(Tester), "Bim");
+			var d = RmiManager.Instance.Run(typeof(Tester), "Bim");
+		}
+		
+		if (Input.GetKeyDown(KeyCode.F2))
+		{
+			var d = RmiManager.Instance.Run(typeof(ModuleExample), "Bim");
 		}
 	}
 
 	[RMI]
-	private void Bim()
+	private string Bim()
 	{
 		Log.Print("apsodfjapojpfoj");
+
+		return "asdfasdfasdf";
 	}
 }
