@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using HorangUnityLibrary.Modules;
 using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.Foundation;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -24,28 +23,28 @@ namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 		/// <summary>
 		/// Call function by cached remote method interface.
 		/// </summary>
-		/// <param name="type">The class or struct type of desire method is in</param>
+		/// <param name="instanceType">The class or struct type of desire method is in</param>
 		/// <param name="methodName">To call method name</param>
 		/// <param name="parameters">To put parameters when call method</param>
 		/// <returns>Will return specific value if validate method is success and method return type is not void. otherwise null or void</returns>
 		/// <exception cref="RmiException">If cannot create class or struct instance. or cannot find module instance</exception>
 		[CanBeNull]
-		public object Run(Type type, string methodName, params object[] parameters)
+		public object Run(Type instanceType, string methodName, params object[] parameters)
 		{
-			var key = UniqueHashKey(type.GetHashCode(), methodName.GetHashCode());
+			var key = UniqueHashKey(instanceType.GetHashCode(), methodName.GetHashCode());
 
 			if (MethodValidation(key) is false)
 			{
-				Log.Print($"The method [{methodName}] within the type [{type}] is not exist.", LogPriority.Error);
+				Log.Print($"The method [{methodName}] within the type [{instanceType}] is not exist.", LogPriority.Error);
 
 				return null;
 			}
 			
 			var runInstanceAndMethod = rmiMethods[key];
 			
-			Log.Print($"RMI Called - To: {type}, To call method: {runInstanceAndMethod.Item2}", LogPriority.Verbose);
+			Log.Print($"RMI Called - To: {instanceType}, To call method: {runInstanceAndMethod.Item2}", LogPriority.Verbose);
 			
-			var moduleInstance = ModuleManager.Instance.GetModule<BaseModule>(type, true);
+			var moduleInstance = ModuleManager.Instance.GetModule<BaseModule>(instanceType, true);
 
 			if (moduleInstance is not null)
 			{
@@ -64,11 +63,11 @@ namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 			
 			// If is not module method, trying to find Unity component instance.
 			// Should be same game object name with the type.
-			var unityGameObject = GameObject.Find(type.ToString());
+			var unityGameObject = GameObject.Find(instanceType.ToString());
 			
 			if (unityGameObject is not null)
 			{
-				var unityInstance = unityGameObject.GetComponent(type);
+				var unityInstance = unityGameObject.GetComponent(instanceType);
 				
 				if (rmiMethods[key].Item1 is not null)
 				{
@@ -83,7 +82,7 @@ namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 				return unityMethodNewItem.Item2.Invoke(unityMethodNewItem.Item1, parameters);
 			}
 			
-			Log.Print($"Cannot create instance of type [{type}].\nCheck the module are registered or game object name is same with the type [{type}].", LogPriority.Exception);
+			Log.Print($"Cannot create instance of type [{instanceType}].\nCheck the module are registered or game object name is same with the type [{instanceType}].", LogPriority.Exception);
 
 			throw new RmiException();
 		}
