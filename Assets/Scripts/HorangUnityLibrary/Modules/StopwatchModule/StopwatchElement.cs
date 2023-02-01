@@ -6,12 +6,22 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 {
 	public sealed class StopwatchElement : Stopwatch
 	{
-		public string StopwatchName { get; set; }
+		public string StopwatchName { get; private set; }
 		public DateTime StopwatchStartDateTime { get; private set; }
 		public DateTime StopwatchLastStopDateTime { get; private set; }
 		public long LastElapsedTime { get; private set; }
 		public new bool IsRunning { get; private set; }
 		public bool IsPaused { get; private set; }
+
+		public static StopwatchElement Create(string name)
+		{
+			var newStopwatchElement = new StopwatchElement
+			{
+				StopwatchName = name,
+			};
+
+			return newStopwatchElement;
+		}
 
 		/// <summary>
 		/// Start stopwatch.

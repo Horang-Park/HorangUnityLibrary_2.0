@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HorangUnityLibrary.Foundation.Module;
+using HorangUnityLibrary.Managers.Module;
 using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Modules.StopwatchModule
@@ -55,10 +56,7 @@ namespace HorangUnityLibrary.Modules.StopwatchModule
 			{
 				Log.Print($"[{name}] stopwatch is not exist. generate one.", LogPriority.Verbose);
 
-				stopwatchElement = new StopwatchElement
-				{
-					StopwatchName = name
-				};
+				stopwatchElement = StopwatchElement.Create(name);
 				stopwatches.Add(key, stopwatchElement);
 			}
 			else

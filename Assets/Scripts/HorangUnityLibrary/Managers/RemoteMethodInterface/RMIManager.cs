@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Foundation.Module;
+using HorangUnityLibrary.Managers.Module;
 using HorangUnityLibrary.Utilities;
 using JetBrains.Annotations;
 using UnityEngine;

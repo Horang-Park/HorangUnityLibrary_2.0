@@ -1,4 +1,5 @@
 using System;
+using HorangUnityLibrary.Managers.Module;
 using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Foundation.Module

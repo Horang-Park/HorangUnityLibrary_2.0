@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using HorangUnityLibrary.Foundation.Module;
+using HorangUnityLibrary.Managers.Module;
 using HorangUnityLibrary.Managers.RemoteMethodInterface;
 using HorangUnityLibrary.Managers.Static.Networking;
 using HorangUnityLibrary.Modules.StopwatchModule;
