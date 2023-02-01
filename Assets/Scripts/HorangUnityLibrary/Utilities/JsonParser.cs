@@ -25,7 +25,7 @@ namespace HorangUnityLibrary.Utilities
 			{
 				Log.Print("Trying to parsing empty json.", LogPriority.Error);
 				
-				onParsingFailure?.Invoke(-1, "json string is null or empty.");
+				onParsingFailure?.Invoke(-1, "Json string is null or empty.");
 		
 				return default;
 			}
@@ -52,7 +52,7 @@ namespace HorangUnityLibrary.Utilities
 			{
 				Log.Print("Trying to parsing empty json.", LogPriority.Error);
 				
-				onParsingFailure?.Invoke(-1, "json string is null or empty.");
+				onParsingFailure?.Invoke(-1, "Json string is null or empty.");
 		
 				return default;
 			}
