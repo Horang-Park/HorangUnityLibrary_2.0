@@ -4,14 +4,13 @@ using System.Linq;
 using System.Reflection;
 using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Foundation.Module;
-using HorangUnityLibrary.Modules;
 using HorangUnityLibrary.Utilities;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 {
-	public class RmiManager : SingletonBaseManager<RmiManager>
+	public sealed class RmiManager : SingletonBaseManager<RmiManager>
 	{
 		private readonly Dictionary<int, (object, MethodBase)> rmiMethods = new();
 

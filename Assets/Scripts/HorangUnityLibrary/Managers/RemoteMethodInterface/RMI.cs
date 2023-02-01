@@ -7,7 +7,7 @@ namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
 	// ReSharper disable once InconsistentNaming
-	public class RMI : Attribute
+	public sealed class RMI : Attribute
 	{
 		public RMI()
 		{

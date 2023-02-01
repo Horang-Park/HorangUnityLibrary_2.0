@@ -5,7 +5,7 @@ using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Modules.StopwatchModule
 {
-	public class StopwatchModule : BaseModule
+	public sealed class StopwatchModule : BaseModule
 	{
 		private readonly Dictionary<int, StopwatchElement> stopwatches = new();
 

@@ -4,7 +4,7 @@ using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Modules.StopwatchModule
 {
-	public class StopwatchElement : Stopwatch
+	public sealed class StopwatchElement : Stopwatch
 	{
 		public string StopwatchName { get; set; }
 		public DateTime StopwatchStartDateTime { get; private set; }

@@ -5,7 +5,7 @@ using HorangUnityLibrary.Utilities;
 
 namespace HorangUnityLibrary.Managers.NumberImageFont
 {
-	public class NumberImageFontManager : MonoBaseManager
+	public sealed class NumberImageFontManager : MonoBaseManager
 	{
 		private Digit[] digits;
 

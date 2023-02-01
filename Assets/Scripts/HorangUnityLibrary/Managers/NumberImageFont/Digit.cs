@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace HorangUnityLibrary.Managers.NumberImageFont
 {
-	public class Digit : MonoBehaviour
+	public sealed class Digit : MonoBehaviour
 	{
 		[SerializeField]
 		private List<Sprite> numberImageFonts;
