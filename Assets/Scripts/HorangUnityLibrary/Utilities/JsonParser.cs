@@ -17,6 +17,13 @@ namespace HorangUnityLibrary.Utilities
 			DefaultValueHandling = DefaultValueHandling.Include
 		};
 
+		/// <summary>
+		/// JSON parsing
+		/// </summary>
+		/// <param name="json">To parsing JSON data</param>
+		/// <param name="onParsingFailure">Calling when parsing failed (code, message)</param>
+		/// <typeparam name="T">Parsing template</typeparam>
+		/// <returns>Parsed data</returns>
 		public static T JsonParsing<T>(string json, Action<long, string> onParsingFailure = null)
 		{
 			Log.Print($"Original JSON: {json}");
@@ -44,6 +51,13 @@ namespace HorangUnityLibrary.Utilities
 			}
 		}
 
+		/// <summary>
+		/// JSON array parsing
+		/// </summary>
+		/// <param name="json">To parsing JSON array data</param>
+		/// <param name="onParsingFailure">Calling when parsing failed (code, message)</param>
+		/// <typeparam name="T">Parsing template</typeparam>
+		/// <returns>Parsed data</returns>
 		public static List<T> JsonArrayParsing<T>(string json, Action<long, string> onParsingFailure = null)
 		{
 			Log.Print($"Original JSON: {json}");
