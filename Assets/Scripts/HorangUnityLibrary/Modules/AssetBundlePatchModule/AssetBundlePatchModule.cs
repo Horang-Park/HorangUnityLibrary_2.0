@@ -74,11 +74,12 @@ namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 		/// <param name="remoteAssetBundleUri">To send web request</param>
 		/// <param name="onSuccess">Calling when request is successfully worked, save asset to local. callback downloaded asset bundle</param>
 		/// <param name="onDelay">Calling when request is going delay over delayTimeout parameter</param>
-		/// <param name="onSizeCheck">Calling before download asset bundle</param>
+		/// <param name="onSizeCheck">Calling before download asset bundle in byte unit</param>
 		/// <param name="onFailure">Calling when occurred error on requesting</param>
 		/// <param name="onProgress">To get percentage of web request's progress (0~1)</param>
 		/// <param name="timeout">To setting request's timeout</param>
 		/// <param name="delayTimeout">To setting request's delay timeout</param>
+		/// <param name="headerParameters">Header parameter</param>
 		public async UniTask DownloadLatestVersionFromRemote(string remoteAssetBundleUri,
 			Action<UnityEngine.AssetBundle> onSuccess,
 			Action onDelay = null,
@@ -86,18 +87,24 @@ namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 			Action<long, string> onFailure = null,
 			Action<float> onProgress = null,
 			double timeout = 30000D,
-			double delayTimeout = 3000D)
+			double delayTimeout = 3000D,
+			params (string, string)[] headerParameters)
 		{
-			Log.Print($"Start download asset bundle - URI: {remoteAssetBundleUri}", LogPriority.Verbose);
-
 			Delay(onDelay, delayTimeout).Forget();
 
 			var assetBundleRequester = UnityWebRequestAssetBundle.GetAssetBundle(remoteAssetBundleUri);
+			var sizeRequester = await UnityWebRequest.Head(remoteAssetBundleUri).SendWebRequest();
 			
-			using (var sizeRequester = await UnityWebRequest.Head(remoteAssetBundleUri).SendWebRequest())
+			foreach (var parameter in headerParameters)
 			{
-				onSizeCheck?.Invoke(long.Parse(sizeRequester.GetResponseHeader("Content-Length")));
+				assetBundleRequester.SetRequestHeader(parameter.Item1, parameter.Item2);
 			}
+
+			onSizeCheck?.Invoke(long.Parse(sizeRequester.GetResponseHeader("Content-Length")));
+			
+			Log.Print($"Start download asset bundle - URI: {remoteAssetBundleUri}, Size: {sizeRequester.GetResponseHeader("Content-Length")}", LogPriority.Verbose);
+			
+			sizeRequester.Dispose();
 
 			try
 			{

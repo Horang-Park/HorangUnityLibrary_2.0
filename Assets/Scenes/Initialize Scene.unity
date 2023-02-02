@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74c92911b2de4cceb31061e50de9354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoadObject: 0
+  dontDestroyOnLoadObject: 1
   gameObjectHideFlags: 8
   registeredModuleCount: 0
   registeredModules: []

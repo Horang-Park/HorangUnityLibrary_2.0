@@ -65,14 +65,16 @@ namespace HorangUnityLibrary.Utilities
 		/// <summary>
 		/// Load sprite from remote server.
 		/// </summary>
-		/// <param name="path">To load path from remote server</param>
+		/// <param name="uri">To load path from remote server</param>
 		/// <returns>Async load sprite with UniTask</returns>
-		public static async UniTask<Sprite> LoadFromRemote(string path)
+		public static async UniTask<Sprite> LoadFromRemote(string uri)
 		{
-			var imageRequester = UnityWebRequestTexture.GetTexture(path);
-			var sizeRequester = await UnityWebRequest.Head(path).SendWebRequest();
+			var imageRequester = UnityWebRequestTexture.GetTexture(uri);
+			var sizeRequester = await UnityWebRequest.Head(uri).SendWebRequest();
 
 			Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}, Size: {(float.Parse(sizeRequester.GetResponseHeader("Content-Length")) / 1024):0,0} KB", LogPriority.Verbose);
+			
+			sizeRequester.Dispose();
 			
 			try
 			{
@@ -108,13 +110,13 @@ namespace HorangUnityLibrary.Utilities
 		/// <summary>
 		/// Load many sprites from remote server.
 		/// </summary>
-		/// <param name="paths">To load paths enumerable</param>
+		/// <param name="uris">To load paths enumerable</param>
 		/// <returns>Async load sprites array with UniTask</returns>
-		public static async UniTask<Sprite[]> LoadManyFromRemote(IEnumerable<string> paths)
+		public static async UniTask<Sprite[]> LoadManyFromRemote(IEnumerable<string> uris)
 		{
 			loadManyDelegate = LoadFromRemote;
 
-			return await UniTask.WhenAll(CreateImageLoadTasks(paths, loadManyDelegate));
+			return await UniTask.WhenAll(CreateImageLoadTasks(uris, loadManyDelegate));
 		}
 
 		/// <summary>
