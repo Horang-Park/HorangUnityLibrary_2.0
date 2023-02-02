@@ -8,15 +8,15 @@ using HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HorangUnityLibrary.Modules.PatchModule.AssetBundle
+namespace HorangUnityLibrary.Modules.PatchModule
 {
-	public class PatchModule : BaseModule
+	public class AssetBundlePatchModule : BaseModule
 	{
 		private CancellationTokenSource delayWaiterCancellationTokenSource = new();
 
 		private const string VersionPlayerPrefsKey = "Version";
 
-		public PatchModule(ModuleManager moduleManager) : base(moduleManager)
+		public AssetBundlePatchModule(ModuleManager moduleManager) : base(moduleManager)
 		{
 		}
 
