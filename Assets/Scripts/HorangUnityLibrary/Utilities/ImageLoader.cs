@@ -70,24 +70,26 @@ namespace HorangUnityLibrary.Utilities
 		public static async UniTask<Sprite> LoadFromRemote(string path)
 		{
 			var imageRequester = UnityWebRequestTexture.GetTexture(path);
-			
-			Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}, API method: {imageRequester.method}", LogPriority.Verbose);
+			var sizeRequester = await UnityWebRequest.Head(path).SendWebRequest();
+
+			Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}, Size: {(float.Parse(sizeRequester.GetResponseHeader("Content-Length")) / 1024):0,0} KB", LogPriority.Verbose);
 			
 			try
 			{
-				imageRequester = await imageRequester.SendWebRequest().ToUniTask();
+				imageRequester = await imageRequester.SendWebRequest().ToUniTask().Timeout(TimeSpan.MaxValue);
 			}
 			catch (UnityWebRequestException e)
 			{
-				Log.Print($"Load failed. Response Code: {e.ResponseCode}, Message: {e.Message}, URI: {e.UnityWebRequest.uri}", LogPriority.Error);
-				
+				Log.Print($"Load failed. Response Code: {e.ResponseCode}, Message: {e.Message}, URI: {e.UnityWebRequest.uri}" +
+				          $"\nDownload handler error: {e.UnityWebRequest.downloadHandler.error}", LogPriority.Error);
+
 				imageRequester.Dispose();
 
 				return null;
 			}
 			catch (Exception e)
 			{
-				Log.Print($"Load failed. HR: {e.HResult}, Message: {e.Message}", LogPriority.Error);
+				Log.Print($"Load failed. HR: {e.HResult}, Message: {e.Message}", LogPriority.Exception);
 				
 				imageRequester.Dispose();
 
