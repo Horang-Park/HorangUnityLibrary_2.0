@@ -8,7 +8,7 @@ using HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HorangUnityLibrary.Modules.PatchModule
+namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 {
 	public class AssetBundlePatchModule : BaseModule
 	{
