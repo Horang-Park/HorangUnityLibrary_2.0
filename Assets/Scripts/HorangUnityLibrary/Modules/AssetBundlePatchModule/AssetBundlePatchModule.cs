@@ -27,7 +27,7 @@ namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 				return false;
 			}
 
-			Log.Print("Module are activated");
+			Log.Print("Module are activated", LogPriority.Verbose);
 
 			return true;
 		}
@@ -39,7 +39,7 @@ namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 				return false;
 			}
 
-			Log.Print("Module are inactivated");
+			Log.Print("Module are inactivated", LogPriority.Verbose);
 
 			return true;
 		}

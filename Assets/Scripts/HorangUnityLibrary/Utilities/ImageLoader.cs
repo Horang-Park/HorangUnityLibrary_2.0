@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -14,6 +15,7 @@ namespace HorangUnityLibrary.Utilities
 
 		private delegate UniTask<Sprite> TaskDelegate(string path);
 		private static TaskDelegate loadManyDelegate;
+		private static readonly CancellationTokenSource Cts = new();
 
 		/// <summary>
 		/// Load sprite from local storage.
@@ -78,24 +80,25 @@ namespace HorangUnityLibrary.Utilities
 			
 			try
 			{
-				imageRequester = await imageRequester.SendWebRequest().ToUniTask().Timeout(TimeSpan.MaxValue);
+				imageRequester = await imageRequester.SendWebRequest().ToUniTask(cancellationToken: Cts.Token).Timeout(TimeSpan.MaxValue);
 			}
 			catch (UnityWebRequestException e)
 			{
-				Log.Print($"Load failed. Response Code: {e.ResponseCode}, Message: {e.Message}, URI: {e.UnityWebRequest.uri}" +
-				          $"\nDownload handler error: {e.UnityWebRequest.downloadHandler.error}", LogPriority.Error);
+				Log.Print($"Load failed. Response Code: {e.ResponseCode}, Message: {e.Message}, URI: {e.UnityWebRequest.uri}\nDownload handler error: {e.UnityWebRequest.downloadHandler.error}", LogPriority.Error);
 
 				imageRequester.Dispose();
+				Cts.Cancel(true);
 
-				return null;
+				throw;
 			}
 			catch (Exception e)
 			{
 				Log.Print($"Load failed. HR: {e.HResult}, Message: {e.Message}", LogPriority.Exception);
 				
 				imageRequester.Dispose();
+				Cts.Cancel(true);
 
-				return null;
+				throw;
 			}
 
 			var loadedSprite = ConvertByteTextureToSprite(imageRequester.downloadHandler.data);
@@ -116,7 +119,16 @@ namespace HorangUnityLibrary.Utilities
 		{
 			loadManyDelegate = LoadFromRemote;
 
-			return await UniTask.WhenAll(CreateImageLoadTasks(uris, loadManyDelegate));
+			try
+			{
+				return await UniTask.WhenAll(CreateImageLoadTasks(uris, loadManyDelegate));
+			}
+			catch (Exception)
+			{
+				Cts.Cancel(true);
+				
+				throw new OperationCanceledException();
+			}
 		}
 
 		/// <summary>
