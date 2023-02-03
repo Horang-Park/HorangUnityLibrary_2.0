@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEngine;
 
 namespace HorangUnityLibrary.Managers.Deeplink
 {
+	[InspectorHideScriptField]
 	public abstract class DeeplinkManager : MonoBaseManager
 	{
 		public List<string> deeplinkParameters = new();

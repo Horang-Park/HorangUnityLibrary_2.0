@@ -1,0 +1,131 @@
+{
+    "name": "TestActions",
+    "maps": [
+        {
+            "name": "TestActions",
+            "id": "884b5b98-ea84-4187-a7bf-b202b455a1d1",
+            "actions": [
+                {
+                    "name": "Play Audio",
+                    "type": "Button",
+                    "id": "68c35633-ec04-496a-835e-e5eed1b55333",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause Audio",
+                    "type": "Button",
+                    "id": "07abd940-c59f-4039-a29f-772ea3f69c8a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Resume Audio",
+                    "type": "Button",
+                    "id": "9f68b5a4-6df3-4139-b862-e4ba3ff2746d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stop Audio",
+                    "type": "Button",
+                    "id": "10bdaace-c6eb-4d19-975d-30e9f4f4e219",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Destroy Audio Sources",
+                    "type": "Button",
+                    "id": "0ec753c5-beaa-4743-9042-67f8b0b6e91c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6b77c88f-2be7-4af7-ba4c-c66c38cdc18a",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Play Audio",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7916fee6-ec77-433c-b644-9836093d6af2",
+                    "path": "<Keyboard>/f4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Stop Audio",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "219b6cb9-ec5e-4430-bd4b-b7f1e85c3dbb",
+                    "path": "<Keyboard>/f5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Destroy Audio Sources",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d0c502c-8d92-4a3f-9b8c-219da5a59339",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Pause Audio",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b54e140e-dcd2-41f4-af42-98bdf26f2d45",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Resume Audio",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PC",
+            "bindingGroup": "PC",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

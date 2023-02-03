@@ -11,7 +11,7 @@ namespace HorangUnityLibrary.Utilities
 {
 	public static class ImageLoader
 	{
-		private static readonly string[] SupportImageFileExtension = { "png", "jpg", "jpeg", "tga" };
+		private static readonly string[] SupportImageFileExtension = { @".png", @".jpg", @".jpeg", @".tga" };
 
 		private delegate UniTask<Sprite> TaskDelegate(string path);
 		private static TaskDelegate loadManyDelegate;

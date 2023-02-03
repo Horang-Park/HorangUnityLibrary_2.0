@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace HorangUnityLibrary.Managers.NumberImageFont
 {
+	[InspectorHideScriptField]
 	public sealed class Digit : MonoBehaviour
 	{
 		[SerializeField]

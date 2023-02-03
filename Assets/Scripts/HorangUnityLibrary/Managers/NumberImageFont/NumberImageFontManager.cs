@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.CustomAttribute;
 
 namespace HorangUnityLibrary.Managers.NumberImageFont
 {
+	[InspectorHideScriptField]
 	public sealed class NumberImageFontManager : MonoBaseManager
 	{
 		private Digit[] digits;

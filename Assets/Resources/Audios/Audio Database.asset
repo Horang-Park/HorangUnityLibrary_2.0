@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa8ec51d1da4a41a0cb2865f9014f6e, type: 3}
+  m_Name: Audio Database
+  m_EditorClassIdentifier: 
+  audioClipDatas:
+  - name: kamp_ambient_day_loop
+    audioClip: {fileID: 8300000, guid: 45a4bd35e21434a8388ea3f41fd33771, type: 3}
+    audioPlayType: 1
+    audioClipVolume: 1
+    audioClipInspectorData:
+      length: 98.89959
+      extension: .mp3
+      importPath: Assets/Resources/Audios/kamp_ambient_day_loop.mp3
+      channel: 2
+      samplingFrequency: 44100
+      sampleCount: 4361472
+      instanceId: 28968
+  - name: kamp_eff_apply_item
+    audioClip: {fileID: 8300000, guid: c2d997d5146f64b67a1536b96b8f7734, type: 3}
+    audioPlayType: 2
+    audioClipVolume: 1
+    audioClipInspectorData:
+      length: 3.1608164
+      extension: .mp3
+      importPath: Assets/Resources/Audios/kamp_eff_apply_item.mp3
+      channel: 2
+      samplingFrequency: 44100
+      sampleCount: 139392
+      instanceId: 28974
+  - name: kamp_eff_portal_loop
+    audioClip: {fileID: 8300000, guid: 780930626d7ad4d40952be70ff7fc338, type: 3}
+    audioPlayType: 3
+    audioClipVolume: 1
+    audioClipInspectorData:
+      length: 12.303674
+      extension: .mp3
+      importPath: Assets/Resources/Audios/kamp_eff_portal_loop.mp3
+      channel: 2
+      samplingFrequency: 44100
+      sampleCount: 542592
+      instanceId: 28978

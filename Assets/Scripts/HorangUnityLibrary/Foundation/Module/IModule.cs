@@ -13,12 +13,12 @@ namespace HorangUnityLibrary.Foundation.Module
 		public bool InactiveModule();
 
 		/// <summary>
-		/// Initialize only once when application turn on. (Working like Unity's Awake method.)
+		/// Initialize only once when module is activate.
 		/// </summary>
 		public void InitializeOnce();
 
 		/// <summary>
-		/// Initialize only once when other initialize completed. (Working like Unity's Start method.)
+		/// Initialize everytime when module is activate.
 		/// </summary>
 		public void InitializeLate();
 		

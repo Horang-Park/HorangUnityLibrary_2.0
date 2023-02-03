@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace HorangUnityLibrary.Managers.Module
 {
+	[InspectorHideScriptField]
 	public class ModuleManager : SingletonBaseManager<ModuleManager>
 	{
 		[Header("Module Manager Status")]
@@ -24,8 +25,6 @@ namespace HorangUnityLibrary.Managers.Module
 
 		private readonly Dictionary<Type, BaseModule> modules = new();
 
-		public Action onInitializeOnce;
-		public Action onInitializeLate;
 		public Action onUpdate;
 		public Action onFixedUpdate;
 		public Action onLateUpdate;
@@ -87,14 +86,15 @@ namespace HorangUnityLibrary.Managers.Module
 		/// To getting module that already registered.
 		/// </summary>
 		/// <param name="type">To get a module type</param>
+		/// <param name="useFromRmi">Only use for RMI manager</param>
 		/// <typeparam name="T">Type that inheritance BaseModule</typeparam>
 		/// <returns>Specific module or null</returns>
 		[CanBeNull]
-		public T GetModule<T>(Type type, bool useFromRmi = false) where T : BaseModule
+		public T GetModule<T>(bool useFromRmi = false) where T : BaseModule
 		{
-			if (ValidateModuleExist(type))
+			if (ValidateModuleExist(typeof(T)))
 			{
-				return modules[type] as T;
+				return modules[typeof(T)] as T;
 			}
 
 			if (useFromRmi)
@@ -102,21 +102,9 @@ namespace HorangUnityLibrary.Managers.Module
 				return null;
 			}
 			
-			Log.Print($"Cannot find [{type}] module.", LogPriority.Error);
+			Log.Print($"Cannot find [{typeof(T)}] module.", LogPriority.Error);
 
 			return null;
-		}
-
-		protected override void Awake()
-		{
-			base.Awake();
-			
-			onInitializeOnce?.Invoke();
-		}
-
-		private void Start()
-		{
-			onInitializeLate?.Invoke();
 		}
 
 		private void Update()

@@ -6,11 +6,13 @@ using HorangUnityLibrary.Foundation.Manager;
 using HorangUnityLibrary.Foundation.Module;
 using HorangUnityLibrary.Managers.Module;
 using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.CustomAttribute;
 using JetBrains.Annotations;
 using UnityEngine;
 
 namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 {
+	[InspectorHideScriptField]
 	public sealed class RmiManager : SingletonBaseManager<RmiManager>
 	{
 		private readonly Dictionary<int, (object, MethodBase)> rmiMethods = new();
@@ -46,7 +48,7 @@ namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 			
 			Log.Print($"RMI Called - To: {instanceType}, To call method: {runInstanceAndMethod.Item2}", LogPriority.Verbose);
 			
-			var moduleInstance = ModuleManager.Instance.GetModule<BaseModule>(instanceType, true);
+			var moduleInstance = ModuleManager.Instance.GetModule<BaseModule>(true);
 
 			if (moduleInstance is not null)
 			{

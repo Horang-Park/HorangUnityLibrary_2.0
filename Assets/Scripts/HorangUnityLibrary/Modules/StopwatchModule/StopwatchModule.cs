@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HorangUnityLibrary.Foundation.Module;
 using HorangUnityLibrary.Managers.Module;
 using HorangUnityLibrary.Utilities;
+using HorangUnityLibrary.Utilities.CustomAttribute;
 
 namespace HorangUnityLibrary.Modules.StopwatchModule
 {
