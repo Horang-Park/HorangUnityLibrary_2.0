@@ -57,6 +57,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			LoadData();
 		}
 
+		/// <summary>
+		/// Play audio that in audio database
+		/// </summary>
+		/// <param name="name">To play audio clip name</param>
+		/// <param name="onPlayTime">Callback audio source play time</param>
 		public void Play(string name, Action<float> onPlayTime = null)
 		{
 			var key = name.GetHashCode();
@@ -100,6 +105,10 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			audioSource.Play();
 		}
 
+		/// <summary>
+		/// Stop audio 
+		/// </summary>
+		/// <param name="name">To stop audio clip name</param>
 		public void Stop(string name)
 		{
 			var key = name.GetHashCode();
@@ -120,6 +129,10 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			audioSourceTimeSubscribers.Remove(key);
 		}
 
+		/// <summary>
+		/// Pause audio
+		/// </summary>
+		/// <param name="name">To pause audio clip name</param>
 		public void Pause(string name)
 		{
 			var key = name.GetHashCode();
@@ -136,6 +149,10 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			audioSource.Pause();
 		}
 
+		/// <summary>
+		/// Resume(Unpause) audio
+		/// </summary>
+		/// <param name="name">To resume(unpause) audio clip name</param>
 		public void Resume(string name)
 		{
 			var key = name.GetHashCode();
@@ -152,6 +169,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			audioSource.UnPause();
 		}
 
+		/// <summary>
+		/// Get audio clip's length
+		/// </summary>
+		/// <param name="name">To get audio clip name</param>
+		/// <returns>Audio clip length</returns>
 		public float GetAudioLength(string name)
 		{
 			var key = name.GetHashCode();
@@ -166,6 +188,9 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			return audioData.audioClipAdditionalData.length;
 		}
 
+		/// <summary>
+		/// Remove created audio source game objects (except audio datas)
+		/// </summary>
 		public void RemoveAllAudioSources()
 		{
 			foreach (var audioSource in audioSources)
@@ -180,6 +205,13 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		private void LoadData()
 		{
 			var audioDataScriptableObject = Resources.Load<AudioData>("Audios/Audio Database");
+
+			if (audioDataScriptableObject is null)
+			{
+				Log.Print("Cannot find audio database scriptable object. Create audio database asset and rerun application.");
+				
+				return;
+			}
 
 			foreach (var audioData in audioDataScriptableObject.audioClipDatas)
 			{

@@ -20,6 +20,11 @@ namespace HorangUnityLibrary.Foundation.Module
 		/// <summary>
 		/// Initialize everytime when module is activate.
 		/// </summary>
-		public void InitializeLate();
+		public void InitializeOnActiveEverytime();
+
+		/// <summary>
+		/// Initialize everytime when module is inactivate.
+		/// </summary>
+		public void InitializeOnInactivateEverytime();
 	}
 }

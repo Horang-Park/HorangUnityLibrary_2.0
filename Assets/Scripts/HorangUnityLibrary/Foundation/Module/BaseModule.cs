@@ -35,7 +35,7 @@ namespace HorangUnityLibrary.Foundation.Module
 			injectedModuleManager.activatedModuleCount++;
 			injectedModuleManager.activatedModules.Add(ToString());
 			
-			InitializeLate();
+			InitializeOnActiveEverytime();
 
 			return true;
 		}
@@ -50,12 +50,14 @@ namespace HorangUnityLibrary.Foundation.Module
 			{
 				return false;
 			}
-
+			
 			isThisModuleActivated = false;
 
 			injectedModuleManager.activatedModuleCount--;
 			injectedModuleManager.activatedModules.Remove(ToString());
 
+			InitializeOnInactivateEverytime();
+			
 			return true;
 		}
 
@@ -64,7 +66,11 @@ namespace HorangUnityLibrary.Foundation.Module
 			isThisModuleInitialized = true;
 		}
 
-		public virtual void InitializeLate()
+		public virtual void InitializeOnActiveEverytime()
+		{
+		}
+
+		public virtual void InitializeOnInactivateEverytime()
 		{
 		}
 
