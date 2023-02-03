@@ -47,5 +47,7 @@ public class Tester : MonoBehaviour
 	private void OnDestroyAudioSources() // f5
 	{
 		audioModule.RemoveAllAudioSources();
+
+		audioModule.InactiveModule();
 	}
 }

@@ -51,6 +51,11 @@ namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 		/// <returns>If local version is difference with remote version, will return false. otherwise true</returns>
 		public bool VersionCheck(string remoteVersion)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return true;
+			}
+
 			if (PlayerPrefs.HasKey(VersionPlayerPrefsKey) is false)
 			{
 				return false;
@@ -90,6 +95,11 @@ namespace HorangUnityLibrary.Modules.AssetBundlePatchModule
 			double delayTimeout = 3000D,
 			params (string, string)[] headerParameters)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
 			Delay(onDelay, delayTimeout).Forget();
 
 			var assetBundleRequester = UnityWebRequestAssetBundle.GetAssetBundle(remoteAssetBundleUri);

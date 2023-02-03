@@ -57,6 +57,16 @@ namespace HorangUnityLibrary.Modules.AudioModule
 			LoadData();
 		}
 
+		public override void InitializeOnInactivateEverytime()
+		{
+			base.InitializeOnInactivateEverytime();
+
+			audioSources.Clear();
+			audioSourceTimeSubscribers.Clear();
+			
+			RemoveAllAudioSources();
+		}
+
 		/// <summary>
 		/// Play audio that in audio database
 		/// </summary>
@@ -64,6 +74,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		/// <param name="onPlayTime">Callback audio source play time</param>
 		public void Play(string name, Action<float> onPlayTime = null)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioClip(key) is false)
@@ -111,6 +126,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		/// <param name="name">To stop audio clip name</param>
 		public void Stop(string name)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioSource(key) is false
@@ -135,6 +155,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		/// <param name="name">To pause audio clip name</param>
 		public void Pause(string name)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioSource(key) is false)
@@ -155,6 +180,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		/// <param name="name">To resume(unpause) audio clip name</param>
 		public void Resume(string name)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioSource(key) is false)
@@ -176,6 +206,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		/// <returns>Audio clip length</returns>
 		public float GetAudioLength(string name)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return float.PositiveInfinity;
+			}
+			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioClip(key) is false)
@@ -193,6 +228,11 @@ namespace HorangUnityLibrary.Modules.AudioModule
 		/// </summary>
 		public void RemoveAllAudioSources()
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
 			foreach (var audioSource in audioSources)
 			{
 				Object.Destroy(audioSource.Value.gameObject);
