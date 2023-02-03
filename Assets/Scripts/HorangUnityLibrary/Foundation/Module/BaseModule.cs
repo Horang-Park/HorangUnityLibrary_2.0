@@ -29,10 +29,6 @@ namespace HorangUnityLibrary.Foundation.Module
 			{
 				InitializeOnce();
 			}
-			
-			injectedModuleManager.onUpdate += Update;
-			injectedModuleManager.onFixedUpdate += FixedUpdate;
-			injectedModuleManager.onLateUpdate += LateUpdate;
 
 			isThisModuleActivated = true;
 
@@ -55,10 +51,6 @@ namespace HorangUnityLibrary.Foundation.Module
 				return false;
 			}
 
-			injectedModuleManager.onUpdate -= Update;
-			injectedModuleManager.onFixedUpdate -= FixedUpdate;
-			injectedModuleManager.onLateUpdate -= LateUpdate;
-
 			isThisModuleActivated = false;
 
 			injectedModuleManager.activatedModuleCount--;
@@ -73,18 +65,6 @@ namespace HorangUnityLibrary.Foundation.Module
 		}
 
 		public virtual void InitializeLate()
-		{
-		}
-
-		public virtual void Update()
-		{
-		}
-
-		public virtual void FixedUpdate()
-		{
-		}
-
-		public virtual void LateUpdate()
 		{
 		}
 

@@ -21,20 +21,5 @@ namespace HorangUnityLibrary.Foundation.Module
 		/// Initialize everytime when module is activate.
 		/// </summary>
 		public void InitializeLate();
-		
-		/// <summary>
-		/// Frame update.
-		/// </summary>
-		public void Update();
-		
-		/// <summary>
-		/// Fixed frame update.
-		/// </summary>
-		public void FixedUpdate();
-		
-		/// <summary>
-		/// Late update.
-		/// </summary>
-		public void LateUpdate();
 	}
 }

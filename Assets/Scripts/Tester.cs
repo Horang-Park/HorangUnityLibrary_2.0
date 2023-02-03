@@ -18,10 +18,10 @@ public class Tester : MonoBehaviour
 	{
 		ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
 		stopwatchModule = ModuleManager.Instance.GetModule<StopwatchModule>();
-		stopwatchModule.ActiveModule();
 		
 		ModuleManager.Instance.RegisterModule(new AudioModule(ModuleManager.Instance));
 		audioModule = ModuleManager.Instance.GetModule<AudioModule>();
+		audioModule.isModuleCanBeUnregister = false;
 		audioModule.ActiveModule();
 	}
 
