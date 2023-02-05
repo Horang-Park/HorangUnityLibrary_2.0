@@ -5,7 +5,6 @@ using HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEngine;
 using UnityEngine.UI;
 
-[InspectorHideScriptField]
 public class Tester : MonoBehaviour
 {
 	private StopwatchModule stopwatchModule;

@@ -215,7 +215,7 @@ namespace HorangUnityLibrary.Modules.AudioModule
 
 			if (ValidateAudioClip(key) is false)
 			{
-				Log.Print($"Cannot find audio data named [{name}]. Check your Audio Database.asset file.", LogPriority.Error);
+				Log.Print($"Cannot find audio data named [{name}]. Check your [Audio Database.asset] file.", LogPriority.Error);
 			}
 
 			var audioData = audioDatas[key];
@@ -248,7 +248,7 @@ namespace HorangUnityLibrary.Modules.AudioModule
 
 			if (audioDataScriptableObject is null)
 			{
-				Log.Print("Cannot find audio database scriptable object. Create audio database asset and rerun application.");
+				Log.Print("Cannot find audio database scriptable object. Create audio database asset in [Resources/Audios] and rerun application.", LogPriority.Error);
 				
 				return;
 			}
