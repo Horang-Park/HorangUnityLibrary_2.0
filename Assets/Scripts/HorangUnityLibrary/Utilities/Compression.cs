@@ -8,6 +8,12 @@ namespace Horang.HorangUnityLibrary.Utilities
 {
 	public static class Compression
 	{
+		/// <summary>
+		/// Compression the source path file.
+		/// </summary>
+		/// <param name="sourcePath">To compress file path</param>
+		/// <param name="destinationPath">To export file path</param>
+		/// <returns>If compression worked successfully, will return true. otherwise false</returns>
 		public static bool Zip(string sourcePath, string destinationPath)
 		{
 			if (File.Exists(destinationPath))
@@ -31,6 +37,12 @@ namespace Horang.HorangUnityLibrary.Utilities
 			}
 		}
 
+		/// <summary>
+		/// Decompression the source path file.
+		/// </summary>
+		/// <param name="sourcePath">To decompress file path</param>
+		/// <param name="destinationPath">To export file path</param>
+		/// <returns>If decompression worked successfully, will return true. otherwise false</returns>
 		public static bool Unzip(string sourcePath, string destinationPath)
 		{
 			if (File.Exists(destinationPath))
@@ -54,6 +66,11 @@ namespace Horang.HorangUnityLibrary.Utilities
 			}
 		}
 
+		/// <summary>
+		/// To get file list from source path zip file.
+		/// </summary>
+		/// <param name="sourcePath">zip file path</param>
+		/// <returns>File names in source path zip file</returns>
 		public static IEnumerable<string> GetFileList(string sourcePath)
 		{
 			if (File.Exists(sourcePath) is false)
