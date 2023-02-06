@@ -54,7 +54,7 @@ namespace Horang.HorangUnityLibrary.Foundation.Module
 			isThisModuleActivated = false;
 
 			injectedModuleManager.activatedModuleCount--;
-			injectedModuleManager.activatedModules.Remove(ToString());
+			injectedModuleManager.activatedModules.Remove(ToString().Split('.')[^1]);
 
 			InitializeOnInactivateEverytime();
 			

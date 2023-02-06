@@ -35,7 +35,7 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 
 			if (ValidateModuleExist(key))
 			{
-				Log.Print($"[{key}] module already exist.", LogPriority.Error);
+				Log.Print($"[{key}] module already registered.", LogPriority.Error);
 
 				return;
 			}
@@ -64,7 +64,7 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 
 			if (targetModule.isModuleCanBeUnregister is false)
 			{
-				Log.Print($"[{ToString()}] module cannot unregister.", LogPriority.Warning);
+				Log.Print($"[{ToString()}] module cannot unregister by module setting.", LogPriority.Warning);
 				
 				return;
 			}
