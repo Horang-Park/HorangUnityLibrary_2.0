@@ -1,6 +1,8 @@
+using System;
 using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
 using Horang.HorangUnityLibrary.Modules.StopwatchModule;
+using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,14 @@ public class Tester : MonoBehaviour
 
 	public Image progress;
 
+	private const string SampleString = "Hello, World!";
+	private string encryptString;
+
+	private void Awake()
+	{
+		encryptString = Encryption.Encrypt(SampleString).ToLog();
+	}
+
 	private void Start()
 	{
 		ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
@@ -20,6 +30,8 @@ public class Tester : MonoBehaviour
 		audioModule = ModuleManager.Instance.GetModule<AudioModule>();
 		audioModule.isModuleCanBeUnregister = false;
 		audioModule.ActiveModule();
+
+		Encryption.Decrypt(encryptString).ToLog();
 	}
 
 	private void OnPlayAudio() // f1
