@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
+#pragma warning disable CS0162
 	public static class GetIntentExtraData
 	{
 		private const string ExtraDataValidationKey = "hasExtra";
@@ -36,4 +37,5 @@ namespace Horang.HorangUnityLibrary.Utilities
 			return intent.Call<string>(ExtraDataGetKey, key);
 		}
 	}
+#pragma warning restore CS0162
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Plugins.Android
 {
+#pragma warning disable CS0162
 	public static class AndroidExtensionForUnity
 	{
 		[System.Serializable]
@@ -103,4 +104,5 @@ namespace Plugins.Android
 			return javaClassInstance.Call<string>("GetAndroidSSAID");
 		}
 	}
+#pragma warning restore CS0162
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule
 {
+#pragma warning disable CS0162
 	public class ExternalApplicationLaunchModule : BaseModule
 	{
 		private AndroidJavaObject unityActivity;
@@ -101,4 +102,5 @@ namespace Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule
 			unityActivity.Call("finish");
 		}
 	}
+#pragma warning restore CS0162
 }
