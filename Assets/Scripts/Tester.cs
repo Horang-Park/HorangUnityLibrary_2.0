@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class Tester : MonoBehaviour
 {
 	private StopwatchModule stopwatchModule;
-	private AudioModule audioModule
+	private AudioModule audioModule;
 	private CameraModule cameraModule;
 	private ExternalApplicationLaunchModule externalApplicationLaunchModule;
 
