@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Utilities.CustomAttribute
+namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 {
 	[CustomPropertyDrawer(typeof(InspectorReadonly))]
 	public class InspectorReadonlyDrawer : PropertyDrawer

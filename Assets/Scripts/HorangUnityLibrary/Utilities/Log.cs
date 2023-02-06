@@ -6,7 +6,7 @@ using System.Text;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 
-namespace HorangUnityLibrary.Utilities
+namespace Horang.HorangUnityLibrary.Utilities
 {
 	public enum LogPriority
 	{

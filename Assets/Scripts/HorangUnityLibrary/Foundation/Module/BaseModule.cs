@@ -1,8 +1,8 @@
 using System;
-using HorangUnityLibrary.Managers.Module;
-using HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Utilities;
 
-namespace HorangUnityLibrary.Foundation.Module
+namespace Horang.HorangUnityLibrary.Foundation.Module
 {
 	public abstract class BaseModule : IModule, IDisposable
 	{

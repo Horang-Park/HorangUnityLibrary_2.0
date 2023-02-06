@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using HorangUnityLibrary.Foundation.Module;
-using HorangUnityLibrary.Managers.Module;
-using HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Foundation.Module;
+using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Utilities;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace HorangUnityLibrary.Modules.AudioModule
+namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
 	public class AudioModule : BaseModule
 	{

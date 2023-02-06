@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HorangUnityLibrary.Managers.Static.Networking
+namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 {
 	public static class UnityWebRequestFactory
 	{

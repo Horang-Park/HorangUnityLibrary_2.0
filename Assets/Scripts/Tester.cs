@@ -1,7 +1,6 @@
-using HorangUnityLibrary.Managers.Module;
-using HorangUnityLibrary.Modules.AudioModule;
-using HorangUnityLibrary.Modules.StopwatchModule;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Modules.AudioModule;
+using Horang.HorangUnityLibrary.Modules.StopwatchModule;
 using UnityEngine;
 using UnityEngine.UI;
 

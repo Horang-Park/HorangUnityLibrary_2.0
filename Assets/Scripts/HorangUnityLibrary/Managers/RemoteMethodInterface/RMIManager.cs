@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using HorangUnityLibrary.Foundation.Manager;
-using HorangUnityLibrary.Foundation.Module;
-using HorangUnityLibrary.Managers.Module;
-using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Foundation.Manager;
+using Horang.HorangUnityLibrary.Foundation.Module;
+using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Managers.RemoteMethodInterface
+namespace Horang.HorangUnityLibrary.Managers.RemoteMethodInterface
 {
 	[InspectorHideScriptField]
 	public sealed class RmiManager : SingletonBaseManager<RmiManager>
@@ -104,7 +104,7 @@ namespace HorangUnityLibrary.Managers.RemoteMethodInterface
 			foreach (var type in types)
 			{
 				var methodInfos = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-					.Where(mi => mi.GetCustomAttribute<RemoteMethodInterface.RMI>() is not null)
+					.Where(mi => mi.GetCustomAttribute<global::Horang.HorangUnityLibrary.Managers.RemoteMethodInterface.RMI>() is not null)
 					.ToList();
 
 				foreach (var mi in methodInfos)

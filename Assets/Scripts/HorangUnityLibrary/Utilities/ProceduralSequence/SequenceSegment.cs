@@ -1,6 +1,4 @@
-using System;
-
-namespace HorangUnityLibrary.Utilities.ProceduralSequence
+namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence
 {
 	public abstract class SequenceSegment
 	{

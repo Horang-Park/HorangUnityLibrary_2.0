@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 
-namespace HorangUnityLibrary.Utilities.ProceduralSequence.Async
+namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence.Async
 {
 	public class ProceduralSequenceAsync
 	{

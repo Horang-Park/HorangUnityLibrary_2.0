@@ -1,8 +1,9 @@
 using System;
 using System.Diagnostics;
+using Horang.HorangUnityLibrary.Utilities;
 using HorangUnityLibrary.Utilities;
 
-namespace HorangUnityLibrary.Modules.StopwatchModule
+namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 {
 	public sealed class StopwatchElement : Stopwatch
 	{

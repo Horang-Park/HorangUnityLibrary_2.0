@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HorangUnityLibrary.Managers.NumberImageFont
+namespace Horang.HorangUnityLibrary.Managers.NumberImageFont
 {
 	[InspectorHideScriptField]
 	public sealed class Digit : MonoBehaviour

@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using HorangUnityLibrary.Foundation.Module;
-using HorangUnityLibrary.Managers.Module;
-using HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Foundation.Module;
+using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HorangUnityLibrary.Modules.LocalizationModule
+namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 {
 	public class LocalizationModule : BaseModule
 	{

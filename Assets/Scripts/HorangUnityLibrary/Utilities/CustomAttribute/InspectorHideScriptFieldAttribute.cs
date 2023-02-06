@@ -1,7 +1,7 @@
 using System;
 using UnityEditor;
 
-namespace HorangUnityLibrary.Utilities.CustomAttribute
+namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 {
 	[CustomEditor(typeof(object), true)]
 	public class InspectorHideScriptFieldEditor : Editor

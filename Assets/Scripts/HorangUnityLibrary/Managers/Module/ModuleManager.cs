@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HorangUnityLibrary.Foundation.Manager;
-using HorangUnityLibrary.Foundation.Module;
-using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Foundation.Manager;
+using Horang.HorangUnityLibrary.Foundation.Module;
+using Horang.HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Managers.Module
+namespace Horang.HorangUnityLibrary.Managers.Module
 {
 	[InspectorHideScriptField]
 	public class ModuleManager : SingletonBaseManager<ModuleManager>
@@ -24,10 +24,6 @@ namespace HorangUnityLibrary.Managers.Module
 		public List<string> activatedModules = new();
 
 		private readonly Dictionary<Type, BaseModule> modules = new();
-
-		public Action onUpdate;
-		public Action onFixedUpdate;
-		public Action onLateUpdate;
 
 		/// <summary>
 		/// Register module to module manager.
@@ -105,21 +101,6 @@ namespace HorangUnityLibrary.Managers.Module
 			Log.Print($"Cannot find [{typeof(T)}] module.", LogPriority.Error);
 
 			return null;
-		}
-
-		private void Update()
-		{
-			onUpdate?.Invoke();
-		}
-
-		private void FixedUpdate()
-		{
-			onFixedUpdate?.Invoke();
-		}
-
-		private void LateUpdate()
-		{
-			onLateUpdate?.Invoke();
 		}
 
 		private bool ValidateModuleExist(Type t)

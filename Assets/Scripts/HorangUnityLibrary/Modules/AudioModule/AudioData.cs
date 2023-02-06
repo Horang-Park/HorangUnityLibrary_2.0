@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace HorangUnityLibrary.Modules.AudioModule
+namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
 	[Serializable]
 	public struct AudioDataType

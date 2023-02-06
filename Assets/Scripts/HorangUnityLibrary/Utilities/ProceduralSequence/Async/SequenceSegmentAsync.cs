@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace HorangUnityLibrary.Utilities.ProceduralSequence.Async
+namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence.Async
 {
 	public abstract class SequenceSegmentAsync
 	{

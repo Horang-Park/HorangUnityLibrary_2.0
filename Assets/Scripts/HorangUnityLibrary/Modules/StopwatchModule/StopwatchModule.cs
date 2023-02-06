@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using HorangUnityLibrary.Foundation.Module;
-using HorangUnityLibrary.Managers.Module;
-using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Foundation.Module;
+using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Utilities;
 
-namespace HorangUnityLibrary.Modules.StopwatchModule
+namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 {
 	public sealed class StopwatchModule : BaseModule
 	{

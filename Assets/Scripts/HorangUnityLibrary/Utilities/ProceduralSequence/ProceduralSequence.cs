@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HorangUnityLibrary.Utilities.ProceduralSequence
+namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence
 {
 	public class ProceduralSequence
 	{

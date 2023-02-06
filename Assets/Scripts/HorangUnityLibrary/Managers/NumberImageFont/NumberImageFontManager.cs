@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using HorangUnityLibrary.Foundation.Manager;
-using HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities.CustomAttribute;
+using Horang.HorangUnityLibrary.Foundation.Manager;
+using Horang.HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 
-namespace HorangUnityLibrary.Managers.NumberImageFont
+namespace Horang.HorangUnityLibrary.Managers.NumberImageFont
 {
 	[InspectorHideScriptField]
 	public sealed class NumberImageFontManager : MonoBaseManager

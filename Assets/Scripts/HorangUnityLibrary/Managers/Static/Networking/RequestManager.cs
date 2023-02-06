@@ -1,10 +1,11 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Horang.HorangUnityLibrary.Utilities;
 using HorangUnityLibrary.Utilities;
 using UnityEngine.Networking;
 
-namespace HorangUnityLibrary.Managers.Static.Networking
+namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 {
 	public static class RequestManager
 	{

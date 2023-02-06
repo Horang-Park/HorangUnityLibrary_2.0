@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using UnityEngine;
 
-namespace HorangUnityLibrary.Foundation
+namespace Horang.HorangUnityLibrary.Foundation
 {
 	public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 	{

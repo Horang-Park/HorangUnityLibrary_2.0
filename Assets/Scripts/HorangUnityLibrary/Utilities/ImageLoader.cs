@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace HorangUnityLibrary.Utilities
+namespace Horang.HorangUnityLibrary.Utilities
 {
 	public static class ImageLoader
 	{
