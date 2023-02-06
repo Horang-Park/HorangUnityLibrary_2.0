@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using Horang.HorangUnityLibrary.Utilities;
-using HorangUnityLibrary.Utilities;
 
 namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 {
