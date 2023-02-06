@@ -1,10 +1,8 @@
-using System;
 using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
 using Horang.HorangUnityLibrary.Modules.CameraModule;
 using Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule;
 using Horang.HorangUnityLibrary.Modules.StopwatchModule;
-using Horang.HorangUnityLibrary.Utilities;
 using Plugins.Android;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +10,7 @@ using UnityEngine.UI;
 public class Tester : MonoBehaviour
 {
 	private StopwatchModule stopwatchModule;
-	private AudioModule audioModule;
+	private AudioModule audioModule
 	private CameraModule cameraModule;
 	private ExternalApplicationLaunchModule externalApplicationLaunchModule;
 
@@ -22,15 +20,15 @@ public class Tester : MonoBehaviour
 	{
 		ModuleManager.Instance.RegisterModule(new StopwatchModule(ModuleManager.Instance));
 		stopwatchModule = ModuleManager.Instance.GetModule<StopwatchModule>();
-		
+
 		ModuleManager.Instance.RegisterModule(new AudioModule(ModuleManager.Instance));
 		audioModule = ModuleManager.Instance.GetModule<AudioModule>();
 		audioModule.ActiveModule();
-		
+
 		ModuleManager.Instance.RegisterModule(new CameraModule(ModuleManager.Instance));
 		cameraModule = ModuleManager.Instance.GetModule<CameraModule>();
 		cameraModule.ActiveModule();
-		
+
 		ModuleManager.Instance.RegisterModule(new ExternalApplicationLaunchModule(ModuleManager.Instance));
 		externalApplicationLaunchModule = ModuleManager.Instance.GetModule<ExternalApplicationLaunchModule>();
 		externalApplicationLaunchModule.ActiveModule();

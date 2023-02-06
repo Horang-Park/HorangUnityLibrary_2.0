@@ -1,4 +1,5 @@
 using Horang.HorangUnityLibrary.Utilities;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Plugins.Android
@@ -9,8 +10,8 @@ namespace Plugins.Android
 		[System.Serializable]
 		public record PackageVersion
 		{
-			public string versionCode;
-			public string versionName;
+			[JsonProperty(PropertyName = "versionCode")] public string VersionCode { get; private set; }
+			[JsonProperty(PropertyName = "versionName")] public string VersionName { get; private set; }
 		}
 		
 		public static void SendBroadcast(string broadcastNativeUrl, string targetPackageName)
