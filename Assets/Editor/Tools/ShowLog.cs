@@ -1,5 +1,4 @@
 ﻿using Editor.DefineSymbol;
-using HorangUnityLibrary.Utilities;
 using UnityEditor;
 
 namespace Editor.Tools
@@ -9,7 +8,7 @@ namespace Editor.Tools
 		[MenuItem("Horang/Tools/Debug Mode/Log/Enable")]
 		private static void EnableLog()
 		{
-			DefineSymbolManager.EnableSymbol(DefineSymbols.LogSymbol, "로그가 활성화 되었어요.\n스크립트 처리 후 플레이 해주세요.");
+			DefineSymbolManager.EnableSymbol(DefineSymbols.LogSymbol, "Log enabled.\nPlease enter playmode after Unity's code completion.");
 		}
 
 		[MenuItem("Horang/Tools/Debug Mode/Log/Enable", true)]
@@ -21,7 +20,7 @@ namespace Editor.Tools
 		[MenuItem("Horang/Tools/Debug Mode/Log/Disable")]
 		private static void DisableLog()
 		{
-			DefineSymbolManager.DisableSymbol(DefineSymbols.LogSymbol, "로그가 비활성화 되었어요.\n스크립트 처리 후 플레이 해주세요.");
+			DefineSymbolManager.DisableSymbol(DefineSymbols.LogSymbol, "Log disabled.\nPlease enter playmode after Unity's code completion.");
 		}
 
 		[MenuItem("Horang/Tools/Debug Mode/Log/Disable", true)]
