@@ -33,7 +33,7 @@ namespace Horang.HorangUnityLibrary.Foundation.Module
 			isThisModuleActivated = true;
 
 			injectedModuleManager.activatedModuleCount++;
-			injectedModuleManager.activatedModules.Add(ToString());
+			injectedModuleManager.activatedModules.Add(ToString().Split('.')[^1]);
 			
 			InitializeOnActiveEverytime();
 

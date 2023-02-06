@@ -111,7 +111,7 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 		private void UpdateInspector()
 		{
 			registeredModuleCount = modules.Count;
-			registeredModules = modules.Keys.Select(key => key.ToString()).ToList();
+			registeredModules = modules.Keys.Select(key => key.ToString().Split('.')[^1]).ToList();
 		}
 	}
 }
