@@ -1,4 +1,5 @@
-namespace Horang.HorangUnityLibrary.Utilities
+// ReSharper disable once CheckNamespace
+namespace System.Runtime.CompilerServices
 {
 	/// <summary>
 	/// Fix error when using record or init on struct

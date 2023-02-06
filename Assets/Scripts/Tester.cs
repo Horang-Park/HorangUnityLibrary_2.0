@@ -5,6 +5,7 @@ using Horang.HorangUnityLibrary.Modules.CameraModule;
 using Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule;
 using Horang.HorangUnityLibrary.Modules.StopwatchModule;
 using Horang.HorangUnityLibrary.Utilities;
+using Plugins.Android;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,6 +38,7 @@ public class Tester : MonoBehaviour
 
 	private void OnPlayAudio() // f1
 	{
+		AndroidExtensionForUnity.SendBroadcast("com.kumsung.logout", "com.kumsung.kamping.launcher");
 	}
 
 	private void OnPauseAudio() // f2
