@@ -2,6 +2,7 @@ using System;
 using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
 using Horang.HorangUnityLibrary.Modules.CameraModule;
+using Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule;
 using Horang.HorangUnityLibrary.Modules.StopwatchModule;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class Tester : MonoBehaviour
 	private StopwatchModule stopwatchModule;
 	private AudioModule audioModule;
 	private CameraModule cameraModule;
+	private ExternalApplicationLaunchModule externalApplicationLaunchModule;
 
 	public Image progress;
 
@@ -27,32 +29,29 @@ public class Tester : MonoBehaviour
 		ModuleManager.Instance.RegisterModule(new CameraModule(ModuleManager.Instance));
 		cameraModule = ModuleManager.Instance.GetModule<CameraModule>();
 		cameraModule.ActiveModule();
+		
+		ModuleManager.Instance.RegisterModule(new ExternalApplicationLaunchModule(ModuleManager.Instance));
+		externalApplicationLaunchModule = ModuleManager.Instance.GetModule<ExternalApplicationLaunchModule>();
+		externalApplicationLaunchModule.ActiveModule();
 	}
 
 	private void OnPlayAudio() // f1
 	{
-		audioModule.InactiveModule();
-		
-		//audioModule.Play("kamp_eff_apply_item", f => { progress.fillAmount = f / audioModule.GetAudioLength("kamp_eff_apply_item"); });
 	}
 
-	private void OnPauseAudio()
+	private void OnPauseAudio() // f2
 	{
-		ModuleManager.Instance.UnregisterModule(typeof(CameraModule));
 	}
 
-	private void OnResumeAudio()
+	private void OnResumeAudio() // f3
 	{
-		ModuleManager.Instance.RegisterModule(new CameraModule(ModuleManager.Instance));
 	}
 
 	private void OnStopAudio() // f4
 	{
-		audioModule.Stop("kamp_eff_apply_item");
 	}
 
 	private void OnDestroyAudioSources() // f5
 	{
-		audioModule.RemoveAllAudioSources();
 	}
 }
