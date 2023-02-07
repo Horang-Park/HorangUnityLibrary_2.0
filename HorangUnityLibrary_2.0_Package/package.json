@@ -1,0 +1,15 @@
+{
+    "name": "com.horangpark.horangunitylibrary",
+    "version": "2.0.0",
+    "displayName": "HorangUnityLibrary",
+    "description": "More comfortable to use Unity.",
+    "unity": "2022.2",
+    "dependencies": {
+      "com.cysharp.unitask": "2.3.3",
+      "com.neuecc.unirx": "7.1.0",
+      "com.febucci.custom-hierarchy": "1.2.0",
+      "com.unity.nuget.newtonsoft-json": "3.0.2"
+   },
+    "keywords": ["library", "HorangUnityLibrary"],
+    "author": {"name": "Horang Park", "email": "horang_park@naver.com"}
+}

@@ -168,7 +168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcc7eac3cd824113b5cc5dc75e999ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: {fileID: 315788689}
 --- !u!114 &53261578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: e845a302e9b8545a2a33d658e0d581af, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
