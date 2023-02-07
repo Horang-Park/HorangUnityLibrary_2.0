@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
-	public class AudioModule : BaseModule
+	public sealed class AudioModule : BaseModule
 	{
 		private Transform parent;
 		

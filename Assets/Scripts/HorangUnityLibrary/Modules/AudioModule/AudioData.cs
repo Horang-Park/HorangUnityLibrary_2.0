@@ -58,7 +58,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 	
 	[CreateAssetMenu(menuName = "Horang/Create Audio Database", fileName = "Audio Database", order = 1)]
 	[InspectorHideScriptField]
-	public class AudioData : ScriptableObject
+	public sealed class AudioData : ScriptableObject
 	{
 		public List<AudioDataType> audioClipDatas = new();
 

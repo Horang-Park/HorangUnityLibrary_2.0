@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 {
 	[CustomPropertyDrawer(typeof(InspectorReadonly))]
-	public class InspectorReadonlyDrawer : PropertyDrawer
+	public sealed class InspectorReadonlyDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
@@ -66,7 +66,7 @@ namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 	/// Show read-only property on inspector.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.All)]
-	public class InspectorReadonly : PropertyAttribute
+	public sealed class InspectorReadonly : PropertyAttribute
 	{
 	}
 }

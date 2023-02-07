@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
-	public static class JsonParser
+	public struct JsonParser
 	{
 		private static readonly JsonSerializerSettings Settings = new()
 		{

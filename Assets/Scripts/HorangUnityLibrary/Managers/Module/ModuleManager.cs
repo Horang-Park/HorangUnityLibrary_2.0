@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Managers.Module
 {
 	[InspectorHideScriptField]
-	public class ModuleManager : SingletonBaseManager<ModuleManager>
+	public sealed class ModuleManager : SingletonBaseManager<ModuleManager>
 	{
 		[Header("Module Manager Status")]
 		[InspectorReadonly]

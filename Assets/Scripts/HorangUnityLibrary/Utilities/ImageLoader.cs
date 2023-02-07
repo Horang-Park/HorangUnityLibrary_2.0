@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
-	public static class ImageLoader
+	public struct ImageLoader
 	{
 		private static readonly string[] SupportImageFileExtension = { @".png", @".jpg", @".jpeg", @".tga" };
 
