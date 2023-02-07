@@ -30,5 +30,5 @@
    7. Log (Unity's top menu [Horang/Tools/Debug Mode/Log] can control show log or hide log.)
    8. Permissions (Support Android built application and iOS built application.)
 
-# UMP Support
+# UPM Support
 Use git url: https://github.com/Horang-Park/HorangUnityLibrary_2.0.git?path=/HorangUnityLibrary_2.0_Package
