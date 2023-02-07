@@ -13,15 +13,6 @@
                     "processors": "",
                     "interactions": "Tap",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Mouse action list",
-                    "type": "PassThrough",
-                    "id": "13982eaa-2dd1-4160-bcd6-83d64f9c96f6",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -55,17 +46,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Keyboard action list",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "08084490-d2ec-49f7-bd42-ee879ecc99f9",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Mouse action list",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,4 +1,6 @@
+using System;
 using Horang.HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +8,7 @@ public class Tester : MonoBehaviour
 {
 	private PlayerInput playerInput;
 	private InputAction keyboardActions;
-	private InputAction mouseActions;
+	private FiniteStateMachine sampleFsMachine;
 
 	private void Awake()
 	{
@@ -16,44 +18,97 @@ public class Tester : MonoBehaviour
 	private void Start()
 	{
 		keyboardActions = playerInput.actions["Keyboard action list"];
-		keyboardActions.started += KeyStarted;
 		keyboardActions.performed += KeyPerformed;
-		keyboardActions.canceled += KeyCanceled;
 
-		mouseActions = playerInput.actions["Mouse action list"];
-		mouseActions.performed += MousePerformed;
+		var s = new StateOne("StateOne");
+		sampleFsMachine = new FiniteStateMachine(s, "Sample Finite State Machine");
 	}
-	
+
 	// Similar as key down
-	private void KeyStarted(InputAction.CallbackContext callbackContext)
+	private void KeyPerformed(InputAction.CallbackContext callbackContext)
 	{
-		Log.Print($"key started: {callbackContext.control.name}");
+		Log.Print($"key performed: {callbackContext.control.name}");
+
+		State s;
 
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				mouseActions.Disable();
+				s = new StateOne("StateOne");
+				sampleFsMachine.ChangeState(s);
 				break;
 			case "f2":
-				mouseActions.Enable();
+				s = new StateTwo("StateTwo");
+				sampleFsMachine.ChangeState(s);
+				break;
+			case "f3":
+				s = new StateThree("StateThree");
+				sampleFsMachine.ChangeState(s);
 				break;
 		}
 	}
-	
-	// When succeed did interaction
-	private static void KeyPerformed(InputAction.CallbackContext callbackContext)
+}
+
+// FSM Samples
+public class StateOne : State
+{
+	public override void Enter()
 	{
-		Log.Print($"key performed: {callbackContext.control.name} / duration: {callbackContext.duration}");
-	}
-	
-	// When failed did interaction (like a time over)
-	private static void KeyCanceled(InputAction.CallbackContext callbackContext)
-	{
-		Log.Print($"key canceled: {callbackContext.control.name} / duration: {callbackContext.duration}");
+		Log.Print("StateOne state enter");
 	}
 
-	private static void MousePerformed(InputAction.CallbackContext callbackContext)
+	public override void Update()
 	{
-		//Log.Print($"mouse performed: {callbackContext.action.ReadValue<Vector2>()}");
+	}
+
+	public override void Exit()
+	{
+		Log.Print("StateOne state exit");
+	}
+
+	public StateOne(string name) : base(name)
+	{
+	}
+}
+
+public class StateTwo : State
+{
+	public override void Enter()
+	{
+		Log.Print("StateTwo state enter");
+	}
+
+	public override void Update()
+	{
+	}
+
+	public override void Exit()
+	{
+		Log.Print("StateTwo state exit");
+	}
+
+	public StateTwo(string name) : base(name)
+	{
+	}
+}
+
+public class StateThree : State
+{
+	public override void Enter()
+	{
+		Log.Print("StateThree state enter");
+	}
+
+	public override void Update()
+	{
+	}
+
+	public override void Exit()
+	{
+		Log.Print("StateThree state exit");
+	}
+
+	public StateThree(string name) : base(name)
+	{
 	}
 }
