@@ -5,7 +5,6 @@ using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEditor;
 using UnityEngine;
-using Object = System.Object;
 
 namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
@@ -62,6 +61,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 	public sealed class AudioData : ScriptableObject
 	{
 		public List<AudioDataType> audioClipDatas = new();
+#if UNITY_EDITOR
 
 		[MenuItem("Horang/Module/Audio/Create Audio Database", false, 1)]
 		private static void CreateFile()
@@ -134,5 +134,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			Selection.activeObject = obj;
 			EditorGUIUtility.PingObject(obj);
 		}
+#endif
 	}
 }

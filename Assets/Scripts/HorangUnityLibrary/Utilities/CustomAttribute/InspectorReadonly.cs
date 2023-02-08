@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 {
+#if UNITY_EDITOR
 	[CustomPropertyDrawer(typeof(InspectorReadonly))]
 	public sealed class InspectorReadonlyDrawer : PropertyDrawer
 	{
@@ -61,6 +62,7 @@ namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 			GUI.enabled = true;
 		}
 	}
+#endif
 	
 	/// <summary>
 	/// Show read-only property on inspector.
