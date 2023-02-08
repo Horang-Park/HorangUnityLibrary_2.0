@@ -30,5 +30,13 @@
    7. Log (Unity's top menu [Horang/Tools/Debug Mode/Log] can control show log or hide log.)
    8. Permissions (Support Android built application and iOS built application.)
 
-# UPM Support
+# Application build settings
+#### Android
+   * Please set Android minimum API level is 26 or more later. (Android 8.0 Oreo)
+
+#### iOS & iPadOS
+   * None.
+
+
+# UPM support
 Use git url: https://github.com/Horang-Park/HorangUnityLibrary_2.0.git?path=/HorangUnityLibrary_2.0_Package
