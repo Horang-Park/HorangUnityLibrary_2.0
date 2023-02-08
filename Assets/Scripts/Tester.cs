@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
@@ -58,8 +59,9 @@ public class StateOne : State
 	public override void Enter()
 	{
 		Log.Print("StateOne state enter");
-		
-		SetPlayerPrefs.String("testString", "Hello, World!");
+
+		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "English", "This is test text.", WriteMode.New));
+		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "한국어", "이것은 테스트 텍스트입니다."));
 	}
 
 	public override void Update()
@@ -78,11 +80,20 @@ public class StateOne : State
 
 public class StateTwo : State
 {
+	private string data1;
+	private string data2;
+	
 	public override void Enter()
 	{
 		Log.Print("StateTwo state enter");
+		
+		UniTask.Void(GetDatas);
+	}
 
-		GetPlayerPrefs.String("testString").ToLog();
+	private async UniTaskVoid GetDatas()
+	{
+		data1 = await SaveAndLoad.Load(Application.persistentDataPath + "/MY DATA.txt", "English");
+		data2 = await SaveAndLoad.Load(Application.persistentDataPath + "/MY DATA.txt", "한국어");
 	}
 
 	public override void Update()
@@ -91,6 +102,9 @@ public class StateTwo : State
 
 	public override void Exit()
 	{
+		data1.ToLog();
+		data2.ToLog();
+		
 		Log.Print("StateTwo state exit");
 	}
 
@@ -104,8 +118,6 @@ public class StateThree : State
 	public override void Enter()
 	{
 		Log.Print("StateThree state enter");
-		
-		SetPlayerPrefs.String("testString", "Good bye, World!");
 	}
 
 	public override void Update()
