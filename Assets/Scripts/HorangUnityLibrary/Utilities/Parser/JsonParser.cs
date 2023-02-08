@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Horang.HorangUnityLibrary.Utilities
+namespace Horang.HorangUnityLibrary.Utilities.Parser
 {
 	public struct JsonParser
 	{
