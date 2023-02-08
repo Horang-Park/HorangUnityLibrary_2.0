@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
 	[Serializable]
-	public struct AudioDataType
+	internal struct AudioDataType
 	{
 		public enum AudioPlayType
 		{
@@ -58,7 +58,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 	}
 	
 	[InspectorHideScriptField]
-	public sealed class AudioData : ScriptableObject
+	internal sealed class AudioData : ScriptableObject
 	{
 		public List<AudioDataType> audioClipDatas = new();
 #if UNITY_EDITOR
