@@ -11,24 +11,35 @@
    4. External Application Launch Module
    5. Localization Module
    6. Stopwatch Module
-2. Android native support kind of only can use in Android native.
+2. Managers
+   1. DeeplinkManager
+   2. ModuleManager
+   3. NumberImageFontManager
+   4. ObstacleTransparencyManager
+   5. RemoteMethodInterfaceManager
+   6. RequestManager (API)
+   7. UIManager
+3. Android native support kind of only can use in Android native.
    1. SendBroadcast
    2. Get device physically SSAID
    3. Get other application version and build version
-3. Utilities.
+4. Utilities
    1. Custom attributes
       1. Inspector readonly field
       2. Inspector hide script field
    2. Procedural sequencer
       1. Sync version
       2. Async version
-   2. Json parser (depends on Newtonsoft Json)
+   2. Parser
+      1. Json (Using newtonsoft json)
+      2. CSV
    3. Compression
    4. Encryption
    5. GetIntentExtraData (Only support Android built application.)
    6. ImageLoader (Remote version is async)
    7. Log (Unity's top menu [Horang/Tools/Debug Mode/Log] can control show log or hide log.)
    8. Permissions (Support Android built application and iOS built application.)
+   9. FiniteStateMachine (FSM)
 
 # Application build settings
 #### Android
