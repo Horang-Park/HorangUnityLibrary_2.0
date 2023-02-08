@@ -4,6 +4,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 {
 	public struct GetPlayerPrefs
 	{
+		/// <summary>
+		/// Get saved int value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise int.MaxValue</returns>
 		public static int Int(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -18,6 +23,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			return int.MaxValue;
 		}
 
+		/// <summary>
+		/// Get saved int array value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise null</returns>
 		public static IEnumerable<int> IntArray(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -32,6 +42,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			return null;
 		}
 		
+		/// <summary>
+		/// Get saved long value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise long.MaxValue</returns>
 		public static long Long(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -43,9 +58,14 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			
 			Log.Print($"Cannot find the key [{key}] in local player preferences.", LogPriority.Error);
 
-			return int.MaxValue;
+			return long.MaxValue;
 		}
 
+		/// <summary>
+		/// Get saved long array value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise null</returns>
 		public static IEnumerable<long> LongArray(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -60,6 +80,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			return null;
 		}
 		
+		/// <summary>
+		/// Get saved float value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise float.MaxValue</returns>
 		public static float Float(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -71,9 +96,14 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			
 			Log.Print($"Cannot find the key [{key}] in local player preferences.", LogPriority.Error);
 
-			return int.MaxValue;
+			return float.MaxValue;
 		}
 		
+		/// <summary>
+		/// Get saved float array value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise null</returns>
 		public static IEnumerable<float> FloatArray(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -88,6 +118,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			return null;
 		}
 		
+		/// <summary>
+		/// Get saved double value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise double.MaxValue</returns>
 		public static double Double(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -99,9 +134,14 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			
 			Log.Print($"Cannot find the key [{key}] in local player preferences.", LogPriority.Error);
 
-			return int.MaxValue;
+			return double.MaxValue;
 		}
 		
+		/// <summary>
+		/// Get saved double array value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise null</returns>
 		public static IEnumerable<double> DoubleArray(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -116,6 +156,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			return null;
 		}
 		
+		/// <summary>
+		/// Get saved string value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise string.Empty</returns>
 		public static string String(string key)
 		{
 			var eK = Encryption.Encrypt(key);
@@ -130,6 +175,11 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 			return string.Empty;
 		}
 		
+		/// <summary>
+		/// Get saved string array value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise null</returns>
 		public static IEnumerable<string> StringArray(string key)
 		{
 			var eK = Encryption.Encrypt(key);

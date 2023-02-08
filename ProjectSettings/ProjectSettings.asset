@@ -156,6 +156,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.Horang.HorangUnityLibrary
     Standalone: com.Horang.HorangUnityLibrary
+    iPhone: com.Horang.HorangUnityLibrary
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -838,7 +839,7 @@ PlayerSettings:
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
-  selectedPlatform: 2
+  selectedPlatform: 3
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1

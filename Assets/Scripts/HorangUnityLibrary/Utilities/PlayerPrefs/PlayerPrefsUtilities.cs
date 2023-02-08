@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 {
-	public struct PlayerPrefsUtilities
+	internal struct PlayerPrefsUtilities
 	{
 		private const char ArrayPadding = '\t';
 

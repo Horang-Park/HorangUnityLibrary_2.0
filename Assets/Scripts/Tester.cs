@@ -2,6 +2,7 @@ using System;
 using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
+using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
 using Horang.HorangUnityLibrary.Utilities.ProceduralSequence.Async;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -57,6 +58,8 @@ public class StateOne : State
 	public override void Enter()
 	{
 		Log.Print("StateOne state enter");
+		
+		SetPlayerPrefs.String("testString", "Hello, World!");
 	}
 
 	public override void Update()
@@ -78,6 +81,8 @@ public class StateTwo : State
 	public override void Enter()
 	{
 		Log.Print("StateTwo state enter");
+
+		GetPlayerPrefs.String("testString").ToLog();
 	}
 
 	public override void Update()
@@ -99,6 +104,8 @@ public class StateThree : State
 	public override void Enter()
 	{
 		Log.Print("StateThree state enter");
+		
+		SetPlayerPrefs.String("testString", "Good bye, World!");
 	}
 
 	public override void Update()
