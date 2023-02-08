@@ -17,35 +17,38 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 45a4bd35e21434a8388ea3f41fd33771, type: 3}
     audioPlayType: 1
     audioClipVolume: 1
-    audioClipInspectorData:
+    audioClipPan: 0
+    audioClipAdditionalData:
       length: 98.89959
       extension: .mp3
       importPath: Assets/Resources/Audios/kamp_ambient_day_loop.mp3
       channel: 2
       samplingFrequency: 44100
       sampleCount: 4361472
-      instanceId: 28968
+      instanceId: 24606
   - name: kamp_eff_apply_item
     audioClip: {fileID: 8300000, guid: c2d997d5146f64b67a1536b96b8f7734, type: 3}
     audioPlayType: 2
     audioClipVolume: 1
-    audioClipInspectorData:
+    audioClipPan: 0
+    audioClipAdditionalData:
       length: 3.1608164
       extension: .mp3
       importPath: Assets/Resources/Audios/kamp_eff_apply_item.mp3
       channel: 2
       samplingFrequency: 44100
       sampleCount: 139392
-      instanceId: 28974
+      instanceId: 24610
   - name: kamp_eff_portal_loop
     audioClip: {fileID: 8300000, guid: 780930626d7ad4d40952be70ff7fc338, type: 3}
     audioPlayType: 3
     audioClipVolume: 1
-    audioClipInspectorData:
+    audioClipPan: 0
+    audioClipAdditionalData:
       length: 12.303674
       extension: .mp3
       importPath: Assets/Resources/Audios/kamp_eff_portal_loop.mp3
       channel: 2
       samplingFrequency: 44100
       sampleCount: 542592
-      instanceId: 28978
+      instanceId: 24608
