@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Horang.HorangUnityLibrary.Foundation.Manager;
 using Horang.HorangUnityLibrary.Utilities;
+using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using UniRx;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 		internal Material originalMaterial;
 	}
 	
+	[InspectorHideScriptField]
 	public sealed class ObstacleTransparencyManager : MonoBaseManager
 	{
 		[Header("Default Settings")]
@@ -21,7 +23,7 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 		[SerializeField] private Transform toTarget;
 		[SerializeField] private LayerMask toTransparentLayerMask;
 
-		[Header("Material Settings")]
+		[Header("Shader Settings")]
 		[SerializeField] private Color transparentShaderColor = Color.white;
 		[SerializeField] private Color originalShaderColor = Color.white;
 		[SerializeField] private string shaderColorPropertyName = "_Color";
@@ -31,6 +33,7 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 
 		private RaycastHit[] obstacleHits;
 		private int shaderColorNameId;
+		private IDisposable updateSubscriber;
 
 		protected override void Awake()
 		{
@@ -41,16 +44,16 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 
 		private void Start()
 		{
-			Observable.EveryUpdate()
+			updateSubscriber = Observable.EveryUpdate()
 				.Subscribe(_ => { ObjectTransparentRevert(); })
 				.AddTo(gameObject);
 		}
 
 		private void ObjectTransparentRevert()
 		{
-			if (fromTarget is null || toTarget is null)
+			if (TransparencyValidation() is false)
 			{
-				Log.Print("Set \"fromTarget\" and \"toTarget\" in inspector.", LogPriority.Error);
+				updateSubscriber.Dispose();
 
 				return;
 			}
@@ -107,6 +110,35 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 				
 				transparentRenderers.Add(savedObstacleRenderers[instanceId]);
 			}
+		}
+
+		private bool TransparencyValidation()
+		{
+			// Transform check
+			if (fromTarget is null || !fromTarget || toTarget is null || !toTarget)
+			{
+				Log.Print("Set [From Target] and [To Target] in inspector.", LogPriority.Error);
+
+				return false;
+			}
+
+			// Material check
+			if (transparentMaterial is null || !transparentMaterial)
+			{
+				Log.Print("Set [Transparent Material] in inspector.", LogPriority.Error);
+
+				return false;
+			}
+
+			// Transparent layer warn check
+			if (toTransparentLayerMask.value.Equals(0))
+			{
+				Log.Print("If did not set transparent layer mask, it will be make transparent every detected game object by raycast.", LogPriority.Warning);
+
+				return true;
+			}
+
+			return true;
 		}
 	}
 }
