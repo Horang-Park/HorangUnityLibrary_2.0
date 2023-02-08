@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence
 {
-	public class ProceduralSequence
+	public readonly struct ProceduralSequence
 	{
-		private readonly Queue<(Func<bool> onInitialize, Func<bool> onExecute, Action onSuccess, Action onFailure, string name)> sequenceSegmentQueue = new();
-		
+		private readonly Queue<(Func<bool> onInitialize, Func<bool> onExecute, Action onSuccess, Action onFailure, string name)> sequenceSegmentQueue;
 		private readonly string sequencerName;
 		
 		public ProceduralSequence(string name)
 		{
 			sequencerName = name;
+			sequenceSegmentQueue = new Queue<(Func<bool> onInitialize, Func<bool> onExecute, Action onSuccess, Action onFailure, string name)>();
 		}
 
 		public void AddSequenceElement(SequenceSegment sequenceSegment)

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule
 {
 #pragma warning disable CS0162
-	public class ExternalApplicationLaunchModule : BaseModule
+	public sealed class ExternalApplicationLaunchModule : BaseModule
 	{
 		private AndroidJavaObject unityActivity;
 		private AndroidJavaObject androidPackageManager;

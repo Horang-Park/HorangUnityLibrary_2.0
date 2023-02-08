@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Modules.CameraModule
 {
-	public class CameraModule : BaseModule
+	public sealed class CameraModule : BaseModule
 	{
 		private readonly Dictionary<int, CameraData> cameras = new();
 

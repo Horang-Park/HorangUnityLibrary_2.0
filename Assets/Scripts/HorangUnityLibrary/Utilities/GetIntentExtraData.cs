@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Utilities
 {
 #pragma warning disable CS0162
-	public static class GetIntentExtraData
+	public struct GetIntentExtraData
 	{
 		private const string ExtraDataValidationKey = "hasExtra";
 		private const string ExtraDataGetKey = "getStringExtra";

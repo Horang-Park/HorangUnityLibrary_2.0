@@ -104,7 +104,7 @@ namespace Horang.HorangUnityLibrary.Managers.RemoteMethodInterface
 			foreach (var type in types)
 			{
 				var methodInfos = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
-					.Where(mi => mi.GetCustomAttribute<global::Horang.HorangUnityLibrary.Managers.RemoteMethodInterface.RMI>() is not null)
+					.Where(mi => mi.GetCustomAttribute<RMI>() is not null)
 					.ToList();
 
 				foreach (var mi in methodInfos)

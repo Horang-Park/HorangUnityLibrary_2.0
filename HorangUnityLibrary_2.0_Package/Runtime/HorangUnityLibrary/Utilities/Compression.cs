@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
-	public static class Compression
+	public struct Compression
 	{
 		/// <summary>
 		/// Compression the source path file.

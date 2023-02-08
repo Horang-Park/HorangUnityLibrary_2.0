@@ -3,8 +3,9 @@ using UnityEditor;
 
 namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 {
+#if UNITY_EDITOR
 	[CustomEditor(typeof(object), true)]
-	public class InspectorHideScriptFieldEditor : Editor
+	public sealed class InspectorHideScriptFieldEditor : Editor
 	{
 		private bool hideScriptField;
 
@@ -34,9 +35,10 @@ namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 			}
 		}
 	}
+#endif
 	
 	[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-	public class InspectorHideScriptField : Attribute
+	public sealed class InspectorHideScriptField : Attribute
 	{
 	}
 }

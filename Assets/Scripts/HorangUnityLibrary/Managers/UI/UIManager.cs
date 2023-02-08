@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Managers.UI
 {
-	public class UIManager : MonoBaseManager
+	public sealed class UIManager : MonoBaseManager
 	{
 		[System.Serializable]
 		public struct BaseUIData

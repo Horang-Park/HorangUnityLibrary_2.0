@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Modules.CameraModule
 {
 	[InspectorHideScriptField]
-	public class CameraData : MonoBehaviour
+	internal sealed class CameraData : MonoBehaviour
 	{
 		public Camera Camera { get; private set; }
 

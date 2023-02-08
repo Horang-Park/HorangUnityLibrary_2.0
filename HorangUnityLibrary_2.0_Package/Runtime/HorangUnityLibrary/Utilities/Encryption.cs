@@ -7,7 +7,7 @@ using Application = UnityEngine.Application;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
-	public static class Encryption
+	public struct Encryption
 	{
 		private static readonly string DeviceIdentifier = SystemInfo.deviceUniqueIdentifier.Replace("-", string.Empty);
 		private static readonly RijndaelManaged Rijndael = CreateRijndaelManaged();

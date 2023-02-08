@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.CustomAttribute;
 using UnityEditor;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
 	[Serializable]
-	public struct AudioDataType
+	internal struct AudioDataType
 	{
 		public enum AudioPlayType
 		{
@@ -56,11 +57,30 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		}
 	}
 	
-	[CreateAssetMenu(menuName = "Horang/Create Audio Database", fileName = "Audio Database", order = 1)]
 	[InspectorHideScriptField]
-	public class AudioData : ScriptableObject
+	internal sealed class AudioData : ScriptableObject
 	{
 		public List<AudioDataType> audioClipDatas = new();
+#if UNITY_EDITOR
+
+		[MenuItem("Horang/Module/Audio/Create Audio Database", false, 1)]
+		private static void CreateFile()
+		{
+			if (File.Exists(@"Assets/Resources/Audio Database.asset"))
+			{
+				Log.Print("The audio database asset is already exist.", LogPriority.Warning);
+
+				var currentAsset = AssetDatabase.LoadAssetAtPath<ScriptableObject>("Assets/Resources/Audio Database.asset");
+
+				PingAsset(currentAsset);
+			}
+
+			var instancedAsset = CreateInstance<AudioData>();
+			AssetDatabase.CreateAsset(instancedAsset, @"Assets/Resources/Audio Database.asset");
+			AssetDatabase.Refresh();
+
+			PingAsset(instancedAsset);
+		}
 
 		private void OnValidate()
 		{
@@ -107,5 +127,13 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 			aDT.audioClipAdditionalData = AudioClipAdditionalData.Reset();
 		}
+
+		private static void PingAsset(UnityEngine.Object obj)
+		{
+			EditorUtility.FocusProjectWindow();
+			Selection.activeObject = obj;
+			EditorGUIUtility.PingObject(obj);
+		}
+#endif
 	}
 }

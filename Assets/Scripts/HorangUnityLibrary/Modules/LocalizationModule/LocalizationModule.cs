@@ -12,7 +12,7 @@ using UnityEngine.Networking;
 
 namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 {
-	public class LocalizationModule : BaseModule
+	public sealed class LocalizationModule : BaseModule
 	{
 		private readonly Dictionary<SystemLanguage, Dictionary<int, string>> textTables = new();
 		private CancellationTokenSource delayWaiterCancellationTokenSource = new();
