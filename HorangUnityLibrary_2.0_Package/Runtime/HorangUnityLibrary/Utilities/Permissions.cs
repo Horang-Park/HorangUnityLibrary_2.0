@@ -5,7 +5,7 @@ using UnityEngine.Android;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
-	public static class Permissions
+	public struct Permissions
 	{
 		/// <summary>
 		/// Check this application has camera permission already.

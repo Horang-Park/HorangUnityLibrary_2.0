@@ -4,15 +4,15 @@ using Cysharp.Threading.Tasks;
 
 namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence.Async
 {
-	public class ProceduralSequenceAsync
+	public readonly struct ProceduralSequenceAsync
 	{
-		private readonly Queue<(Func<UniTask<bool>> onInitialize, Func<UniTask<bool>> onExecute, Func<UniTask> onSuccess, Func<UniTask> onFailure, string name)> sequenceSegmentQueue = new();
-		
+		private readonly Queue<(Func<UniTask<bool>> onInitialize, Func<UniTask<bool>> onExecute, Func<UniTask> onSuccess, Func<UniTask> onFailure, string name)> sequenceSegmentQueue;
 		private readonly string sequencerName;
 		
 		public ProceduralSequenceAsync(string name)
 		{
 			sequencerName = name;
+			sequenceSegmentQueue = new Queue<(Func<UniTask<bool>> onInitialize, Func<UniTask<bool>> onExecute, Func<UniTask> onSuccess, Func<UniTask> onFailure, string name)>();
 		}
 
 		public void AddSequenceElement(SequenceSegmentAsync sequenceSegment)

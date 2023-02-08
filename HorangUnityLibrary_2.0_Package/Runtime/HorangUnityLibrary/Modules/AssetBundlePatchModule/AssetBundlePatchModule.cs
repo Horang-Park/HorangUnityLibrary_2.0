@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 
 namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 {
-	public class AssetBundlePatchModule : BaseModule
+	public sealed class AssetBundlePatchModule : BaseModule
 	{
 		private CancellationTokenSource delayWaiterCancellationTokenSource = new();
 
