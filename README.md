@@ -40,6 +40,10 @@
    7. Log (Unity's top menu [Horang/Tools/Debug Mode/Log] can control show log or hide log.)
    8. Permissions (Support Android built application and iOS built application.)
    9. FiniteStateMachine (FSM)
+5. Unity menu
+   1. Horang/Tools/Debug Mode/Log: Enable or disable log. (Can save log file when log are disabled.)
+   2. Horang/Tools/Transform Randomize: Set random value on selected game object's position, rotation, scale.
+   3. Horang/Module/Audio/Create Audio Database: Make audio database for Audio Module. (Generate in Resources/)
 
 # Application build settings
 #### Android
