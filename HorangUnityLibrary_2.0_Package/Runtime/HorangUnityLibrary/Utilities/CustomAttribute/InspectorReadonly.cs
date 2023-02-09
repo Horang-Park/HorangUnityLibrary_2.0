@@ -17,8 +17,6 @@ namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 		{
 			GUI.enabled = false;
 
-			var valueString = string.Empty;
-
 			switch (property.propertyType)
 			{
 				case SerializedPropertyType.Integer:
@@ -30,8 +28,9 @@ namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 				case SerializedPropertyType.Float:
 					EditorGUI.LabelField(position, label.text, property.floatValue.ToString("F6"));
 					break;
-				case SerializedPropertyType.Generic:
 				case SerializedPropertyType.String:
+					EditorGUI.LabelField(position, label.text, property.stringValue);
+					break;
 				case SerializedPropertyType.Color:
 				case SerializedPropertyType.ObjectReference:
 				case SerializedPropertyType.LayerMask:
@@ -54,6 +53,7 @@ namespace Horang.HorangUnityLibrary.Utilities.CustomAttribute
 				case SerializedPropertyType.BoundsInt:
 				case SerializedPropertyType.ManagedReference:
 				case SerializedPropertyType.Hash128:
+				case SerializedPropertyType.Generic:
 				default:
 					EditorGUI.PropertyField(position, property, label, true);
 					break;

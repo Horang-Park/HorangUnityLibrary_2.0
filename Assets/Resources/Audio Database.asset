@@ -28,7 +28,7 @@ MonoBehaviour:
       instanceId: 24606
   - name: kamp_eff_apply_item
     audioClip: {fileID: 8300000, guid: c2d997d5146f64b67a1536b96b8f7734, type: 3}
-    audioPlayType: 2
+    audioPlayType: 0
     audioClipVolume: 1
     audioClipPan: 0
     audioClipAdditionalData:
@@ -52,3 +52,29 @@ MonoBehaviour:
       samplingFrequency: 44100
       sampleCount: 542592
       instanceId: 24608
+  - name: StarWars60
+    audioClip: {fileID: 8300000, guid: f1a9e78a11498428eb2b58f643aec21a, type: 3}
+    audioPlayType: 3
+    audioClipVolume: 1
+    audioClipPan: 0
+    audioClipAdditionalData:
+      length: 60
+      extension: .wav
+      importPath: Assets/Resources/Audios/StarWars60.wav
+      channel: 1
+      samplingFrequency: 22050
+      sampleCount: 1323000
+      instanceId: 29092
+  - name: file_example_OOG_5MG
+    audioClip: {fileID: 8300000, guid: ee1168e3002924db5898db0e9b5c4f5a, type: 3}
+    audioPlayType: 3
+    audioClipVolume: 1
+    audioClipPan: 0
+    audioClipAdditionalData:
+      length: 81.78415
+      extension: .ogg
+      importPath: Assets/Resources/Audios/file_example_OOG_5MG.ogg
+      channel: 2
+      samplingFrequency: 48000
+      sampleCount: 3925639
+      instanceId: 29096
