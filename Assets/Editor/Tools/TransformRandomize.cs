@@ -105,7 +105,7 @@ namespace Editor.Tools
 				
 				if (GUILayout.Button("Apply", GUILayout.Height(30.0f)))
 				{
-					foreach (var transform in selectedTransforms)
+					foreach (var transform in selectedTransforms!)
 					{
 						var x = lockXPosition is false ? transform.localPosition.x + Random.Range(-moveRange, moveRange) : transform.localPosition.x;
 						var y = lockYPosition is false ? transform.localPosition.y + Random.Range(-moveRange, moveRange) : transform.localPosition.y;
@@ -119,7 +119,7 @@ namespace Editor.Tools
 				
 				if (GUILayout.Button("Reset", GUILayout.Height(30.0f)))
 				{
-					foreach (var transform in selectedTransforms)
+					foreach (var transform in selectedTransforms!)
 					{
 						transform.localPosition = Vector3.zero;
 					}
@@ -152,7 +152,7 @@ namespace Editor.Tools
 				
 				if (GUILayout.Button("Apply", GUILayout.Height(30.0f)))
 				{
-					foreach (var transform in selectedTransforms)
+					foreach (var transform in selectedTransforms!)
 					{
 						var x = lockXAxis is false ? Random.Range(0.0f, 360.0f) : transform.localRotation.eulerAngles.x;
 						var y = lockYAxis is false ? Random.Range(0.0f, 360.0f) : transform.localRotation.eulerAngles.y;
@@ -166,7 +166,7 @@ namespace Editor.Tools
 				
 				if (GUILayout.Button("Reset", GUILayout.Height(30.0f)))
 				{
-					foreach (var transform in selectedTransforms)
+					foreach (var transform in selectedTransforms!)
 					{
 						transform.localRotation = Quaternion.identity;
 					}
@@ -209,7 +209,7 @@ namespace Editor.Tools
 				{
 					if (useEqualScale)
 					{
-						foreach (var transform in selectedTransforms)
+						foreach (var transform in selectedTransforms!)
 						{
 							var scale = Random.Range(minimumEqualScale, maximumEqualScale);
 
@@ -218,7 +218,7 @@ namespace Editor.Tools
 					}
 					else
 					{
-						foreach (var transform in selectedTransforms)
+						foreach (var transform in selectedTransforms!)
 						{
 							var x = Random.Range(minimumScale.x, maximumScale.x);
 							var y = Random.Range(minimumScale.y, maximumScale.y);
@@ -233,7 +233,7 @@ namespace Editor.Tools
 
 				if (GUILayout.Button("Reset", GUILayout.Height(30.0f)))
 				{
-					foreach (var transform in selectedTransforms)
+					foreach (var transform in selectedTransforms!)
 					{
 						transform.localScale = Vector3.one;
 					}
