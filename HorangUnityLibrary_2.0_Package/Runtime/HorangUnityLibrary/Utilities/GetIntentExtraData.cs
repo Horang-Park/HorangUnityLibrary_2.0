@@ -11,7 +11,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 		public static bool ExtraDataExistValidation(string key)
 		{
 #if !UNITY_ANDROID || UNITY_EDITOR
-			Log.Print("This module working only built Android application.", LogPriority.Error);
+			Log.Print("This utility working only built Android application.", LogPriority.Error);
 
 			return true;
 #endif
@@ -26,7 +26,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 		public static string GetStringData(string key)
 		{
 #if !UNITY_ANDROID || UNITY_EDITOR
-			Log.Print("This module working only built Android application.", LogPriority.Error);
+			Log.Print("This utility working only built Android application.", LogPriority.Error);
 
 			return string.Empty;
 #endif
