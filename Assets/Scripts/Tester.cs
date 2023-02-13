@@ -3,6 +3,7 @@ using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Networking;
 
 public class Tester : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class Tester : MonoBehaviour
 		keyboardActions = playerInput.actions["Keyboard action list"];
 		keyboardActions.performed += KeyPerformed;
 
-		var s = new StateOne().Create();
+		var s = new StateOne("StateOne");
 		sampleFsMachine = new FiniteStateMachine(s, "Sample Finite State Machine");
 	}
 
@@ -34,15 +35,15 @@ public class Tester : MonoBehaviour
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				s = new StateOne().Create();
+				s = new StateOne("StateOne");
 				sampleFsMachine.ChangeState(s);
 				break;
 			case "f2":
-				s = new StateTwo().Create();
+				s = new StateTwo("StateTwo");
 				sampleFsMachine.ChangeState(s);
 				break;
 			case "f3":
-				s = new StateThree().Create();
+				s = new StateThree("StateThree");
 				sampleFsMachine.ChangeState(s);
 				break;
 		}
@@ -50,18 +51,9 @@ public class Tester : MonoBehaviour
 }
 
 // FSM Samples
-public struct StateOne : IState
+public class StateOne : State
 {
-	public string Name { get; private set; }
-	
-	public IState Create()
-	{
-		Name = nameof(StateOne);
-	
-		return this;
-	}
-	
-	public void Enter()
+	public override void Enter()
 	{
 		Log.Print("StateOne state enter");
 	
@@ -69,31 +61,26 @@ public struct StateOne : IState
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "한국어", "이것은 테스트 텍스트입니다."));
 	}
 	
-	public void Update()
+	public override void Update()
 	{
 	}
 	
-	public void Exit()
+	public override void Exit()
 	{
 		Log.Print("StateOne state exit");
 	}
+
+	public StateOne(string name) : base(name)
+	{
+	}
 }
 
-public struct StateTwo : IState
+public class StateTwo : State
 {
 	private string data1;
 	private string data2;
-
-	public string Name { get; private set; }
-
-	public IState Create()
-	{
-		Name = nameof(StateTwo);
-
-		return this;
-	}
-
-	public void Enter()
+	
+	public override void Enter()
 	{
 		Log.Print("StateTwo state enter");
 		
@@ -106,41 +93,40 @@ public struct StateTwo : IState
 		data2 = await SaveAndLoad.Load(Application.persistentDataPath + "/MY DATA.txt", "한국어");
 	}
 
-	public void Update()
+	public override void Update()
 	{
 	}
 
-	public void Exit()
+	public override void Exit()
 	{
 		data1.ToLog();
 		data2.ToLog();
 		
 		Log.Print("StateTwo state exit");
 	}
+
+	public StateTwo(string name) : base(name)
+	{
+	}
 }
 
-public struct StateThree : IState
+public class StateThree : State
 {
-	public string Name { get; private set; }
-
-	public IState Create()
-	{
-		Name = nameof(StateThree);
-
-		return this;
-	}
-
-	public void Enter()
+	public override void Enter()
 	{
 		Log.Print("StateThree state enter");
 	}
 
-	public void Update()
+	public override void Update()
 	{
 	}
 
-	public void Exit()
+	public override void Exit()
 	{
 		Log.Print("StateThree state exit");
+	}
+
+	public StateThree(string name) : base(name)
+	{
 	}
 }

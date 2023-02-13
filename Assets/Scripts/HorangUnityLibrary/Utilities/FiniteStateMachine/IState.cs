@@ -1,8 +1,6 @@
-using Horang.HorangUnityLibrary.Foundation.Factory;
-
 namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
-	public interface IState : IFactory<IState>
+	public interface IState
 	{
 		public string Name { get; }
 
