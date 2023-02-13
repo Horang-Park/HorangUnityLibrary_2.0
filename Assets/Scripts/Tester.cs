@@ -24,7 +24,7 @@ public class Tester : MonoBehaviour
 		keyboardActions = playerInput.actions["Keyboard action list"];
 		keyboardActions.performed += KeyPerformed;
 
-		var s = new StateOne("StateOne");
+		var s = new StateOne();
 		sampleFsMachine = new FiniteStateMachine(s, "Sample Finite State Machine");
 	}
 
@@ -33,20 +33,20 @@ public class Tester : MonoBehaviour
 	{
 		Log.Print($"key performed: {callbackContext.control.name}");
 
-		State s;
+		IState s;
 
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				s = new StateOne("StateOne");
+				s = new StateOne();
 				sampleFsMachine.ChangeState(s);
 				break;
 			case "f2":
-				s = new StateTwo("StateTwo");
+				s = new StateTwo();
 				sampleFsMachine.ChangeState(s);
 				break;
 			case "f3":
-				s = new StateThree("StateThree");
+				s = new StateThree();
 				sampleFsMachine.ChangeState(s);
 				break;
 		}
@@ -54,9 +54,16 @@ public class Tester : MonoBehaviour
 }
 
 // FSM Samples
-public class StateOne : State
+public struct StateOne : IState
 {
-	public override void Enter()
+	public string Name { get; set; }
+
+	public void Initialize()
+	{
+		Name = nameof(StateOne);
+	}
+
+	public void Enter()
 	{
 		Log.Print("StateOne state enter");
 
@@ -64,26 +71,29 @@ public class StateOne : State
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "한국어", "이것은 테스트 텍스트입니다."));
 	}
 
-	public override void Update()
+	public void Update()
 	{
 	}
 
-	public override void Exit()
+	public void Exit()
 	{
 		Log.Print("StateOne state exit");
 	}
-
-	public StateOne(string name) : base(name)
-	{
-	}
 }
 
-public class StateTwo : State
+public struct StateTwo : IState
 {
 	private string data1;
 	private string data2;
-	
-	public override void Enter()
+
+	public string Name { get; set; }
+
+	public void Initialize()
+	{
+		Name = nameof(StateTwo);
+	}
+
+	public void Enter()
 	{
 		Log.Print("StateTwo state enter");
 		
@@ -96,40 +106,39 @@ public class StateTwo : State
 		data2 = await SaveAndLoad.Load(Application.persistentDataPath + "/MY DATA.txt", "한국어");
 	}
 
-	public override void Update()
+	public void Update()
 	{
 	}
 
-	public override void Exit()
+	public void Exit()
 	{
 		data1.ToLog();
 		data2.ToLog();
 		
 		Log.Print("StateTwo state exit");
 	}
-
-	public StateTwo(string name) : base(name)
-	{
-	}
 }
 
-public class StateThree : State
+public struct StateThree : IState
 {
-	public override void Enter()
+	public string Name { get; set; }
+
+	public void Initialize()
+	{
+		Name = nameof(StateThree);
+	}
+
+	public void Enter()
 	{
 		Log.Print("StateThree state enter");
 	}
 
-	public override void Update()
+	public void Update()
 	{
 	}
 
-	public override void Exit()
+	public void Exit()
 	{
 		Log.Print("StateThree state exit");
-	}
-
-	public StateThree(string name) : base(name)
-	{
 	}
 }

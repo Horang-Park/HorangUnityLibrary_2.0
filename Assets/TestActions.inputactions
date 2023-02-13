@@ -13,6 +13,24 @@
                     "processors": "",
                     "interactions": "Tap",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Mouse press action",
+                    "type": "Button",
+                    "id": "1ff5e4c4-b36c-4cab-94a2-85a55eaf814f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Mouse position action",
+                    "type": "Value",
+                    "id": "e8730130-cb17-49a1-91c6-c2baa04e194c",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -46,6 +64,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Keyboard action list",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a5ab15a-10b1-45e1-b53f-d17d185ee239",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse press action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9fabb9cc-a7f5-4247-a707-7b9d93d36e58",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse position action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

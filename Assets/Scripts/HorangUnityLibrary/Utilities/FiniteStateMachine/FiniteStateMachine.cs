@@ -5,11 +5,13 @@ namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
 	public struct FiniteStateMachine
 	{
-		private static State current;
+		private static IState current;
 		private static IDisposable updateRunner;
 
-		public FiniteStateMachine(State startState, string name)
+		public FiniteStateMachine(IState startState, string name)
 		{
+			startState.Initialize();
+			
 			current = startState;
 
 			Log.Print($"Start finite state machine named [{name}] with [{current.Name}] state.", LogPriority.Verbose);
@@ -24,8 +26,10 @@ namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 				});
 		}
 
-		public void ChangeState(State state)
+		public void ChangeState(IState state)
 		{
+			state.Initialize();
+			
 			if (state.Name.Equals(current.Name))
 			{
 				Log.Print("Requested state name is same with current state. Not going to change state.", LogPriority.Warning);
