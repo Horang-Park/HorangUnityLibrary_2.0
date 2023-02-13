@@ -30,21 +30,16 @@ public class Tester : MonoBehaviour
 	{
 		Log.Print($"key performed: {callbackContext.control.name}");
 
-		IState s;
-
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				s = new StateOne("StateOne");
-				sampleFsMachine.ChangeState(s);
+				sampleFsMachine.ChangeState(new StateOne("StateOne"));
 				break;
 			case "f2":
-				s = new StateTwo("StateTwo");
-				sampleFsMachine.ChangeState(s);
+				sampleFsMachine.ChangeState(new StateTwo("StateTwo"));
 				break;
 			case "f3":
-				s = new StateThree("StateThree");
-				sampleFsMachine.ChangeState(s);
+				sampleFsMachine.ChangeState(new StateThree("StateThree"));
 				break;
 		}
 	}
