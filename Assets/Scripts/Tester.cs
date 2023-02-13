@@ -1,10 +1,6 @@
-using System;
 using Cysharp.Threading.Tasks;
-using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
-using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
-using Horang.HorangUnityLibrary.Utilities.ProceduralSequence.Async;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,7 +20,7 @@ public class Tester : MonoBehaviour
 		keyboardActions = playerInput.actions["Keyboard action list"];
 		keyboardActions.performed += KeyPerformed;
 
-		var s = new StateOne();
+		var s = new StateOne().Create();
 		sampleFsMachine = new FiniteStateMachine(s, "Sample Finite State Machine");
 	}
 
@@ -38,15 +34,15 @@ public class Tester : MonoBehaviour
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				s = new StateOne();
+				s = new StateOne().Create();
 				sampleFsMachine.ChangeState(s);
 				break;
 			case "f2":
-				s = new StateTwo();
+				s = new StateTwo().Create();
 				sampleFsMachine.ChangeState(s);
 				break;
 			case "f3":
-				s = new StateThree();
+				s = new StateThree().Create();
 				sampleFsMachine.ChangeState(s);
 				break;
 		}
@@ -56,25 +52,27 @@ public class Tester : MonoBehaviour
 // FSM Samples
 public struct StateOne : IState
 {
-	public string Name { get; set; }
-
-	public void Initialize()
+	public string Name { get; private set; }
+	
+	public IState Create()
 	{
 		Name = nameof(StateOne);
+	
+		return this;
 	}
-
+	
 	public void Enter()
 	{
 		Log.Print("StateOne state enter");
-
+	
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "English", "This is test text.", WriteMode.New));
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "한국어", "이것은 테스트 텍스트입니다."));
 	}
-
+	
 	public void Update()
 	{
 	}
-
+	
 	public void Exit()
 	{
 		Log.Print("StateOne state exit");
@@ -86,11 +84,13 @@ public struct StateTwo : IState
 	private string data1;
 	private string data2;
 
-	public string Name { get; set; }
+	public string Name { get; private set; }
 
-	public void Initialize()
+	public IState Create()
 	{
 		Name = nameof(StateTwo);
+
+		return this;
 	}
 
 	public void Enter()
@@ -121,11 +121,13 @@ public struct StateTwo : IState
 
 public struct StateThree : IState
 {
-	public string Name { get; set; }
+	public string Name { get; private set; }
 
-	public void Initialize()
+	public IState Create()
 	{
 		Name = nameof(StateThree);
+
+		return this;
 	}
 
 	public void Enter()
