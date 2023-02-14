@@ -3,12 +3,12 @@ using UniRx;
 
 namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
-	public struct FiniteStateMachine
+	public struct FsmRunner
 	{
 		private static IState current;
 		private static IDisposable updateRunner;
 
-		public FiniteStateMachine(IState startState, string name)
+		public FsmRunner(IState startState, string name)
 		{
 			current = startState;
 

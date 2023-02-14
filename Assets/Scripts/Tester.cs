@@ -10,7 +10,7 @@ public class Tester : MonoBehaviour
 {
 	private PlayerInput playerInput;
 	private InputAction keyboardActions;
-	private FiniteStateMachine sampleFsMachine;
+	private FsmRunner sampleFsMachine;
 
 	public Image colorExpression;
 
@@ -25,7 +25,7 @@ public class Tester : MonoBehaviour
 		keyboardActions.performed += KeyPerformed;
 
 		var s = new StateOne("StateOne");
-		sampleFsMachine = new FiniteStateMachine(s, "Sample Finite State Machine");
+		sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
 
 		var htc = ColorExtension.HexToColor("8153F5");
 		colorExpression.color = htc;
