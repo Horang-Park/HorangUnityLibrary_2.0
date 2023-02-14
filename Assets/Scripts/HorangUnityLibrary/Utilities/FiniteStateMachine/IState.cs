@@ -1,6 +1,6 @@
 namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
-	public interface IState
+	internal interface IState
 	{
 		public string Name { get; }
 

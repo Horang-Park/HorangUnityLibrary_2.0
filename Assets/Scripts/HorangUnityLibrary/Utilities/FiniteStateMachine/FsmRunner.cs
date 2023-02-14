@@ -5,10 +5,10 @@ namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
 	public struct FsmRunner
 	{
-		private static IState current;
+		private static State current;
 		private static IDisposable updateRunner;
 
-		public FsmRunner(IState startState, string name)
+		public FsmRunner(State startState, string name)
 		{
 			current = startState;
 
@@ -24,7 +24,7 @@ namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 				});
 		}
 
-		public void ChangeState(IState state)
+		public static void ChangeState(State state)
 		{
 			if (state.Name.Equals(current.Name))
 			{

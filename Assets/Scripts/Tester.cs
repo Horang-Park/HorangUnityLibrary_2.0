@@ -39,13 +39,13 @@ public class Tester : MonoBehaviour
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				sampleFsMachine.ChangeState(new StateOne("StateOne"));
+				FsmRunner.ChangeState(new StateOne("StateOne"));
 				break;
 			case "f2":
-				sampleFsMachine.ChangeState(new StateTwo("StateTwo"));
+				FsmRunner.ChangeState(new StateTwo("StateTwo"));
 				break;
 			case "f3":
-				sampleFsMachine.ChangeState(new StateThree("StateThree"));
+				FsmRunner.ChangeState(new StateThree("StateThree"));
 				break;
 		}
 	}
