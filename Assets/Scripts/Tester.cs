@@ -1,15 +1,18 @@
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
+using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Tester : MonoBehaviour
 {
 	private PlayerInput playerInput;
 	private InputAction keyboardActions;
 	private FiniteStateMachine sampleFsMachine;
+
+	public Image colorExpression;
 
 	private void Awake()
 	{
@@ -23,6 +26,9 @@ public class Tester : MonoBehaviour
 
 		var s = new StateOne("StateOne");
 		sampleFsMachine = new FiniteStateMachine(s, "Sample Finite State Machine");
+
+		var htc = ColorExtension.HexToColor("8153F5");
+		colorExpression.color = htc;
 	}
 
 	// Similar as key down
