@@ -40,6 +40,15 @@
    7. Log (Unity's top menu [Horang/Tools/Debug Mode/Log] can control show log or hide log.)
    8. Permissions (Support Android built application and iOS built application.)
    9. FiniteStateMachine (FSM)
+   10. Unity extension
+       1. Color
+          1. RGBA 256 to Unity color
+          2. Unity color to RGBA 256
+          3. Web hex color to Unity color
+       2. Gizmo
+          1. Wire fan shape drawer
+   11. Not encrypt operation save and load
+       1. Saved file data structure is "key = value".
 5. Unity menu
    1. Horang/Tools/Debug Mode/Log: Enable or disable log. (Can save log file when log are disabled.)
    2. Horang/Tools/Transform Randomize: Set random value on selected game object's position, rotation, scale.
