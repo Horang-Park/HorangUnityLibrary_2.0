@@ -3,12 +3,12 @@ using UniRx;
 
 namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
-	public struct FiniteStateMachine
+	public struct FsmRunner
 	{
 		private static State current;
 		private static IDisposable updateRunner;
 
-		public FiniteStateMachine(State startState, string name)
+		public FsmRunner(State startState, string name)
 		{
 			current = startState;
 
@@ -24,6 +24,7 @@ namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 				});
 		}
 
+		// ReSharper disable once MemberCanBeMadeStatic.Global
 		public void ChangeState(State state)
 		{
 			if (state.Name.Equals(current.Name))

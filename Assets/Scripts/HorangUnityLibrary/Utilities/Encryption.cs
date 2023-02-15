@@ -1,9 +1,7 @@
 using System;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine.Device;
-using Application = UnityEngine.Application;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {

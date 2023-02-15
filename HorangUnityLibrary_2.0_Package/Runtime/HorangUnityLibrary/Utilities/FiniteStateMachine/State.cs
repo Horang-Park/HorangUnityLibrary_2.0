@@ -1,9 +1,10 @@
 namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 {
-	public abstract class State
+	public abstract class State : IState
 	{
 		public string Name { get; }
-
+		
+		private State() {}
 		protected State(string name)
 		{
 			Name = name;
