@@ -244,7 +244,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 		private void LoadData()
 		{
-			var audioDataScriptableObject = Resources.Load<AudioData>("Audios/Audio Database");
+			var audioDataScriptableObject = Resources.Load<AudioData>("Audio Database");
 
 			if (audioDataScriptableObject is null)
 			{
