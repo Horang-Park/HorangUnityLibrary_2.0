@@ -4,6 +4,14 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 {
 	public static class GizmoExtension
 	{
+		/// <summary>
+		/// Draw wired fan shape on XZ plane.
+		/// </summary>
+		/// <param name="origin">Shape start point</param>
+		/// <param name="direction">Shape drawing direction</param>
+		/// <param name="radius">Fan shape radius</param>
+		/// <param name="angleRange">Fan shape theta</param>
+		/// <param name="step">Step count</param>
 		public static void DrawWireFanShape(Vector3 origin, Vector3 direction, float radius, float angleRange, int step = 3)
 		{
 			radius = radius < 0.0f ? 0.0f : radius;
