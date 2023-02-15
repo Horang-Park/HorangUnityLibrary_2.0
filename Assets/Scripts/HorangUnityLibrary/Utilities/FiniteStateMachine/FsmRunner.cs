@@ -24,7 +24,8 @@ namespace Horang.HorangUnityLibrary.Utilities.FiniteStateMachine
 				});
 		}
 
-		public static void ChangeState(State state)
+		// ReSharper disable once MemberCanBeMadeStatic.Global
+		public void ChangeState(State state)
 		{
 			if (state.Name.Equals(current.Name))
 			{

@@ -27,7 +27,7 @@ public class Tester : MonoBehaviour
 		var s = new StateOne("StateOne");
 		sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
 
-		var htc = ColorExtension.HexToColor("8153F5");
+		var htc = ColorExtension.HexToColor("FF0000");
 		colorExpression.color = htc;
 	}
 
@@ -39,13 +39,13 @@ public class Tester : MonoBehaviour
 		switch (callbackContext.control.name)
 		{
 			case "f1":
-				FsmRunner.ChangeState(new StateOne("StateOne"));
+				sampleFsMachine.ChangeState(new StateOne("StateOne"));
 				break;
 			case "f2":
-				FsmRunner.ChangeState(new StateTwo("StateTwo"));
+				sampleFsMachine.ChangeState(new StateTwo("StateTwo"));
 				break;
 			case "f3":
-				FsmRunner.ChangeState(new StateThree("StateThree"));
+				sampleFsMachine.ChangeState(new StateThree("StateThree"));
 				break;
 		}
 	}

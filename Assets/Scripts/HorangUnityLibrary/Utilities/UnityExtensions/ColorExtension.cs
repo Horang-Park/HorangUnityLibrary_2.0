@@ -13,7 +13,7 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 	
 	public static class ColorExtension
 	{
-		private const int Defined255 = (2 << 8) - 1;
+		private const int Defined255 = (2 << 7) - 1;
 		private const float Inverse255 = 1.0f / Defined255; // 0~255
 		private const int RequireHexLength = 6;
 
