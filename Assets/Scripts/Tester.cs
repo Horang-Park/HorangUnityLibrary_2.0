@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
@@ -14,6 +15,10 @@ public class Tester : MonoBehaviour
 
 	public Image colorExpression;
 
+	public float radius;
+	public float angle;
+	public int step;
+
 	private void Awake()
 	{
 		playerInput = GetComponent(typeof(PlayerInput)) as PlayerInput;
@@ -29,6 +34,12 @@ public class Tester : MonoBehaviour
 
 		var htc = ColorExtension.HexToColor("FF0000");
 		colorExpression.color = htc;
+	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.green;
+		GizmoExtension.DrawWireFanShape(transform.position, transform.forward, radius, angle, step);
 	}
 
 	// Similar as key down
