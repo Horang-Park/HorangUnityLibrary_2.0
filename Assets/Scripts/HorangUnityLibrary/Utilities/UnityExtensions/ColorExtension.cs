@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
@@ -63,9 +64,10 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 				return Color.clear;
 			}
 
-			var rV = Convert.ToInt32(colorHex[..2], 16);
-			var gV = Convert.ToInt32(colorHex[2..4], 16);
-			var bV = Convert.ToInt32(colorHex[4..], 16);
+			var regex = new Regex(@"[a-fA-F0-9]");
+			var rV = regex.IsMatch(colorHex[..2]) ? Convert.ToInt32(colorHex[..2], 16) : 0;
+			var gV = regex.IsMatch(colorHex[2..4]) ? Convert.ToInt32(colorHex[2..4], 16) : 0;
+			var bV = regex.IsMatch(colorHex[4..]) ? Convert.ToInt32(colorHex[4..], 16) : 0;
 
 			return Rgba256ToColor(new ColorFormat256 { r = rV, g = gV, b = bV, a = 255 });
 		}
