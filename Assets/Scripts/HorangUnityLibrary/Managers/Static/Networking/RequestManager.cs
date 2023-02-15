@@ -61,7 +61,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 			onSuccess?.Invoke(unityWebRequest.downloadHandler.text);
 			
 			unityWebRequest.Dispose();
-			unityWebRequest = null;
 		}
 		
 		/// <summary>
