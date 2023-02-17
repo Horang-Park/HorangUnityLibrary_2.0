@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using Cysharp.Threading.Tasks;
+using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
@@ -52,7 +53,7 @@ public class Tester : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private async void Update()
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -60,20 +61,14 @@ public class Tester : MonoBehaviour
 			var g = Random.Range(0.0f, 1.0f);
 			var b = Random.Range(0.0f, 1.0f);
 			colorExpression.color = new Color(r, g, b, 1.0f);
-			
-			SaveScreenShot().ToObservable().Subscribe();
-		}
-	}
 
-	private IEnumerator SaveScreenShot()
-	{
-		yield return new WaitForEndOfFrame();
-		
-		var shots = ScreenCapture.CaptureScreenshotAsTexture();
-		NativeGallery.SaveImageToGallery(shots, "Screenshot", $"Screenshot_[{DateTime.Now.ToString("yyyyMMDD hhmmss")}].png", (success, path) =>
-		{ 
-			Log.Print($"success?: {success} / path: {path}");
-		});
+			var t = await Screenshot.ShotWholeScreenAsync();
+			
+			NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
+			{ 
+				Log.Print($"success?: {success} / path: {path}");
+			});
+		}
 	}
 
 	private void OnDrawGizmos()
