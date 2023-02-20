@@ -169,9 +169,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorExpression: {fileID: 256224267}
-  radius: 0.1
+  radius: 0.98
   angle: 90
-  step: 3
+  step: 14
   pathText: {fileID: 2105830419}
 --- !u!114 &53261578
 MonoBehaviour:

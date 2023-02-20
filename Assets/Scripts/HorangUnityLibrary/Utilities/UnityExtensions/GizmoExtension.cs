@@ -1,5 +1,7 @@
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 {
@@ -57,6 +59,7 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 		/// <param name="radius">Circle radius</param>
 		public static void DrawWireCircle(Color gizmoColor, Vector3 origin, float radius)
 		{
+#if UNITY_EDITOR
 			radius = radius < 0.0f ? 0.0f : radius;
 			
 			var defaultColor = Handles.color;
@@ -65,6 +68,7 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 			Handles.DrawWireDisc(origin, Vector3.up, radius);
 
 			Handles.color = defaultColor;
+#endif
 		}
 		
 		private static float GetAnglesFromDirection(Vector3 p, Vector3 d)
