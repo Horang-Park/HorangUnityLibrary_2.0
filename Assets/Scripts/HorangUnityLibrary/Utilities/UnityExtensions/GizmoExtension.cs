@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
@@ -7,13 +8,17 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 		/// <summary>
 		/// Draw wired fan shape on XZ plane.
 		/// </summary>
+		/// <param name="gizmoColor">Color of gizmo</param>
 		/// <param name="origin">Shape start point</param>
 		/// <param name="direction">Shape drawing direction</param>
 		/// <param name="radius">Fan shape radius</param>
 		/// <param name="angleRange">Fan shape theta</param>
 		/// <param name="step">Step count</param>
-		public static void DrawWireFanShape(Vector3 origin, Vector3 direction, float radius, float angleRange, int step = 3)
+		public static void DrawWireFanShape(Color gizmoColor, Vector3 origin, Vector3 direction, float radius, float angleRange, int step = 3)
 		{
+			var defaultColor = Gizmos.color;
+			Gizmos.color = gizmoColor;
+			
 			radius = radius < 0.0f ? 0.0f : radius;
 			angleRange = Mathf.Clamp(angleRange, 1.0f, 360.0f);
 			
@@ -40,6 +45,26 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 			
 			// Close fan shape line to origin
 			Gizmos.DrawLine(startPosition, origin);
+
+			Gizmos.color = defaultColor;
+		}
+
+		/// <summary>
+		/// Draw wired circle.
+		/// </summary>
+		/// <param name="gizmoColor">Color of gizmo</param>
+		/// <param name="origin">Shape start point</param>
+		/// <param name="radius">Circle radius</param>
+		public static void DrawWireCircle(Color gizmoColor, Vector3 origin, float radius)
+		{
+			radius = radius < 0.0f ? 0.0f : radius;
+			
+			var defaultColor = Handles.color;
+
+			Handles.color = gizmoColor;
+			Handles.DrawWireDisc(origin, Vector3.up, radius);
+
+			Handles.color = defaultColor;
 		}
 		
 		private static float GetAnglesFromDirection(Vector3 p, Vector3 d)

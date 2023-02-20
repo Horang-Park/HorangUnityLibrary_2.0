@@ -8,6 +8,7 @@ using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
 using Plugins.Android;
 using UniRx;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
@@ -65,7 +66,7 @@ public class Tester : MonoBehaviour
 			var t = await Screenshot.ShotWholeScreenAsync();
 			
 			NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
-			{ 
+			{	
 				Log.Print($"success?: {success} / path: {path}");
 			});
 		}
@@ -73,8 +74,8 @@ public class Tester : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		Gizmos.color = Color.green;
-		GizmoExtension.DrawWireFanShape(transform.position, transform.forward, radius, angle, step);
+		GizmoExtension.DrawWireFanShape(Color.green, transform.position, transform.forward, radius, angle, step);
+		GizmoExtension.DrawWireCircle(Color.blue, transform.position, radius * 1.2f);
 	}
 
 	// Similar as key down
