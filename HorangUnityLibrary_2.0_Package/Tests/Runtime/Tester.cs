@@ -1,11 +1,19 @@
 using System;
+using System.Collections;
+using System.IO;
 using Cysharp.Threading.Tasks;
+using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
+using Plugins.Android;
+using UniRx;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Tester : MonoBehaviour
 {
@@ -18,6 +26,8 @@ public class Tester : MonoBehaviour
 	public float radius;
 	public float angle;
 	public int step;
+
+	public Text pathText;
 
 	private void Awake()
 	{
@@ -34,12 +44,38 @@ public class Tester : MonoBehaviour
 
 		var htc = ColorExtension.HexToColor("FF0000");
 		colorExpression.color = htc;
+		
+		// req permission
+		if (Permission.HasUserAuthorizedPermission(Permission.ExternalStorageRead) is false ||
+		    Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite) is false)
+		{
+			Permission.RequestUserPermission(Permission.ExternalStorageRead);
+			Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+		}
+	}
+
+	private async void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			var r = Random.Range(0.0f, 1.0f);
+			var g = Random.Range(0.0f, 1.0f);
+			var b = Random.Range(0.0f, 1.0f);
+			colorExpression.color = new Color(r, g, b, 1.0f);
+
+			var t = await Screenshot.ShotWholeScreenAsync();
+			
+			NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
+			{	
+				Log.Print($"success?: {success} / path: {path}");
+			});
+		}
 	}
 
 	private void OnDrawGizmos()
 	{
-		Gizmos.color = Color.green;
-		GizmoExtension.DrawWireFanShape(transform.position, transform.forward, radius, angle, step);
+		GizmoExtension.DrawWireFanShape(Color.green, transform.position, transform.forward, radius, angle, step);
+		GizmoExtension.DrawWireCircle(Color.blue, transform.position, radius * 1.2f);
 	}
 
 	// Similar as key down
