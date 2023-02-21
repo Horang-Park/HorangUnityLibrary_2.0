@@ -1,6 +1,6 @@
 {
     "name": "com.horangpark.horangunitylibrary",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "displayName": "HorangUnityLibrary",
     "description": "More comfortable to use Unity.",
     "unity": "2022.2",
