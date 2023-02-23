@@ -22,6 +22,12 @@ namespace Horang.HorangUnityLibrary.Utilities
 	/// </summary>
 	public static class Log
 	{
+		private static int maxHistoryCapacity = 50;
+		public static int MaxHistoryCapacity
+		{
+			set => maxHistoryCapacity = value;
+		}
+		
 		private static readonly string[] LoggerPriorityColorPrefix =
 		{
 			"<color=#2d75eb>",
@@ -31,7 +37,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 			"<color=#f725a3>"
 		};
 		private static readonly char[] PathSeparator = { '\\', '/' };
-		private static readonly List<string> LogHistory = new();
+		private static readonly Queue<string> LogHistory = new (maxHistoryCapacity);
 
 		private const string LoggerPriorityColorPostfix = "</color>";
 		private const string FontSizePrefix = "<size=13>";
@@ -52,8 +58,13 @@ namespace Horang.HorangUnityLibrary.Utilities
 		public static void Print(string message, LogPriority logPriority = LogPriority.Debug)
 		{
 			var builtLog = LogBuilder(message, logPriority, 2);
+
+			if (LogHistory.Count >= maxHistoryCapacity)
+			{
+				LogHistory.Dequeue();
+			}
 			
-			LogHistory.Add(builtLog);
+			LogHistory.Enqueue(builtLog);
 
 #if SHOW_LOG
 			// ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
@@ -84,7 +95,12 @@ namespace Horang.HorangUnityLibrary.Utilities
 		{
 			var builtLog = LogBuilder(message, logPriority, 2);
 			
-			LogHistory.Add(builtLog);
+			if (LogHistory.Count >= maxHistoryCapacity)
+			{
+				LogHistory.Dequeue();
+			}
+			
+			LogHistory.Enqueue(builtLog);
 
 #if SHOW_LOG
 			// ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
