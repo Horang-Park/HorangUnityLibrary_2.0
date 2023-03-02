@@ -72,6 +72,16 @@ public class Tester : MonoBehaviour
 		}
 	}
 
+	private void OnApplicationQuit()
+	{
+		UniTask.Void(SaveLogAsync);
+	}
+
+	private async UniTaskVoid SaveLogAsync()
+	{
+		await Log.ExportLogHistory(Application.persistentDataPath);
+	}
+
 	private void OnDrawGizmos()
 	{
 		GizmoExtension.DrawWireFanShape(Color.green, transform.position, transform.forward, radius, angle, step);
