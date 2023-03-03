@@ -7,7 +7,6 @@ namespace Horang.HorangUnityLibrary.Utilities
 {
 	public struct Encryption
 	{
-		private static readonly string DeviceIdentifier = SystemInfo.deviceUniqueIdentifier.Replace("-", string.Empty);
 		private static readonly RijndaelManaged Rijndael = CreateRijndaelManaged();
 
 		/// <summary>
@@ -91,15 +90,24 @@ namespace Horang.HorangUnityLibrary.Utilities
 		private static RijndaelManaged CreateRijndaelManaged()
 		{
 			var result = new RijndaelManaged();
-			var keyArray = Encoding.UTF8.GetBytes(DeviceIdentifier);
-			
-			var newKeysArray = new byte[32];
-			Array.Copy(keyArray, 0, newKeysArray, 0, 32);
-			
-			result.Key = newKeysArray;
 			result.Mode = CipherMode.CBC;
 			result.Padding = PaddingMode.PKCS7;
+			result.KeySize = 128;
+			result.BlockSize = 128;
 			
+			var pwdBytes = Encoding.UTF8.GetBytes(SystemInfo.deviceUniqueIdentifier);
+			var keyBytes = new byte[16];
+			var len = pwdBytes.Length;
+			
+			if (len > keyBytes.Length)
+			{
+				len = keyBytes.Length;
+			}
+			
+			Array.Copy(pwdBytes, keyBytes, len);
+			result.Key = keyBytes;
+			result.IV = keyBytes;
+
 			return result;
 		}
 	}

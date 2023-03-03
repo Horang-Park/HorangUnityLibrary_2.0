@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
+using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
 using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
 using Plugins.Android;
 using UniRx;
@@ -32,10 +33,14 @@ public class Tester : MonoBehaviour
 	private void Awake()
 	{
 		playerInput = GetComponent(typeof(PlayerInput)) as PlayerInput;
+		
+		Log.Print($"{GetPlayerPrefs.String("test")}");
 	}
 
 	private void Start()
 	{
+		SetPlayerPrefs.String("test", "HELLO");
+		
 		keyboardActions = playerInput.actions["Keyboard action list"];
 		keyboardActions.performed += KeyPerformed;
 
