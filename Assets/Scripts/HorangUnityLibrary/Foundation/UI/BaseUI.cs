@@ -27,9 +27,9 @@ namespace Horang.HorangUnityLibrary.Foundation.UI
 				return;
 			}
 			
-			gameObject.SetActive(false);
-			
 			OnHideInitialize();
+			
+			gameObject.SetActive(false);
 		}
 
 		private void Awake()
