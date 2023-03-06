@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Foundation.UI
@@ -28,6 +29,20 @@ namespace Horang.HorangUnityLibrary.Foundation.UI
 			}
 			
 			OnHideInitialize();
+			
+			gameObject.SetActive(false);
+		}
+
+		public async void Hide(int delayMilliseconds)
+		{
+			if (gameObject.activeSelf is false)
+			{
+				return;
+			}
+			
+			OnHideInitialize();
+
+			await UniTask.Delay(delayMilliseconds);
 			
 			gameObject.SetActive(false);
 		}

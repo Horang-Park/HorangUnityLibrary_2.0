@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Foundation.Manager;
 using Horang.HorangUnityLibrary.Foundation.UI;
 using Horang.HorangUnityLibrary.Utilities;
@@ -52,6 +53,22 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 			}
 
 			var result = baseUiUseHistory.Pop();
+			
+			result.Hide();
+		}
+
+		public async void PutBaseUi(int delayMilliseconds)
+		{
+			if (baseUiUseHistory.Count < 1)
+			{
+				Log.Print("There is no turn off UIs", LogPriority.Error);
+				
+				return;
+			}
+
+			var result = baseUiUseHistory.Pop();
+
+			await UniTask.Delay(delayMilliseconds);
 			
 			result.Hide();
 		}
