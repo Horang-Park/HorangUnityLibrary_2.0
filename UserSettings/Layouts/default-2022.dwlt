@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2056
     height: 1257
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Game
   m_RootView: {fileID: 9}
   m_MinSize: {x: 875, y: 321}
   m_MaxSize: {x: 10000, y: 10000}
@@ -348,7 +348,8 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders: []
+    m_Folders:
+    - Assets/Scripts
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -363,7 +364,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 4a590000
     m_LastClickedID: 22858
-    m_ExpandedIDs: 00000000225600002456000026560000285600002a5600002c5600002e5600003056000032560000
+    m_ExpandedIDs: 000000002e56000030560000325600003456000036560000385600003a5600003c5600003e560000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -391,7 +392,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000225600002456000026560000285600002a5600002c5600002e5600003056000032560000
+    m_ExpandedIDs: ffffffff000000002e560000305600003256000034560000385600003a5600003e560000ac560000b8560000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -531,7 +532,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 0e160000
       m_LastClickedID: 0
       m_ExpandedIDs: 24fbffff
       m_RenameOverlay:
@@ -1006,7 +1007,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1216, y: 806}
+  m_TargetSize: {x: 2432, y: 1612}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1021,10 +1022,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -304
-    m_HBaseRangeMax: 304
-    m_VBaseRangeMin: -201.5
-    m_VBaseRangeMax: 201.5
+    m_HBaseRangeMin: -608
+    m_HBaseRangeMax: 608
+    m_VBaseRangeMin: -403
+    m_VBaseRangeMax: 403
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1044,7 +1045,7 @@ MonoBehaviour:
       y: 21
       width: 1216
       height: 806
-    m_Scale: {x: 2, y: 2}
+    m_Scale: {x: 1, y: 1}
     m_Translation: {x: 608, y: 403}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -1052,12 +1053,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -304
-      y: -201.5
-      width: 608
-      height: 403
+      x: -608
+      y: -403
+      width: 1216
+      height: 806
     m_MinimalGUI: 1
-  m_defaultScale: 2
+  m_defaultScale: 1
   m_LastWindowPixelSize: {x: 2432, y: 1654}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
