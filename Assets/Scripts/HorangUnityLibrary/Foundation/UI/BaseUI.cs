@@ -33,7 +33,7 @@ namespace Horang.HorangUnityLibrary.Foundation.UI
 			gameObject.SetActive(false);
 		}
 
-		public async void Hide(int delayMilliseconds)
+		public async UniTaskVoid Hide(int delayMilliseconds)
 		{
 			if (gameObject.activeSelf is false)
 			{

@@ -57,7 +57,7 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 			result.Hide();
 		}
 
-		public async void PutBaseUi(int delayMilliseconds)
+		public void PutBaseUi(int delayMilliseconds)
 		{
 			if (baseUiUseHistory.Count < 1)
 			{
@@ -67,10 +67,8 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 			}
 
 			var result = baseUiUseHistory.Pop();
-
-			await UniTask.Delay(delayMilliseconds);
 			
-			result.Hide();
+			UniTask.Void(() => result.Hide(delayMilliseconds));
 		}
 
 		protected override void Awake()
