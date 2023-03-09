@@ -15,6 +15,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		
 		private readonly Dictionary<int, AudioDataType> audioDatas = new();
 		private readonly Dictionary<int, AudioSource> audioSources = new();
+		private readonly Dictionary<AudioDataType.AudioPlayType, List<AudioSource>> audioSourcesByCategory = new();
 		private readonly Dictionary<int, IDisposable> audioSourceTimeSubscribers = new();
 
 		private const string ParentGameObjectName = "Audio Sources";
@@ -242,6 +243,26 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			audioSourceTimeSubscribers.Clear();
 		}
 
+		public void MuteByCategory(AudioDataType.AudioPlayType audioPlayType)
+		{
+			var items = audioSourcesByCategory[audioPlayType];
+
+			foreach (var item in items)
+			{
+				item.mute = true;
+			}
+		}
+
+		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
+		{
+			var items = audioSourcesByCategory[audioPlayType];
+
+			foreach (var item in items)
+			{
+				item.mute = false;
+			}
+		}
+
 		private void LoadData()
 		{
 			var audioDataScriptableObject = Resources.Load<AudioData>("Audio Database");
@@ -275,8 +296,19 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			go.hideFlags = HideFlags.NotEditable;
 			
 			var co = go.AddComponent(typeof(AudioSource)) as AudioSource;
+			var d = audioDatas[key];
 				
 			audioSources.Add(key, co);
+
+			if (audioSourcesByCategory.ContainsKey(d.audioPlayType))
+			{
+				audioSourcesByCategory[d.audioPlayType].Add(co);
+			}
+			else
+			{
+				audioSourcesByCategory.Add(d.audioPlayType, new List<AudioSource>());
+				audioSourcesByCategory[d.audioPlayType].Add(co);
+			}
 
 			return audioSources[key];
 		}
