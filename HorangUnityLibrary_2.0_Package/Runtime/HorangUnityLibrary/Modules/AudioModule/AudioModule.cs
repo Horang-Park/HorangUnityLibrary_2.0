@@ -277,6 +277,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			foreach (var audioData in audioDataScriptableObject.audioClipDatas)
 			{
 				audioDatas.Add(audioData.name.GetHashCode(), audioData);
+				audioSourcesByCategory.Add(audioData.audioPlayType, new List<AudioSource>());
 			}
 		}
 
@@ -296,19 +297,10 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			go.hideFlags = HideFlags.NotEditable;
 			
 			var co = go.AddComponent(typeof(AudioSource)) as AudioSource;
-			var d = audioDatas[key];
+			var ad = audioDatas[key];
 				
 			audioSources.Add(key, co);
-
-			if (audioSourcesByCategory.ContainsKey(d.audioPlayType))
-			{
-				audioSourcesByCategory[d.audioPlayType].Add(co);
-			}
-			else
-			{
-				audioSourcesByCategory.Add(d.audioPlayType, new List<AudioSource>());
-				audioSourcesByCategory[d.audioPlayType].Add(co);
-			}
+			audioSourcesByCategory[ad.audioPlayType].Add(co);
 
 			return audioSources[key];
 		}
