@@ -1,9 +1,9 @@
 {
     "name": "com.horangpark.horangunitylibrary",
-    "version": "2.0.10",
+    "version": "2.0.11",
     "displayName": "HorangUnityLibrary",
     "description": "More comfortable to use Unity.",
-    "unity": "2022.2",
+    "unity": "2022.3",
     "dependencies": {
       "com.cysharp.unitask": "2.3.3",
       "com.neuecc.unirx": "7.1.0",

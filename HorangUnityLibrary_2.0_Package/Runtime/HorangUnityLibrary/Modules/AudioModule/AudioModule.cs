@@ -53,7 +53,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			base.InitializeOnce();
 
 			parent = new GameObject(ParentGameObjectName).transform;
-			parent.gameObject.hideFlags = HideFlags.NotEditable | HideFlags.HideInInspector;
+			parent.gameObject.hideFlags = HideFlags.NotEditable;
 
 			LoadData();
 		}
@@ -92,22 +92,25 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			var audioData = audioDatas[key];
 			var audioSource = GetOrCreateInstance(name);
 			
-			if (ValidateAudioPlayTimeSubscriber(key))
+			if (onPlayTime is not null)
 			{
-				audioSourceTimeSubscribers[key]?.Dispose();
-				audioSourceTimeSubscribers[key] = Observable.EveryUpdate()
-					.Select(_ => audioSource.time)
-					.DistinctUntilChanged()
-					.Subscribe(onPlayTime)
-					.AddTo(audioSource.gameObject);
-			}
-			else
-			{
-				audioSourceTimeSubscribers.Add(key, Observable.EveryUpdate()
-					.Select(_ => audioSource.time)
-					.DistinctUntilChanged()
-					.Subscribe(onPlayTime)
-					.AddTo(audioSource.gameObject));
+				if (ValidateAudioPlayTimeSubscriber(key))
+				{
+					audioSourceTimeSubscribers[key]?.Dispose();
+					audioSourceTimeSubscribers[key] = Observable.EveryUpdate()
+						.Select(_ => audioSource.time)
+						.DistinctUntilChanged()
+						.Subscribe(onPlayTime)
+						.AddTo(audioSource.gameObject);
+				}
+				else
+				{
+					audioSourceTimeSubscribers.Add(key, Observable.EveryUpdate()
+						.Select(_ => audioSource.time)
+						.DistinctUntilChanged()
+						.Subscribe(onPlayTime)
+						.AddTo(audioSource.gameObject));
+				}
 			}
 			
 			audioSource.Stop();
@@ -277,7 +280,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			foreach (var audioData in audioDataScriptableObject.audioClipDatas)
 			{
 				audioDatas.Add(audioData.name.GetHashCode(), audioData);
-				audioSourcesByCategory.Add(audioData.audioPlayType, new List<AudioSource>());
+
+				if (audioSourcesByCategory.ContainsKey(audioData.audioPlayType) is false)
+				{
+					audioSourcesByCategory.Add(audioData.audioPlayType, new List<AudioSource>());
+				}
 			}
 		}
 
