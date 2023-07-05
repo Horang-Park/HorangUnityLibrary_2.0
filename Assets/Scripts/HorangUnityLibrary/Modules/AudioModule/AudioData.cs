@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Horang.HorangUnityLibrary.Modules.AudioModule
 {
 	[Serializable]
-	internal struct AudioDataType
+	public struct AudioDataType
 	{
 		public enum AudioPlayType
 		{

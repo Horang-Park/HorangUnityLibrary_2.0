@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.IO;
 using Cysharp.Threading.Tasks;
+using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
+using Horang.HorangUnityLibrary.Modules.AudioModule;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
@@ -35,6 +37,9 @@ public class Tester : MonoBehaviour
 		playerInput = GetComponent(typeof(PlayerInput)) as PlayerInput;
 		
 		Log.Print($"{GetPlayerPrefs.String("test")}");
+		
+		ModuleManager.Instance.RegisterModule(new AudioModule(ModuleManager.Instance));
+		ModuleManager.Instance.GetModule<AudioModule>().ActiveModule();
 	}
 
 	private void Start()
@@ -102,6 +107,8 @@ public class Tester : MonoBehaviour
 		{
 			case "f1":
 				sampleFsMachine.ChangeState(new StateOne("StateOne"));
+				
+				ModuleManager.Instance.GetModule<AudioModule>()!.Play("file_example_OOG_5MG");
 				break;
 			case "f2":
 				sampleFsMachine.ChangeState(new StateTwo("StateTwo"));

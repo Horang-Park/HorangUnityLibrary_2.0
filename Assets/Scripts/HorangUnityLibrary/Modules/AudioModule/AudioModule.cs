@@ -15,6 +15,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		
 		private readonly Dictionary<int, AudioDataType> audioDatas = new();
 		private readonly Dictionary<int, AudioSource> audioSources = new();
+		private readonly Dictionary<AudioDataType.AudioPlayType, List<AudioSource>> audioSourcesByCategory = new();
 		private readonly Dictionary<int, IDisposable> audioSourceTimeSubscribers = new();
 
 		private const string ParentGameObjectName = "Audio Sources";
@@ -52,7 +53,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			base.InitializeOnce();
 
 			parent = new GameObject(ParentGameObjectName).transform;
-			parent.gameObject.hideFlags = HideFlags.NotEditable | HideFlags.HideInInspector;
+			parent.gameObject.hideFlags = HideFlags.NotEditable;
 
 			LoadData();
 		}
@@ -91,22 +92,25 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			var audioData = audioDatas[key];
 			var audioSource = GetOrCreateInstance(name);
 			
-			if (ValidateAudioPlayTimeSubscriber(key))
+			if (onPlayTime is not null)
 			{
-				audioSourceTimeSubscribers[key]?.Dispose();
-				audioSourceTimeSubscribers[key] = Observable.EveryUpdate()
-					.Select(_ => audioSource.time)
-					.DistinctUntilChanged()
-					.Subscribe(onPlayTime)
-					.AddTo(audioSource.gameObject);
-			}
-			else
-			{
-				audioSourceTimeSubscribers.Add(key, Observable.EveryUpdate()
-					.Select(_ => audioSource.time)
-					.DistinctUntilChanged()
-					.Subscribe(onPlayTime)
-					.AddTo(audioSource.gameObject));
+				if (ValidateAudioPlayTimeSubscriber(key))
+				{
+					audioSourceTimeSubscribers[key]?.Dispose();
+					audioSourceTimeSubscribers[key] = Observable.EveryUpdate()
+						.Select(_ => audioSource.time)
+						.DistinctUntilChanged()
+						.Subscribe(onPlayTime)
+						.AddTo(audioSource.gameObject);
+				}
+				else
+				{
+					audioSourceTimeSubscribers.Add(key, Observable.EveryUpdate()
+						.Select(_ => audioSource.time)
+						.DistinctUntilChanged()
+						.Subscribe(onPlayTime)
+						.AddTo(audioSource.gameObject));
+				}
 			}
 			
 			audioSource.Stop();
@@ -242,6 +246,50 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			audioSourceTimeSubscribers.Clear();
 		}
 
+		public void MuteByCategory(AudioDataType.AudioPlayType audioPlayType)
+		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+
+			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
+			{
+				Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
+
+				return;
+			}
+			
+			var items = audioSourcesByCategory[audioPlayType];
+
+			foreach (var item in items)
+			{
+				item.mute = true;
+			}
+		}
+
+		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
+		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
+			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
+			{
+				Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
+
+				return;
+			}
+			
+			var items = audioSourcesByCategory[audioPlayType];
+
+			foreach (var item in items)
+			{
+				item.mute = false;
+			}
+		}
+
 		private void LoadData()
 		{
 			var audioDataScriptableObject = Resources.Load<AudioData>("Audio Database");
@@ -256,6 +304,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			foreach (var audioData in audioDataScriptableObject.audioClipDatas)
 			{
 				audioDatas.Add(audioData.name.GetHashCode(), audioData);
+
+				if (audioSourcesByCategory.ContainsKey(audioData.audioPlayType) is false)
+				{
+					audioSourcesByCategory.Add(audioData.audioPlayType, new List<AudioSource>());
+				}
 			}
 		}
 
@@ -275,8 +328,10 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			go.hideFlags = HideFlags.NotEditable;
 			
 			var co = go.AddComponent(typeof(AudioSource)) as AudioSource;
+			var ad = audioDatas[key];
 				
 			audioSources.Add(key, co);
+			audioSourcesByCategory[ad.audioPlayType].Add(co);
 
 			return audioSources[key];
 		}
