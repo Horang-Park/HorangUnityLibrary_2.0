@@ -248,6 +248,18 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 		public void MuteByCategory(AudioDataType.AudioPlayType audioPlayType)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+
+			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
+			{
+				Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
+
+				return;
+			}
+			
 			var items = audioSourcesByCategory[audioPlayType];
 
 			foreach (var item in items)
@@ -258,6 +270,18 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
 		{
+			if (isThisModuleActivated is false)
+			{
+				return;
+			}
+			
+			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
+			{
+				Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
+
+				return;
+			}
+			
 			var items = audioSourcesByCategory[audioPlayType];
 
 			foreach (var item in items)
