@@ -16,6 +16,12 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 	{
 		private readonly Dictionary<SystemLanguage, Dictionary<int, string>> textTables = new();
 		private CancellationTokenSource delayWaiterCancellationTokenSource = new();
+		private SystemLanguage fixedLanguage;
+
+		public SystemLanguage SetFixedLanguage
+		{
+			set => fixedLanguage = value;
+		}
 		
 		public LocalizationModule(ModuleManager moduleManager) : base(moduleManager)
 		{
@@ -190,7 +196,7 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <param name="key">To get localization target name</param>
 		/// <param name="language">To get language</param>
 		/// <returns>If can find key in localization table, It return its value. otherwise, string.Empty</returns>
-		public string Get(string key, SystemLanguage language)
+		public string Get(string key)
 		{
 			if (isThisModuleActivated is false)
 			{
@@ -199,21 +205,19 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 			
 			var hashKey = key.GetHashCode();
 
-			if (textTables.ContainsKey(language))
+			if (textTables.TryGetValue(fixedLanguage, out var table))
 			{
-				var table = textTables[language];
-
-				if (table.ContainsKey(hashKey))
+				if (table.TryGetValue(hashKey, out var value))
 				{
-					return table[hashKey];
+					return value;
 				}
 				
-				Log.Print($"There is no key [{key}] in [{language}] localization table.", LogPriority.Error);
+				Log.Print($"There is no key [{key}] in [{fixedLanguage}] localization table.", LogPriority.Error);
 
 				return string.Empty;
 			}
 			
-			Log.Print($"There is no [{language}] language's localization table.", LogPriority.Error);
+			Log.Print($"There is no [{fixedLanguage}] language's localization table.", LogPriority.Error);
 
 			return string.Empty;
 		}
