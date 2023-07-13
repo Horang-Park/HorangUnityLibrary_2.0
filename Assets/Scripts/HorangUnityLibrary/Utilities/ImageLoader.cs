@@ -80,7 +80,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 			}
 			catch (UnityWebRequestException e)
 			{
-				Log.Print($"Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}");
+				Log.Print($"Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}", LogPriority.Warning);
 			}
 
 			if (sizeRequester is not null)
