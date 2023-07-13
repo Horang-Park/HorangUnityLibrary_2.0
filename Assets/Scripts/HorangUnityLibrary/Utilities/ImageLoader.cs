@@ -71,12 +71,29 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// <returns>Async load sprite with UniTask</returns>
 		public static async UniTask<Sprite> LoadFromRemote(string uri)
 		{
+			UnityWebRequest sizeRequester = null;
 			var imageRequester = UnityWebRequestTexture.GetTexture(uri);
-			var sizeRequester = await UnityWebRequest.Head(uri).SendWebRequest();
 
-			Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}, Size: {(float.Parse(sizeRequester.GetResponseHeader("Content-Length")) / 1024):0,0} KB", LogPriority.Verbose);
+			try
+			{
+				sizeRequester = await UnityWebRequest.Head(uri).SendWebRequest();
+			}
+			catch (UnityWebRequestException e)
+			{
+				Log.Print($"Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}");
+			}
+
+			if (sizeRequester is not null)
+			{
+				Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}, Size: {(float.Parse(sizeRequester.GetResponseHeader("Content-Length")) / 1024):0,0} KB", LogPriority.Verbose);
 			
-			sizeRequester.Dispose();
+				sizeRequester.Dispose();
+			}
+			else
+			{
+				Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}", LogPriority.Verbose);
+			}
+			
 			
 			try
 			{
