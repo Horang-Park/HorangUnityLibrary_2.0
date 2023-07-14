@@ -11,18 +11,18 @@ namespace Horang.HorangUnityLibrary.Utilities
 {
 	public struct ImageLoader
 	{
-		private static readonly string[] SupportImageFileExtension = { @".png", @".jpg", @".jpeg", @".tga" };
+		private static readonly string[] supportImageFileExtension = { @".png", @".jpg", @".jpeg", @".tga" };
 
-		private delegate UniTask<Sprite> TaskDelegate(string path);
+		private delegate UniTask<Sprite> TaskDelegate(string path, CancellationToken cancellationToken);
 		private static TaskDelegate loadManyDelegate;
-		private static readonly CancellationTokenSource Cts = new();
 
 		/// <summary>
 		/// Load sprite from local storage.
 		/// </summary>
 		/// <param name="path">To load path</param>
+		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprite with UniTask</returns>
-		public static async UniTask<Sprite> LoadFromLocal(string path)
+		public static async UniTask<Sprite> LoadFromLocal(string path, CancellationToken cancellationToken = default)
 		{
 			var extension = Path.GetExtension(path);
 
@@ -42,7 +42,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 
 			var textureFileStream = new FileStream(path, FileMode.Open);
 			var textureByteBuffer = new byte[textureFileStream.Length];
-			var loadBytes = await textureFileStream.ReadAsync(textureByteBuffer, 0, (int)textureFileStream.Length);
+			var loadBytes = await textureFileStream.ReadAsync(textureByteBuffer, 0, (int)textureFileStream.Length, cancellationToken);
 			
 			Log.Print($"Load complete: {path}, Load bytes: {loadBytes}", LogPriority.Verbose);
 			
@@ -56,31 +56,33 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// Load many sprites from local storage.
 		/// </summary>
 		/// <param name="paths">To load paths enumerable</param>
+		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprites array with UniTask</returns>
-		public static async UniTask<Sprite[]> LoadManyFromLocal(IEnumerable<string> paths)
+		public static async UniTask<Sprite[]> LoadManyFromLocal(IEnumerable<string> paths, CancellationToken cancellationToken = default)
 		{
 			loadManyDelegate = LoadFromLocal;
 
-			return await UniTask.WhenAll(CreateImageLoadTasks(paths, loadManyDelegate));
+			return await UniTask.WhenAll(CreateImageLoadTasks(paths, loadManyDelegate, cancellationToken)).AttachExternalCancellation(cancellationToken);
 		}
 
 		/// <summary>
 		/// Load sprite from remote server.
 		/// </summary>
 		/// <param name="uri">To load path from remote server</param>
+		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprite with UniTask</returns>
-		public static async UniTask<Sprite> LoadFromRemote(string uri)
+		public static async UniTask<Sprite> LoadFromRemote(string uri, CancellationToken cancellationToken = default)
 		{
 			UnityWebRequest sizeRequester = null;
 			var imageRequester = UnityWebRequestTexture.GetTexture(uri);
 
 			try
 			{
-				sizeRequester = await UnityWebRequest.Head(uri).SendWebRequest();
+				sizeRequester = await UnityWebRequest.Head(uri).SendWebRequest().WithCancellation(cancellationToken);
 			}
 			catch (UnityWebRequestException e)
 			{
-				Log.Print($"Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}", LogPriority.Warning);
+				Log.Print($"Image size get failed. Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}", LogPriority.Warning);
 			}
 
 			if (sizeRequester is not null)
@@ -93,18 +95,16 @@ namespace Horang.HorangUnityLibrary.Utilities
 			{
 				Log.Print($"Load start. URI: {imageRequester.uri.AbsoluteUri}", LogPriority.Verbose);
 			}
-			
-			
+
 			try
 			{
-				imageRequester = await imageRequester.SendWebRequest().ToUniTask(cancellationToken: Cts.Token).Timeout(TimeSpan.MaxValue);
+				imageRequester = await imageRequester.SendWebRequest().ToUniTask(cancellationToken: cancellationToken).Timeout(TimeSpan.MaxValue);
 			}
 			catch (UnityWebRequestException e)
 			{
 				Log.Print($"Load failed. Response Code: {e.ResponseCode}, Message: {e.Message}, URI: {e.UnityWebRequest.uri}\nDownload handler error: {e.UnityWebRequest.downloadHandler.error}", LogPriority.Error);
 
 				imageRequester.Dispose();
-				Cts.Cancel(true);
 
 				throw;
 			}
@@ -113,7 +113,6 @@ namespace Horang.HorangUnityLibrary.Utilities
 				Log.Print($"Load failed. HR: {e.HResult}, Message: {e.Message}", LogPriority.Exception);
 				
 				imageRequester.Dispose();
-				Cts.Cancel(true);
 
 				throw;
 			}
@@ -131,19 +130,18 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// Load many sprites from remote server.
 		/// </summary>
 		/// <param name="uris">To load paths enumerable</param>
+		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprites array with UniTask</returns>
-		public static async UniTask<Sprite[]> LoadManyFromRemote(IEnumerable<string> uris)
+		public static async UniTask<Sprite[]> LoadManyFromRemote(IEnumerable<string> uris, CancellationToken cancellationToken = default)
 		{
 			loadManyDelegate = LoadFromRemote;
 
 			try
 			{
-				return await UniTask.WhenAll(CreateImageLoadTasks(uris, loadManyDelegate));
+				return await UniTask.WhenAll(CreateImageLoadTasks(uris, loadManyDelegate, cancellationToken)).AttachExternalCancellation(cancellationToken);
 			}
 			catch (Exception)
 			{
-				Cts.Cancel(true);
-				
 				throw new OperationCanceledException();
 			}
 		}
@@ -152,10 +150,11 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// Load sprite from Unity internal resources folder.
 		/// </summary>
 		/// <param name="path">To load path from resources folder. beware not to add extension</param>
-		/// <returns>Async laod sprite with UniTask</returns>
-		public static async UniTask<Sprite> LoadFromResourcesFolder(string path)
+		/// <param name="cancellationToken">To cancellation</param>
+		/// <returns>Async load sprite with UniTask</returns>
+		public static async UniTask<Sprite> LoadFromResourcesFolder(string path, CancellationToken cancellationToken)
 		{
-			if (await Resources.LoadAsync<Sprite>(path) is Sprite resourcesSprite)
+			if (await Resources.LoadAsync<Sprite>(path).WithCancellation(cancellationToken) is Sprite resourcesSprite)
 			{
 				Log.Print($"Load complete: {path}");
 				
@@ -171,12 +170,13 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// Load sprites from Unity internal resources folder.
 		/// </summary>
 		/// <param name="paths">To load paths enumerable</param>
+		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprites array with UniTask</returns>
-		public static async UniTask<Sprite[]> LoadManyFromResourcesFolder(IEnumerable<string> paths)
+		public static async UniTask<Sprite[]> LoadManyFromResourcesFolder(IEnumerable<string> paths, CancellationToken cancellationToken)
 		{
 			loadManyDelegate = LoadFromResourcesFolder;
 			
-			return await UniTask.WhenAll(CreateImageLoadTasks(paths, loadManyDelegate));
+			return await UniTask.WhenAll(CreateImageLoadTasks(paths, loadManyDelegate, cancellationToken));
 		}
 
 		private static bool ValidationImageFileExtension(string e)
@@ -186,7 +186,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 				return false;
 			}
 
-			return SupportImageFileExtension.Contains(e);
+			return supportImageFileExtension.Contains(e);
 		}
 
 		private static FileInfo ValidationFileExist(string p)
@@ -213,9 +213,9 @@ namespace Horang.HorangUnityLibrary.Utilities
 			return Sprite.Create(texture, rect, Vector2.one * 0.5f);
 		}
 
-		private static IEnumerable<UniTask<Sprite>> CreateImageLoadTasks(IEnumerable<string> p, TaskDelegate td)
+		private static IEnumerable<UniTask<Sprite>> CreateImageLoadTasks(IEnumerable<string> p, TaskDelegate td, CancellationToken ct)
 		{
-			return Enumerable.Select(p, td.Invoke);
+			return Enumerable.Select(p, u => td.Invoke(u, ct));
 		}
 	}
 }
