@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Horang.HorangUnityLibrary.Utilities
+namespace Horang.HorangUnityLibrary.Utilities.Loaders
 {
 	public struct ImageLoader
 	{
@@ -152,7 +152,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// <param name="path">To load path from resources folder. beware not to add extension</param>
 		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprite with UniTask</returns>
-		public static async UniTask<Sprite> LoadFromResourcesFolder(string path, CancellationToken cancellationToken)
+		public static async UniTask<Sprite> LoadFromResourcesFolder(string path, CancellationToken cancellationToken = default)
 		{
 			if (await Resources.LoadAsync<Sprite>(path).WithCancellation(cancellationToken) is Sprite resourcesSprite)
 			{
@@ -172,7 +172,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// <param name="paths">To load paths enumerable</param>
 		/// <param name="cancellationToken">To cancellation</param>
 		/// <returns>Async load sprites array with UniTask</returns>
-		public static async UniTask<Sprite[]> LoadManyFromResourcesFolder(IEnumerable<string> paths, CancellationToken cancellationToken)
+		public static async UniTask<Sprite[]> LoadManyFromResourcesFolder(IEnumerable<string> paths, CancellationToken cancellationToken = default)
 		{
 			loadManyDelegate = LoadFromResourcesFolder;
 			
