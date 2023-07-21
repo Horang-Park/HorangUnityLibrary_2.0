@@ -9,7 +9,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 	public static class RequestManager
 	{
 		private static CancellationTokenSource delayWaiterCancellationTokenSource = new();
-		private static CancellationTokenSource webRequestCancellationTokenSource = new();
 
 		/// <summary>
 		/// Send web request to remote.
@@ -33,7 +32,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 			try
 			{
 				unityWebRequest = await unityWebRequest.SendWebRequest()
-					.ToUniTask(progress: Progress.CreateOnlyValueChanged(onProgress), cancellationToken: webRequestCancellationTokenSource.Token)
+					.ToUniTask(progress: Progress.CreateOnlyValueChanged(onProgress))
 					.Timeout(TimeSpan.FromMilliseconds(timeout));
 			}
 			catch (UnityWebRequestException e)
@@ -82,7 +81,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 			try
 			{
 				unityWebRequest = await unityWebRequest.SendWebRequest()
-					.ToUniTask(progress: Progress.CreateOnlyValueChanged(onProgress), cancellationToken: webRequestCancellationTokenSource.Token)
+					.ToUniTask(progress: Progress.CreateOnlyValueChanged(onProgress))
 					.Timeout(TimeSpan.FromMilliseconds(timeout));
 			}
 			catch (UnityWebRequestException e)
@@ -118,8 +117,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 				delayWaiterCancellationTokenSource.Token);
 			
 			oD?.Invoke();
-
-			CancelWebRequest();
 		}
 
 		private static void CancelDelayTask()
@@ -127,13 +124,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 			delayWaiterCancellationTokenSource.Cancel();
 			delayWaiterCancellationTokenSource.Dispose();
 			delayWaiterCancellationTokenSource = new CancellationTokenSource();
-		}
-
-		private static void CancelWebRequest()
-		{
-			webRequestCancellationTokenSource.Cancel();
-			webRequestCancellationTokenSource.Dispose();
-			webRequestCancellationTokenSource = new CancellationTokenSource();
 		}
 	}
 }
