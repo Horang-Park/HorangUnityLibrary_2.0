@@ -40,7 +40,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 				return null;
 			}
 
-			var textureFileStream = new FileStream(path, FileMode.Open);
+			var textureFileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
 			var textureByteBuffer = new byte[textureFileStream.Length];
 			var loadBytes = await textureFileStream.ReadAsync(textureByteBuffer, 0, (int)textureFileStream.Length, cancellationToken);
 			
