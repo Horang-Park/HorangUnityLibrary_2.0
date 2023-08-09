@@ -47,7 +47,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 				return null;
 			}
 
-			var audioFileStream = new FileStream(path, FileMode.Open);
+			var audioFileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
 			var audioByteBuffer = new byte[audioFileStream.Length];
 			var loadBytes = await audioFileStream.ReadAsync(audioByteBuffer, 0, (int)audioFileStream.Length, cancellationToken);
 			
