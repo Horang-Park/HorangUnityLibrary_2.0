@@ -22,6 +22,7 @@ public class Tester : MonoBehaviour
 {
 	private PlayerInput playerInput;
 	private InputAction keyboardActions;
+	private InputAction mouseActions;
 	private FsmRunner sampleFsMachine;
 
 	public Image colorExpression;
@@ -49,6 +50,9 @@ public class Tester : MonoBehaviour
 		keyboardActions = playerInput.actions["Keyboard action list"];
 		keyboardActions.performed += KeyPerformed;
 
+		mouseActions = playerInput.actions["Mouse press action"];
+		mouseActions.performed += MousePerformed;
+
 		var s = new StateOne("StateOne");
 		sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
 
@@ -66,20 +70,22 @@ public class Tester : MonoBehaviour
 
 	private async void Update()
 	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			var r = Random.Range(0.0f, 1.0f);
-			var g = Random.Range(0.0f, 1.0f);
-			var b = Random.Range(0.0f, 1.0f);
-			colorExpression.color = new Color(r, g, b, 1.0f);
+		// if (Input.GetMouseButtonDown(0))
+		// {
+		// 	var r = Random.Range(0.0f, 1.0f);
+		// 	var g = Random.Range(0.0f, 1.0f);
+		// 	var b = Random.Range(0.0f, 1.0f);
+		// 	colorExpression.color = new Color(r, g, b, 1.0f);
+		//
+		// 	var t = await Screenshot.ShotWholeScreenAsync();
+		// 	
+		// 	NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
+		// 	{	
+		// 		Log.Print($"success?: {success} / path: {path}");
+		// 	});
+		// }
 
-			var t = await Screenshot.ShotWholeScreenAsync();
-			
-			NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
-			{	
-				Log.Print($"success?: {success} / path: {path}");
-			});
-		}
+		transform.Translate(Vector3.down * Time.deltaTime * 10.0f);
 	}
 
 	private void OnApplicationQuit()
@@ -117,6 +123,11 @@ public class Tester : MonoBehaviour
 				sampleFsMachine.ChangeState(new StateThree("StateThree"));
 				break;
 		}
+	}
+
+	private void MousePerformed(InputAction.CallbackContext callbackContext)
+	{
+		Log.Print($"mouse performed: {callbackContext.control.name} / {callbackContext.phase}");
 	}
 }
 
