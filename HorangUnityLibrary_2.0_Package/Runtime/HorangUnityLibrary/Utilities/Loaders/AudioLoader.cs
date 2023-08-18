@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 		{
 			Mpeg = 13,
 			Ogg = 14,
-			Wav = 20,
+			Wav = 20
 		}
 		
 		private static readonly string[] supportAudioFileExtension = { @".mp3", @".ogg", @".wav" };
@@ -24,60 +23,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 		private static TaskDelegate loadManyDelegate;
 
 		/// <summary>
-		/// Load sprite from local storage.
-		/// </summary>
-		/// <param name="path">To load path</param>
-		/// <param name="sampleRate">Audio file sampling rate</param>
-		/// <param name="isStream">Is this audio file can streaming</param>
-		/// <param name="cancellationToken">To cancellation</param>
-		/// <returns>Async load sprite with UniTask</returns>
-		public static async UniTask<AudioClip> LoadFromLocal(string path, int sampleRate = 44100, bool isStream = false, CancellationToken cancellationToken = default)
-		{
-			var extension = Path.GetExtension(path);
-
-			if (ValidationAudioFileExtension(extension) is false)
-			{
-				Log.Print($"To load audio path({path}) is missing file extension or not audio file extension.\nSupport file extension is [mp3, ogg, wav].", LogPriority.Error);
-
-				return null;
-			}
-
-			var fileInfo = ValidationFileExist(path);
-
-			if (fileInfo is null)
-			{
-				return null;
-			}
-
-			var audioFileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-			var audioByteBuffer = new byte[audioFileStream.Length];
-			var loadBytes = await audioFileStream.ReadAsync(audioByteBuffer, 0, (int)audioFileStream.Length, cancellationToken);
-			
-			Log.Print($"Load complete: {path}, Load bytes: {loadBytes}", LogPriority.Verbose);
-			
-			audioFileStream.Close();
-			await audioFileStream.DisposeAsync();
-
-			return ConvertByteAudioToAudioClip(audioByteBuffer, sampleRate, isStream);
-		}
-
-		/// <summary>
-		/// Load many sprites from local storage.
-		/// </summary>
-		/// <param name="paths">To load paths enumerable</param>
-		/// <param name="sampleRate">Audio file sampling rate</param>
-		/// <param name="isStream">Is this audio file can streaming</param>
-		/// <param name="cancellationToken">To cancellation</param>
-		/// <returns>Async load sprites array with UniTask</returns>
-		public static async UniTask<AudioClip[]> LoadManyFromLocal(IEnumerable<string> paths, int sampleRate = 44100, bool isStream = false, CancellationToken cancellationToken = default)
-		{
-			loadManyDelegate = (path, token) => LoadFromLocal(path, sampleRate, isStream, token);
-
-			return await UniTask.WhenAll(CreateAudioLoadTasks(paths, loadManyDelegate, cancellationToken)).AttachExternalCancellation(cancellationToken);
-		}
-
-		/// <summary>
-		/// Load sprite from remote server.
+		/// Load sprite from remote server or local path.
 		/// </summary>
 		/// <param name="uri">To load path from remote server</param>
 		/// <param name="supportAudioType">To load audio type</param>
@@ -94,7 +40,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 			}
 			catch (UnityWebRequestException e)
 			{
-				Log.Print($"Image size get failed. Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}", LogPriority.Warning);
+				Log.Print($"Audio size get failed. Not allowed method. Response Code: {e.ResponseCode} / Error: {e.Error} / Message: {e.Message}", LogPriority.Warning);
 			}
 
 			if (sizeRequester is not null)
@@ -140,7 +86,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 		}
 
 		/// <summary>
-		/// Load many sprites from remote server.
+		/// Load many sprites from remote server or local path.
 		/// </summary>
 		/// <param name="uris">To load paths enumerable</param>
 		/// <param name="supportAudioType">To load audio type</param>
@@ -175,7 +121,7 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 				return resourcesAudioClips;
 			}
 			
-			Log.Print($"The image in path({path}) is not exist.", LogPriority.Error);
+			Log.Print($"The audio in path({path}) is not exist.", LogPriority.Error);
 
 			return null;
 		}
@@ -193,54 +139,9 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 			return await UniTask.WhenAll(CreateAudioLoadTasks(paths, loadManyDelegate, cancellationToken));
 		}
 
-		private static bool ValidationAudioFileExtension(string e)
-		{
-			if (string.IsNullOrEmpty(e) || string.IsNullOrWhiteSpace(e))
-			{
-				return false;
-			}
-
-			return supportAudioFileExtension.Contains(e);
-		}
-
-		private static FileInfo ValidationFileExist(string p)
-		{
-			var fileInfo = new FileInfo(p);
-
-			if (fileInfo.Exists)
-			{
-				return fileInfo;
-			}
-			
-			Log.Print($"To load file does not exist in path({p}).", LogPriority.Error);
-
-			return null;
-		}
-
 		private static IEnumerable<UniTask<AudioClip>> CreateAudioLoadTasks(IEnumerable<string> p, TaskDelegate td, CancellationToken ct)
 		{
 			return Enumerable.Select(p, u => td.Invoke(u, ct));
 		}
-		
-		private static AudioClip ConvertByteAudioToAudioClip(byte[] array, int sampleRate, bool isStream) 
-		{
-			var floatArr = new float[array.Length / 4];
-			
-			for (var i = 0; i < floatArr.Length; i++) 
-			{
-				if (BitConverter.IsLittleEndian)
-				{
-					Array.Reverse(array, i * 4, 4);
-				}
-				
-				floatArr[i] = BitConverter.ToSingle(array, i * 4) / 0x80000000;
-			}
-
-			var audioClip = AudioClip.Create(string.Empty, floatArr.Length, 1, sampleRate, isStream);
-			audioClip.SetData(floatArr, 0);
-
-			return audioClip;
-		} 
-		
 	}
 }
