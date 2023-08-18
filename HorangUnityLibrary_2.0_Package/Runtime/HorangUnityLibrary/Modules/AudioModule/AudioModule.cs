@@ -327,6 +327,8 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			go.transform.SetParent(parent);
 			go.hideFlags = HideFlags.NotEditable;
 			
+			Object.DontDestroyOnLoad(go);
+			
 			var co = go.AddComponent(typeof(AudioSource)) as AudioSource;
 			var ad = audioDatas[key];
 				
