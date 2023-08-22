@@ -268,7 +268,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 				item.mute = true;
 			}
 			
-			muteStatus.Add(audioPlayType, true);
+			muteStatus.TryAdd(audioPlayType, true);
 		}
 
 		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
