@@ -17,6 +17,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		private readonly Dictionary<int, AudioSource> audioSources = new();
 		private readonly Dictionary<AudioDataType.AudioPlayType, List<AudioSource>> audioSourcesByCategory = new();
 		private readonly Dictionary<int, IDisposable> audioSourceTimeSubscribers = new();
+		private readonly Dictionary<AudioDataType.AudioPlayType, bool> muteStatus = new();
 
 		private const string ParentGameObjectName = "Audio Sources";
 
@@ -266,6 +267,8 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			{
 				item.mute = true;
 			}
+			
+			muteStatus.Add(audioPlayType, true);
 		}
 
 		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
@@ -288,6 +291,8 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			{
 				item.mute = false;
 			}
+
+			muteStatus.Remove(audioPlayType);
 		}
 
 		private void LoadData()
@@ -334,6 +339,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 				
 			audioSources.Add(key, co);
 			audioSourcesByCategory[ad.audioPlayType].Add(co);
+
+			if (muteStatus.ContainsKey(ad.audioPlayType))
+			{
+				co!.mute = true;
+			}
 
 			return audioSources[key];
 		}
