@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.IO;
 using Cysharp.Threading.Tasks;
+using Horang.HorangUnityLibrary.Foundation.Manager;
 using Horang.HorangUnityLibrary.Managers.Module;
-using Horang.HorangUnityLibrary.Managers.RemoteMethodInterface;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
+using Horang.HorangUnityLibrary.Modules.LocalizationModule;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
@@ -39,8 +40,7 @@ public class Tester : MonoBehaviour
 		
 		Log.Print($"{GetPlayerPrefs.String("test")}");
 		
-		ModuleManager.Instance.RegisterModule(new AudioModule(ModuleManager.Instance));
-		ModuleManager.Instance.GetModule<AudioModule>().ActiveModule();
+		ModuleManager.Instance.RegisterModule(new AudioModule());
 	}
 
 	private void Start()
@@ -68,7 +68,7 @@ public class Tester : MonoBehaviour
 		}
 	}
 
-	private async void Update()
+	private void Update()
 	{
 		// if (Input.GetMouseButtonDown(0))
 		// {

@@ -62,7 +62,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 	{
 		public List<AudioDataType> audioClipDatas = new();
 #if UNITY_EDITOR
-
 		[MenuItem("Horang/Module/Audio/Create Audio Database", false, 1)]
 		private static void CreateFile()
 		{

@@ -18,10 +18,6 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 		public int registeredModuleCount;
 		[InspectorReadonly]
 		public List<string> registeredModules = new();
-		[InspectorReadonly]
-		public int activatedModuleCount;
-		[InspectorReadonly]
-		public List<string> activatedModules = new();
 
 		private readonly Dictionary<Type, BaseModule> modules = new();
 
@@ -35,14 +31,12 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 
 			if (ValidateModuleExist(key))
 			{
-				Log.Print($"[{key}] module already registered.", LogPriority.Error);
+				Log.Print($"[{key}] module already registered.", LogPriority.Warning);
 
 				return;
 			}
 
 			modules.Add(key, baseModule);
-
-			baseModule.isRegistered = true;
 			
 			UpdateInspector();
 		}
@@ -61,16 +55,7 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 			}
 
 			var targetModule = modules[type];
-
-			if (targetModule.isModuleCanBeUnregister is false)
-			{
-				Log.Print($"[{ToString()}] module cannot unregister by module setting.", LogPriority.Warning);
-				
-				return;
-			}
 			
-			targetModule.InactiveModule();
-			targetModule.isRegistered = false;
 			targetModule.Dispose();
 			
 			modules.Remove(type);
@@ -86,16 +71,11 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 		/// <typeparam name="T">Type that inheritance BaseModule</typeparam>
 		/// <returns>Specific module or null</returns>
 		[CanBeNull]
-		public T GetModule<T>(bool useFromRmi = false) where T : BaseModule
+		public T GetModule<T>() where T : BaseModule
 		{
 			if (ValidateModuleExist(typeof(T)))
 			{
 				return modules[typeof(T)] as T;
-			}
-
-			if (useFromRmi)
-			{
-				return null;
 			}
 			
 			Log.Print($"Cannot find [{typeof(T)}] module.", LogPriority.Error);

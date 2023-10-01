@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Horang.HorangUnityLibrary.Foundation.Module;
-using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Utilities;
 
 namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
@@ -10,45 +9,12 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 	{
 		private readonly Dictionary<int, StopwatchElement> stopwatches = new();
 
-		public StopwatchModule(ModuleManager moduleManager) : base(moduleManager)
-		{
-		}
-
-		public override bool ActiveModule()
-		{
-			if (base.ActiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are activated", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override bool InactiveModule()
-		{
-			if (base.InactiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are inactivated", LogPriority.Verbose);
-
-			return true;
-		}
-
 		/// <summary>
 		/// Start stopwatch. If parameter named stopwatch is not exist, it will make new one.
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
 		public void Start(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 			StopwatchElement stopwatchElement;
 
@@ -88,11 +54,6 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// <returns>If stopwatch is invalid, it will return null. otherwise elapsed time into millisecond</returns>
 		public long? Stop(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return null;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateStopwatch(key) is false)
@@ -120,11 +81,6 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// <param name="name">Name of stopwatch</param>
 		public void Pause(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateStopwatch(key) is false)
@@ -159,11 +115,6 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// <param name="name">Name of stopwatch</param>
 		public void Resume(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateStopwatch(key) is false)
@@ -192,11 +143,6 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// <returns>If stopwatch is invalid, it will return null. otherwise first start datetime</returns>
 		public DateTime? StopwatchStartDateTime(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return null;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateStopwatch(key) is false)
@@ -216,11 +162,6 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// <returns>If stopwatch is invalid, it will return null. otherwise datetime</returns>
 		public DateTime? StopwatchLastStopDateTime(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return null;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateStopwatch(key) is false)
@@ -240,11 +181,6 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// <returns>If stopwatch is invalid, it will return null. otherwise last elapsed time into millisecond</returns>
 		public long? StopwatchLastElapsedTime(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return null;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateStopwatch(key) is false)
@@ -260,6 +196,14 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		private bool ValidateStopwatch(int k)
 		{
 			return stopwatches.ContainsKey(k);
+		}
+
+		internal override void OnInitialize()
+		{
+		}
+
+		internal override void Dispose()
+		{
 		}
 	}
 }
