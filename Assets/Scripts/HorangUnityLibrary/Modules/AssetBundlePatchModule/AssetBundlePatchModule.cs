@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Foundation.Module;
-using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,34 +15,6 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 
 		private const string VersionPlayerPrefsKey = "Version";
 
-		public AssetBundlePatchModule(ModuleManager moduleManager) : base(moduleManager)
-		{
-		}
-
-		public override bool ActiveModule()
-		{
-			if (base.ActiveModule() is false)
-			{
-				return false;
-			}
-
-			Log.Print("Module are activated", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override bool InactiveModule()
-		{
-			if (base.InactiveModule() is false)
-			{
-				return false;
-			}
-
-			Log.Print("Module are inactivated", LogPriority.Verbose);
-
-			return true;
-		}
-
 		/// <summary>
 		/// Local asset bundle and remote asset bundle version check
 		/// </summary>
@@ -51,11 +22,6 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 		/// <returns>If local version is difference with remote version, will return false. otherwise true</returns>
 		public bool VersionCheck(string remoteVersion)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return true;
-			}
-
 			if (PlayerPrefs.HasKey(VersionPlayerPrefsKey) is false)
 			{
 				return false;
@@ -86,7 +52,7 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 		/// <param name="delayTimeout">To setting request's delay timeout</param>
 		/// <param name="headerParameters">Header parameter</param>
 		public async UniTask DownloadLatestVersionFromRemote(string remoteAssetBundleUri,
-			Action<UnityEngine.AssetBundle> onSuccess,
+			Action<AssetBundle> onSuccess,
 			Action onDelay = null,
 			Action<long> onSizeCheck = null,
 			Action<long, string> onFailure = null,
@@ -95,11 +61,6 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 			double delayTimeout = 3000D,
 			params (string, string)[] headerParameters)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			Delay(onDelay, delayTimeout).Forget();
 
 			var assetBundleRequester = UnityWebRequestAssetBundle.GetAssetBundle(remoteAssetBundleUri);
@@ -178,6 +139,14 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 			
 			fileSystem.Close();
 			await fileSystem.DisposeAsync();
+		}
+
+		internal override void OnInitialize()
+		{
+		}
+
+		internal override void Dispose()
+		{
 		}
 	}
 }
