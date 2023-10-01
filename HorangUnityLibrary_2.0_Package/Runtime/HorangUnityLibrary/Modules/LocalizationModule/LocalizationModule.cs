@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Foundation.Module;
-using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -22,34 +21,6 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		{
 			set => fixedLanguage = value;
 		}
-		
-		public LocalizationModule(ModuleManager moduleManager) : base(moduleManager)
-		{
-		}
-
-		public override bool ActiveModule()
-		{
-			if (base.ActiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are activated.", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override bool InactiveModule()
-		{
-			if (base.InactiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are inactivated.", LogPriority.Verbose);
-
-			return true;
-		}
 
 		/// <summary>
 		/// Load localization file from local storage.
@@ -59,11 +30,6 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <exception cref="FileNotFoundException">Throw if file is not exist</exception>
 		public async UniTask LoadLocalizationFromLocal(SystemLanguage language, string path)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var fileInfo = new FileInfo(path);
 
 			if (fileInfo.Exists is false)
@@ -91,11 +57,6 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <exception cref="InvalidCastException">Throw if file cannot convert into TextAsset</exception>
 		public async UniTask LoadLocalizationFromResources(SystemLanguage language, string path)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var textAssetObject = await Resources.LoadAsync<TextAsset>(path);
 
 			switch (textAssetObject)
@@ -134,11 +95,6 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 			double delayTimeout = 3000D,
 			params (string, string)[] headerParameters)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			Delay(onDelay, delayTimeout).Forget();
 			
 			var requester = UnityWebRequest.Get(uri);
@@ -198,11 +154,6 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <returns>If can find key in localization table, It return its value. otherwise, string.Empty</returns>
 		public string Get(string key)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return string.Empty;
-			}
-			
 			var hashKey = key.GetHashCode();
 
 			if (textTables.TryGetValue(fixedLanguage, out var table))
@@ -228,7 +179,7 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <returns>Enumerable of loaded localization languages</returns>
 		public IEnumerable<SystemLanguage> CurrentLoadedLanguages()
 		{
-			return isThisModuleActivated is false ? null : textTables.Select(item => item.Key);
+			return textTables.Select(item => item.Key);
 		}
 		
 		private async UniTaskVoid Delay(Action oD, double tO)
@@ -322,6 +273,20 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 			}
 			
 			textTables.Add(sL, table);
+		}
+
+		internal override void OnInitialize()
+		{
+		}
+
+		internal override void Dispose()
+		{
+			textTables.Clear();
+			
+			delayWaiterCancellationTokenSource?.Cancel();
+			delayWaiterCancellationTokenSource?.Dispose();
+
+			fixedLanguage = 0;
 		}
 	}
 }

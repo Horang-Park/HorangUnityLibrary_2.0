@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Horang.HorangUnityLibrary.Foundation.Module;
-using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UniRx;
 using UnityEngine;
@@ -21,48 +20,18 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 		private const string ParentGameObjectName = "Audio Sources";
 
-		public AudioModule(ModuleManager moduleManager) : base(moduleManager)
+		internal override void OnInitialize()
 		{
-		}
-
-		public override bool ActiveModule()
-		{
-			if (base.ActiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are activated", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override bool InactiveModule()
-		{
-			if (base.InactiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are inactivated", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override void InitializeOnce()
-		{
-			base.InitializeOnce();
-
 			parent = new GameObject(ParentGameObjectName).transform;
 			parent.gameObject.hideFlags = HideFlags.NotEditable;
+			
+			Object.DontDestroyOnLoad(parent);
 
 			LoadData();
 		}
 
-		public override void InitializeOnInactivateEverytime()
+		internal override void Dispose()
 		{
-			base.InitializeOnInactivateEverytime();
-
 			audioSources.Clear();
 			audioSourceTimeSubscribers.Clear();
 			
@@ -76,11 +45,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		/// <param name="onPlayTime">Callback audio source play time</param>
 		public void Play(string name, Action<float> onPlayTime = null)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioClip(key) is false)
@@ -131,11 +95,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		/// <param name="name">To stop audio clip name</param>
 		public void Stop(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioSource(key) is false
@@ -160,11 +119,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		/// <param name="name">To pause audio clip name</param>
 		public void Pause(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioSource(key) is false)
@@ -185,11 +139,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		/// <param name="name">To resume(unpause) audio clip name</param>
 		public void Resume(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioSource(key) is false)
@@ -211,11 +160,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		/// <returns>Audio clip length</returns>
 		public float GetAudioLength(string name)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return float.PositiveInfinity;
-			}
-			
 			var key = name.GetHashCode();
 
 			if (ValidateAudioClip(key) is false)
@@ -233,11 +177,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		/// </summary>
 		public void RemoveAllAudioSources()
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			foreach (var audioSource in audioSources)
 			{
 				Object.Destroy(audioSource.Value.gameObject);
@@ -249,11 +188,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 		public void MuteByCategory(AudioDataType.AudioPlayType audioPlayType)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-
 			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
 			{
 				Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
@@ -273,11 +207,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
 		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
 			{
 				Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
@@ -331,8 +260,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			var go = new GameObject(n);
 			go.transform.SetParent(parent);
 			go.hideFlags = HideFlags.NotEditable;
-			
-			Object.DontDestroyOnLoad(go);
 			
 			var co = go.AddComponent(typeof(AudioSource)) as AudioSource;
 			var ad = audioDatas[key];

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Horang.HorangUnityLibrary.Foundation.Module;
-using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 
@@ -14,68 +13,27 @@ namespace Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule
 
 		private const string GetIntentMethodName = "getLaunchIntentForPackage";
 		private const string AddExtraMethodName = "putExtra";
-		
-		public ExternalApplicationLaunchModule(ModuleManager moduleManager) : base(moduleManager)
-		{
-		}
 
-		public override bool ActiveModule()
-		{
-#if !UNITY_ANDROID || UNITY_EDITOR
-			Log.Print("This module working only built Android application.", LogPriority.Error);
-
-			return false;
-#endif
-			
-			if (base.ActiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are activated.", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override bool InactiveModule()
-		{
-#if !UNITY_ANDROID || UNITY_EDITOR
-			Log.Print("This module working only built Android application.", LogPriority.Error);
-
-			return false;
-#endif
-			if (base.InactiveModule() is false)
-			{
-				return false;
-			}
-			
-			Log.Print("Module are inactivated.", LogPriority.Verbose);
-
-			return true;
-		}
-
-		public override void InitializeOnce()
+		internal override void OnInitialize()
 		{
 #if !UNITY_ANDROID || UNITY_EDITOR
 			Log.Print("This module working only built Android application.", LogPriority.Error);
 
 			return;
 #endif
-			
-			base.InitializeOnce();
-			
 			var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 			unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 			androidPackageManager = unityActivity.Call<AndroidJavaObject>("getPackageManager");
 		}
 
+		internal override void Dispose()
+		{
+			unityActivity?.Dispose();
+			androidPackageManager?.Dispose();
+		}
+
 		public void LaunchExternalApplication(string applicationPackageName)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-			
 			var externalAppIntent = androidPackageManager.Call<AndroidJavaObject>(GetIntentMethodName, applicationPackageName);
 			
 			externalAppIntent.Call("startActivity", unityActivity);
@@ -85,11 +43,6 @@ namespace Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule
 
 		public void LaunchExternalApplication(string applicationPackageName, Dictionary<string, string> extraDatas)
 		{
-			if (isThisModuleActivated is false)
-			{
-				return;
-			}
-
 			var externalAppIntent = androidPackageManager.Call<AndroidJavaObject>(GetIntentMethodName, applicationPackageName);
 
 			foreach (var extraData in extraDatas)
