@@ -13,7 +13,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// </summary>
 		/// <param name="captureCameraName">For camera name to take screenshot</param>
 		/// <param name="textureName">To save texture name. it will add date, time and extension automatically</param>
-		/// <param name="useTransparency">Set background is transparent</param>
+		/// <param name="useTransparency">Set background is transparency</param>
 		/// <returns>Texture2D</returns>
 		/// <exception cref="InvalidOperationException">If cannot find target camera</exception>
 		public static Texture2D ShotFromTargetCamera(string captureCameraName, string textureName = "Screenshot", bool useTransparency = false)
@@ -72,6 +72,13 @@ namespace Horang.HorangUnityLibrary.Utilities
 			return sT;
 		}
 
+		/// <summary>
+		/// Screenshotting with UI RectTransform to shot specific UI area.
+		/// </summary>
+		/// <param name="targetRectTransform">To capture UI RectTransform</param>
+		/// <param name="textureName">Capture texture name</param>
+		/// <param name="useTransparency">Set background is transparency</param>
+		/// <returns>Texture2D</returns>
 		public static async UniTask<Texture2D> ShotSpecificUIArea(RectTransform targetRectTransform, string textureName = "Screenshot", bool useTransparency = false)
 		{
 			var sb = new StringBuilder(textureName).Append($"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}").Append(".png");
