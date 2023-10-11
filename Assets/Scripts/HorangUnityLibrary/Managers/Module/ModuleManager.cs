@@ -35,6 +35,8 @@ namespace Horang.HorangUnityLibrary.Managers.Module
 
 				return;
 			}
+			
+			baseModule.OnInitialize();
 
 			modules.Add(key, baseModule);
 			
