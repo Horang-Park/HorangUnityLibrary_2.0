@@ -1,8 +1,8 @@
 {
     "name": "com.horangpark.horangunitylibrary",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "displayName": "HorangUnityLibrary",
-    "description": "More comfortable to use Unity.",
+    "description": "Library",
     "unity": "2022.3",
     "dependencies": {
       "com.cysharp.unitask": "2.3.3",
