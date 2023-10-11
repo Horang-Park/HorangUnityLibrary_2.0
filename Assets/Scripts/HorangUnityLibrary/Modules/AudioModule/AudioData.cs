@@ -58,7 +58,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 	}
 	
 	[InspectorHideScriptField]
-	internal sealed class AudioData : ScriptableObject
+	public sealed class AudioData : ScriptableObject
 	{
 		public List<AudioDataType> audioClipDatas = new();
 #if UNITY_EDITOR
