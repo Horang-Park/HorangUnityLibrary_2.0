@@ -177,7 +177,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 		private static string LogBuilder(string m, LogPriority p, int n)
 		{
 			var st = new StackTrace(true);
-			var sf = GetStackFrame(st, n);
+			var sf = GetStackFrame(st, n) ?? GetStackFrame(st, n - 1);
 			var fn = Path.GetFileNameWithoutExtension(sf.GetFileName()?.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries)[^1]);
 			var sb = new StringBuilder(FontSizePrefix);
 			
