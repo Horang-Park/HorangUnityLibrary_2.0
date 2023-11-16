@@ -97,8 +97,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		{
 			var key = name.GetHashCode();
 
-			if (ValidateAudioSource(key) is false
-			    || ValidateAudioPlayTimeSubscriber(key) is false)
+			if (ValidateAudioSource(key) is false)
 			{
 				Log.Print($"Cannot find audio source named [{name}].", LogPriority.Error);
 
@@ -108,6 +107,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			var audioSource = audioSources[key];
 			
 			audioSource.Stop();
+
+			if (ValidateAudioPlayTimeSubscriber(key) is false)
+			{
+				return;
+			}
 			
 			audioSourceTimeSubscribers[key]?.Dispose();
 			audioSourceTimeSubscribers.Remove(key);
