@@ -1,0 +1,39 @@
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Horang.HorangUnityLibrary.Utilities.Generics
+{
+	public static class GenericExtension
+	{
+		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+		{
+			var random = new System.Random();
+		
+			return source.OrderBy(_ => random.Next());
+		}
+
+		public static bool TryAdd<T>(this List<T> source, T value)
+		{
+			if (source.Contains(value))
+			{
+				return false;
+			}
+
+			source.Add(value);
+
+			return true;
+		}
+
+		public static bool TryPush<T>(this Stack<T> source, T value)
+		{
+			if (source.Contains(value))
+			{
+				return false;
+			}
+			
+			source.Push(value);
+
+			return true;
+		}
+	}
+}
