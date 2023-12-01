@@ -1,23 +1,14 @@
-using System;
-using System.Collections;
-using System.IO;
 using Cysharp.Threading.Tasks;
-using Horang.HorangUnityLibrary.Foundation.Manager;
 using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
-using Horang.HorangUnityLibrary.Modules.LocalizationModule;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
 using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
-using Plugins.Android;
-using UniRx;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class Tester : MonoBehaviour
 {
