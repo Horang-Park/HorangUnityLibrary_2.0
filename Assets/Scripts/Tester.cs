@@ -5,6 +5,7 @@ using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
 using Horang.HorangUnityLibrary.Utilities.PlayerPrefs;
 using Horang.HorangUnityLibrary.Utilities.UnityExtensions;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
@@ -49,6 +50,8 @@ public class Tester : MonoBehaviour
 
 		var htc = ColorExtension.HexToColor("FF0000");
 		colorExpression.color = htc;
+		
+		Log.Print($"{ColorExtension.ColorToHex(new Color(1.0f, 0.4f, 0.7f, 1.0f))}");
 		
 		// req permission
 		if (Permission.HasUserAuthorizedPermission(Permission.ExternalStorageRead) is false ||
