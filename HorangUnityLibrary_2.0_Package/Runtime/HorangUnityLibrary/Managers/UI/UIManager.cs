@@ -39,12 +39,9 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 
 		}
 
-		public void PushBaseUI(BaseUI target)
+		public void PushBaseUi(BaseUI target)
 		{
-			if (target.IsVisible is false)
-			{
-				baseUiUseHistory.Push(target);
-			}
+			baseUiUseHistory.Push(target);
 		}
 
 		public void PutBaseUi()
