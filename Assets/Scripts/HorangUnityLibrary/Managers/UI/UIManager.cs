@@ -28,19 +28,23 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 		{
 			var key = uiName.GetHashCode();
 
-			if (UiNameValidation(key, out var result) is false)
+			if (UiNameValidation(key, out var result))
 			{
-				Log.Print($"There is no UI named [{uiName}].", LogPriority.Error);
+				return result as T;
+			}
+			
+			Log.Print($"There is no UI named [{uiName}].", LogPriority.Error);
 				
-				return null;
-			}
+			return null;
 
-			if (result.IsVisible is false)
+		}
+
+		public void PushBaseUI(BaseUI target)
+		{
+			if (target.IsVisible is false)
 			{
-				baseUiUseHistory.Push(result);
+				baseUiUseHistory.Push(target);
 			}
-
-			return result as T;
 		}
 
 		public void PutBaseUi()
