@@ -84,6 +84,7 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 			{
 				var key = ui.uiName.GetHashCode();
 				
+				ui.baseUI.Initialize();
 				ui.baseUI.Hide();
 
 				if (ui.isShowFirst && firstUiOnFlag is false)
