@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Modules.AudioModule;

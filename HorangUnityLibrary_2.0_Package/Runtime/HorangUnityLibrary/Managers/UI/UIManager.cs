@@ -17,18 +17,18 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 			public BaseUI baseUI;
 		}
 
-		[SerializeField] private List<BaseUIData> baseUis;
+		[SerializeField] private List<BaseUIData> baseUIs;
 
-		private readonly Dictionary<int, BaseUI> baseUiDictionary = new();
-		private readonly Stack<BaseUI> baseUiUseHistory = new();
+		private readonly Dictionary<int, BaseUI> baseUIDictionary = new();
+		private readonly Stack<BaseUI> baseUIUseHistory = new();
 
 		private bool firstUiOnFlag;
 
-		public T GetBaseUi<T>(string uiName) where T : BaseUI
+		public T GetBaseUI<T>(string uiName) where T : BaseUI
 		{
 			var key = uiName.GetHashCode();
 
-			if (UiNameValidation(key, out var result))
+			if (UINameValidation(key, out var result))
 			{
 				return result as T;
 			}
@@ -36,38 +36,37 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 			Log.Print($"There is no UI named [{uiName}].", LogPriority.Error);
 				
 			return null;
-
 		}
 
-		public void PushBaseUi(BaseUI target)
+		public void PushHistory(BaseUI target)
 		{
-			baseUiUseHistory.Push(target);
+			baseUIUseHistory.Push(target);
 		}
 
-		public void PutBaseUi()
+		public void PopHistory()
 		{
-			if (baseUiUseHistory.Count < 1)
+			if (baseUIUseHistory.Count < 1)
 			{
 				Log.Print("There is no turn off UIs", LogPriority.Error);
 				
 				return;
 			}
 
-			var result = baseUiUseHistory.Pop();
+			var result = baseUIUseHistory.Pop();
 			
 			result.Hide();
 		}
 
-		public void PutBaseUi(int delayMilliseconds)
+		public void PopHistory(int delayMilliseconds)
 		{
-			if (baseUiUseHistory.Count < 1)
+			if (baseUIUseHistory.Count < 1)
 			{
 				Log.Print("There is no turn off UIs", LogPriority.Error);
 				
 				return;
 			}
 
-			var result = baseUiUseHistory.Pop();
+			var result = baseUIUseHistory.Pop();
 			
 			UniTask.Void(() => result.Hide(delayMilliseconds));
 		}
@@ -81,7 +80,7 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 
 		private void DataProcessing()
 		{
-			foreach (var ui in baseUis)
+			foreach (var ui in baseUIs)
 			{
 				var key = ui.uiName.GetHashCode();
 				
@@ -91,20 +90,20 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 				{
 					ui.baseUI.Show();
 					
-					baseUiUseHistory.Push(ui.baseUI);
+					baseUIUseHistory.Push(ui.baseUI);
 
 					firstUiOnFlag = true;
 				}
 				
-				baseUiDictionary.Add(key, ui.baseUI);
+				baseUIDictionary.Add(key, ui.baseUI);
 			}
 		}
 
-		private bool UiNameValidation(int k, out BaseUI bU)
+		private bool UINameValidation(int k, out BaseUI bU)
 		{
-			if (baseUiDictionary.ContainsKey(k))
+			if (baseUIDictionary.TryGetValue(k, out var value))
 			{
-				bU = baseUiDictionary[k];
+				bU = value;
 
 				return true;
 			}

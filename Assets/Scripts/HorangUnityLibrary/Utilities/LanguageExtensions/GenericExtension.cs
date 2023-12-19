@@ -5,14 +5,14 @@ namespace Horang.HorangUnityLibrary.Utilities.LanguageExtensions
 {
 	public static class GenericExtension
 	{
-		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source) where T : List<T>
+		public static List<T> Shuffle<T>(this List<T> source)
 		{
 			var random = new System.Random();
-		
-			return source.OrderBy(_ => random.Next());
+
+			return source.OrderBy(_ => random.Next()).ToList();
 		}
 
-		public static bool TryAdd<T>(this List<T> source, T value) where T : List<T>
+		public static bool TryAdd<T>(this List<T> source, T value)
 		{
 			if (source.Contains(value))
 			{
@@ -24,7 +24,7 @@ namespace Horang.HorangUnityLibrary.Utilities.LanguageExtensions
 			return true;
 		}
 
-		public static bool TryPush<T>(this Stack<T> source, T value) where T : Stack<T>
+		public static bool TryPush<T>(this Stack<T> source, T value)
 		{
 			if (source.Contains(value))
 			{
