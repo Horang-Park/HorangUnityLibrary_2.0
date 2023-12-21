@@ -1,4 +1,6 @@
 using System;
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -52,8 +54,9 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 		/// Web hex color to Unity color 0.0~1.0.
 		/// </summary>
 		/// <param name="colorHex">To change color hex. must be "#ffffff" or "ffffff"</param>
+		/// <param name="alpha">Color's alpha</param>
 		/// <returns>If valid colorHex, will return its color. otherwise return clear color</returns>
-		public static Color HexToColor(string colorHex)
+		public static Color HexToColor(string colorHex, int alpha = 255)
 		{
 			colorHex = colorHex.Replace("#", string.Empty);
 
@@ -69,7 +72,21 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 			var gV = regex.IsMatch(colorHex[2..4]) ? Convert.ToInt32(colorHex[2..4], 16) : 0;
 			var bV = regex.IsMatch(colorHex[4..]) ? Convert.ToInt32(colorHex[4..], 16) : 0;
 
-			return Rgba256ToColor(new ColorFormat256 { r = rV, g = gV, b = bV, a = 255 });
+			return Rgba256ToColor(new ColorFormat256 { r = rV, g = gV, b = bV, a = alpha });
+		}
+
+		/// <summary>
+		/// Change Unity color to web hex color.
+		/// </summary>
+		/// <param name="color">To change color to hex</param>
+		/// <returns>Converted hex color</returns>
+		public static string ColorToHex(Color color)
+		{
+			var r = Convert.ToString((int)(color.r * 255), 16);
+			var g = Convert.ToString((int)(color.g * 255), 16);
+			var b = Convert.ToString((int)(color.b * 255), 16);
+
+			return new StringBuilder().Append(r).Append(g).Append(b).ToString();
 		}
 	}
 }

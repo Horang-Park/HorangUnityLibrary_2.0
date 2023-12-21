@@ -97,8 +97,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		{
 			var key = name.GetHashCode();
 
-			if (ValidateAudioSource(key) is false
-			    || ValidateAudioPlayTimeSubscriber(key) is false)
+			if (ValidateAudioSource(key) is false)
 			{
 				Log.Print($"Cannot find audio source named [{name}].", LogPriority.Error);
 
@@ -108,6 +107,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			var audioSource = audioSources[key];
 			
 			audioSource.Stop();
+
+			if (ValidateAudioPlayTimeSubscriber(key) is false)
+			{
+				return;
+			}
 			
 			audioSourceTimeSubscribers[key]?.Dispose();
 			audioSourceTimeSubscribers.Remove(key);
@@ -151,6 +155,34 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			var audioSource = audioSources[key];
 			
 			audioSource.UnPause();
+		}
+
+		/// <summary>
+		/// Change audio source volume
+		/// </summary>
+		/// <param name="name">To change audio source name</param>
+		/// <param name="volume">To set volume</param>
+		public void Volume(string name, float volume)
+		{
+			var key = name.GetHashCode();
+
+			if (ValidateAudioSource(key) is false)
+			{
+				Log.Print($"Cannot find audio source named [{name}].", LogPriority.Error);
+
+				return;
+			}
+
+			if (volume is > 1.0f or < 0.0f)
+			{
+				Log.Print($"Cannot set audio volume in [{volume}]. The range is 0.0f ~ 1.0f", LogPriority.Error);
+
+				return;
+			}
+
+			var audioSource = audioSources[key];
+
+			audioSource.volume = volume;
 		}
 
 		/// <summary>

@@ -6,6 +6,32 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 	public struct SetPlayerPrefs
 	{
 		/// <summary>
+		/// Save bool value.
+		/// </summary>
+		/// <param name="key">To save key</param>
+		/// <param name="value">To save value</param>
+		public static void Bool(string key, bool value)
+		{
+			var eK = Encryption.Encrypt(key);
+			var eV = Encryption.Encrypt(value.ToString());
+			
+			Save(eK, eV);
+		}
+
+		/// <summary>
+		/// Save bool array value.
+		/// </summary>
+		/// <param name="key">To save key</param>
+		/// <param name="value">To save value</param>
+		public static void BoolArray(string key, IEnumerable<bool> value)
+		{
+			var eK = Encryption.Encrypt(key);
+			var eV = PlayerPrefsUtilities.ArrayToStringConverter(value);
+
+			Save(eK, eV);
+		}
+		
+		/// <summary>
 		/// Save int value.
 		/// </summary>
 		/// <param name="key">To save key</param>

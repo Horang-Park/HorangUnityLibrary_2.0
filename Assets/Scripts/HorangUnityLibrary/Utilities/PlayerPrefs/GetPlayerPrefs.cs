@@ -5,6 +5,44 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 	public struct GetPlayerPrefs
 	{
 		/// <summary>
+		/// Get saved bool value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise false</returns>
+		public static bool Bool(string key)
+		{
+			var eK = Encryption.Encrypt(key);
+
+			if (PlayerPrefsUtilities.KeyValidation(eK))
+			{
+				return bool.Parse(Encryption.Decrypt(UnityEngine.PlayerPrefs.GetString(eK)));
+			}
+			
+			Log.Print($"Cannot find the key [{key}] in local player preferences.", LogPriority.Error);
+
+			return false;
+		}
+
+		/// <summary>
+		/// Get saved bool array value.
+		/// </summary>
+		/// <param name="key">original key</param>
+		/// <returns>If found key, returning saved value. otherwise null</returns>
+		public static IEnumerable<bool> BoolArray(string key)
+		{
+			var eK = Encryption.Encrypt(key);
+
+			if (PlayerPrefsUtilities.KeyValidation(eK))
+			{
+				return PlayerPrefsUtilities.StringToArrayConverter<bool>(eK);
+			}
+			
+			Log.Print($"Cannot find the key [{key}] in local player preferences.", LogPriority.Error);
+
+			return null;
+		}
+		
+		/// <summary>
 		/// Get saved int value.
 		/// </summary>
 		/// <param name="key">original key</param>

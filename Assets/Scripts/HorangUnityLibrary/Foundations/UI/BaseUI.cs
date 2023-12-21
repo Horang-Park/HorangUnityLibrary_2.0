@@ -47,16 +47,11 @@ namespace Horang.HorangUnityLibrary.Foundation.UI
 			gameObject.SetActive(false);
 		}
 
-		private void Awake()
-		{
-			Initialize();
-		}
-
 		protected abstract void OnShowInitialize();
 		protected abstract void OnHideInitialize();
 		protected abstract void OnInitializeOnce();
 
-		private void Initialize()
+		internal void Initialize()
 		{
 			if (isInitialized)
 			{
