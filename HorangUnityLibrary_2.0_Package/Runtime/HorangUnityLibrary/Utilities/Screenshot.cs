@@ -79,11 +79,11 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// <param name="textureName">Capture texture name</param>
 		/// <param name="useTransparency">Set background is transparency</param>
 		/// <returns>Texture2D</returns>
-		public static async UniTask<Texture2D> ShotSpecificUIArea(RectTransform targetRectTransform, string textureName = "Screenshot", bool useTransparency = false)
+		public static async UniTask<Texture2D> ShotSpecificUIAreaAsync(RectTransform targetRectTransform, string textureName = "Screenshot", bool useTransparency = false)
 		{
 			var sb = new StringBuilder(textureName).Append($"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}").Append(".png");
 
-			await UniTask.DelayFrame(1);
+			await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
 			
 			var corners = new Vector3[4];
 			targetRectTransform.GetWorldCorners(corners);
@@ -97,6 +97,7 @@ namespace Horang.HorangUnityLibrary.Utilities
  
 			var t = new Texture2D((int)w, (int)h, useTransparency ? TextureFormat.RGBA32 : TextureFormat.RGB24, false);
 			t.ReadPixels(new Rect(bl.x, bl.y, w, h), 0, 0);
+			t.LoadRawTextureData(t.GetRawTextureData());
 			t.Apply();
 			
 			t.name = sb.ToString();

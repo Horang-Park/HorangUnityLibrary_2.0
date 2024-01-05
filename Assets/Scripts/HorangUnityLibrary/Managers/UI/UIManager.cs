@@ -22,7 +22,7 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 		private readonly Dictionary<int, BaseUI> baseUIDictionary = new();
 		private readonly Stack<BaseUI> baseUIUseHistory = new();
 
-		private bool firstUiOnFlag;
+		private bool firstUIOnFlag;
 
 		public T GetBaseUI<T>(string uiName) where T : BaseUI
 		{
@@ -87,13 +87,13 @@ namespace Horang.HorangUnityLibrary.Managers.UI
 				ui.baseUI.Initialize();
 				ui.baseUI.Hide();
 
-				if (ui.isShowFirst && firstUiOnFlag is false)
+				if (ui.isShowFirst && firstUIOnFlag is false)
 				{
 					ui.baseUI.Show();
 					
 					baseUIUseHistory.Push(ui.baseUI);
 
-					firstUiOnFlag = true;
+					firstUIOnFlag = true;
 				}
 				
 				baseUIDictionary.Add(key, ui.baseUI);
