@@ -37,7 +37,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 
 				throw new InvalidOperationException();
 			}
-			
+
 			textureName = sb.ToString();
 			tC.targetTexture = rT;
 
@@ -46,7 +46,7 @@ namespace Horang.HorangUnityLibrary.Utilities
 			tC.Render();
 
 			RenderTexture.active = rT;
-			
+
 			sT.ReadPixels(new Rect(0.0f, 0.0f, w, h), 0, 0);
 			sT.Apply(false);
 			sT.name = textureName;
@@ -63,9 +63,9 @@ namespace Horang.HorangUnityLibrary.Utilities
 		public static async UniTask<Texture2D> ShotWholeScreenAsync(string textureName = "Screenshot")
 		{
 			var sb = new StringBuilder(textureName).Append($"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}").Append(".png");
-			
+
 			await UniTask.DelayFrame(1);
-			
+
 			var sT = ScreenCapture.CaptureScreenshotAsTexture();
 			sT.name = sb.ToString();
 
@@ -79,27 +79,69 @@ namespace Horang.HorangUnityLibrary.Utilities
 		/// <param name="textureName">Capture texture name</param>
 		/// <param name="useTransparency">Set background is transparency</param>
 		/// <returns>Texture2D</returns>
-		public static async UniTask<Texture2D> ShotSpecificUIArea(RectTransform targetRectTransform, string textureName = "Screenshot", bool useTransparency = false)
+		public static async UniTask<Texture2D> ShotSpecificUIAreaAsync(RectTransform targetRectTransform, string textureName = "Screenshot", bool useTransparency = false)
 		{
-			var sb = new StringBuilder(textureName).Append($"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}").Append(".png");
-
-			await UniTask.DelayFrame(1);
-			
+			var topCanvas = targetRectTransform.GetComponentInParent<Canvas>();
+			var beforeCanvasRenderMode = RenderMode.ScreenSpaceOverlay;
+			var mainCamera = Camera.main;
 			var corners = new Vector3[4];
+			var targetRect = targetRectTransform.rect;
+
+			if (mainCamera is null || !mainCamera)
+			{
+				Log.Print("Cannot find main camera.", LogPriority.Error);
+
+				return null;
+			}
+
+			if (topCanvas is null || !topCanvas)
+			{
+				Log.Print("Cannot find parent canvas.", LogPriority.Error);
+
+				return null;
+			}
+
+			await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate);
+
+			if (topCanvas.renderMode is RenderMode.ScreenSpaceOverlay)
+			{
+				beforeCanvasRenderMode = topCanvas.renderMode;
+				
+				topCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+				topCanvas.worldCamera = mainCamera;
+			}
+
+			
 			targetRectTransform.GetWorldCorners(corners);
+
+			corners[0] = mainCamera.WorldToScreenPoint(corners[0]);
+
+			var resWidth = Screen.width;
+			var resHeight = Screen.height;
 			
-			var bl = RectTransformUtility.WorldToScreenPoint(null, corners[0]);
-			var tl = RectTransformUtility.WorldToScreenPoint(null, corners[1]);
-			var tr = RectTransformUtility.WorldToScreenPoint(null, corners[2]);
- 
-			var h = tl.y - bl.y;
-			var w = tr.x - bl.x;
- 
-			var t = new Texture2D((int)w, (int)h, useTransparency ? TextureFormat.RGBA32 : TextureFormat.RGB24, false);
-			t.ReadPixels(new Rect(bl.x, bl.y, w, h), 0, 0);
+			var cWidth = (int)targetRect.width;
+			var cHeight = (int)targetRect.height;
+			var cx = (int)corners[0].x;
+			var cy = (int)corners[0].y;
+			
+			var rt = new RenderTexture(resWidth, resHeight, 24);
+
+			mainCamera.targetTexture = rt;
+			mainCamera.Render();
+
+			RenderTexture.active = rt;
+
+			var t = new Texture2D(cWidth, cHeight, useTransparency ? TextureFormat.RGBA32 : TextureFormat.RGB24, false)
+			{
+				name = textureName
+			};
+			
+			t.ReadPixels(new Rect(cx, cy, cWidth, cHeight), 0, 0);
 			t.Apply();
-			
-			t.name = sb.ToString();
+
+			topCanvas.renderMode = beforeCanvasRenderMode;
+			mainCamera.targetTexture = null;
+			RenderTexture.active = null;
 
 			return t;
 		}
