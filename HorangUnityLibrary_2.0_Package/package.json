@@ -1,6 +1,6 @@
 {
     "name": "com.horangpark.horangunitylibrary",
-    "version": "2.5.6",
+    "version": "2.6.0",
     "displayName": "HorangUnityLibrary",
     "description": "An Unity Library",
     "unity": "2022.3",
@@ -10,6 +10,6 @@
       "com.unity.nuget.newtonsoft-json": "3.0.2",
       "com.unity.textmeshpro": "3.0.6"
    },
-    "keywords": ["library", "HorangUnityLibrary"],
+    "keywords": ["library", "HorangUnityLibrary 2"],
     "author": {"name": "Horang Park", "email": "horang_park@naver.com"}
 }

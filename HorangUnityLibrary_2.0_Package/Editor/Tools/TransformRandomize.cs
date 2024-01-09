@@ -1,8 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
+// ReSharper disable CheckNamespace
 
-namespace Editor.Tools
+namespace HorangEditor.Tools
 {
 	public sealed class TransformRandomize : EditorWindow
 	{

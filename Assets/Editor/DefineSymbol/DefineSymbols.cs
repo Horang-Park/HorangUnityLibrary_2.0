@@ -1,4 +1,6 @@
-﻿namespace Editor.DefineSymbol
+﻿// ReSharper disable CheckNamespace
+
+namespace HorangEditor.DefineSymbol
 {
 	public struct DefineSymbols
 	{
