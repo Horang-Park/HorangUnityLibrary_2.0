@@ -2,8 +2,9 @@
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
+// ReSharper disable CheckNamespace
 
-namespace Editor.DefineSymbol
+namespace HorangEditor.DefineSymbol
 {
 	public static class DefineSymbolManager
 	{

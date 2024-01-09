@@ -1,11 +1,12 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
+// ReSharper disable CheckNamespace
 
-namespace Editor.Tools
+namespace HorangEditor.Tools
 {
 	public static class RunFromSpecificScene
 	{
-		[MenuItem("Horang/Tools/Debug Mode/Enter Playmode/From Start Scene", false, 1)]
+		[MenuItem("Horang/Tools/Start Play Mode From/Start Scene", false, 0)]
 		public static void SetupFromStartScene()
 		{
 			var pathOfFirstScene = EditorBuildSettings.scenes[0].path;
@@ -15,7 +16,7 @@ namespace Editor.Tools
 			EditorApplication.isPlaying = true;
 		}
 
-		[MenuItem("Horang/Tools/Debug Mode/Enter Playmode/From Current Scene", false, 1)]
+		[MenuItem("Horang/Tools/Start Play Mode From/Current Scene", false, 1)]
 		public static void StartFromThisScene()
 		{
 			EditorSceneManager.playModeStartScene = null;
