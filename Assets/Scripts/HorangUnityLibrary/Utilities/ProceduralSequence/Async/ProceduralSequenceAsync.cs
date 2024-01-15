@@ -15,9 +15,9 @@ namespace Horang.HorangUnityLibrary.Utilities.ProceduralSequence.Async
 			sequenceSegmentQueue = new Queue<(Func<UniTask<bool>> onInitialize, Func<UniTask<bool>> onExecute, Func<UniTask> onSuccess, Func<UniTask> onFailure, string name)>();
 		}
 
-		public void AddSequenceElement(SequenceSegmentAsync sequenceSegment)
+		public void AddSequenceElement(SequenceSegmentAsync sequenceSegmentAsync)
 		{
-			sequenceSegmentQueue.Enqueue(UnpackSegment(sequenceSegment));
+			sequenceSegmentQueue.Enqueue(UnpackSegment(sequenceSegmentAsync));
 		}
 
 		public async UniTask RunSequencer()
