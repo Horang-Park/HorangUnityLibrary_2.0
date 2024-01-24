@@ -46,11 +46,11 @@ public class Tester : MonoBehaviour
 		mouseActions = playerInput.actions["Mouse press action"];
 		mouseActions.performed += MousePerformed;
 
-		var s = new StateOne("StateOne");
-		sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
-
-		var htc = ColorExtension.HexToColor("FF0000");
-		colorExpression.color = htc;
+		// var s = new StateOne("StateOne");
+		// sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
+		//
+		// var htc = ColorExtension.HexToColor("FF0000");
+		// colorExpression.color = htc;
 		
 		Log.Print($"{ColorExtension.ColorToHex(new Color(1.0f, 0.4f, 0.7f, 1.0f))}");
 		
@@ -65,20 +65,38 @@ public class Tester : MonoBehaviour
 
 	private void Update()
 	{
-		// if (Input.GetMouseButtonDown(0))
-		// {
-		// 	var r = Random.Range(0.0f, 1.0f);
-		// 	var g = Random.Range(0.0f, 1.0f);
-		// 	var b = Random.Range(0.0f, 1.0f);
-		// 	colorExpression.color = new Color(r, g, b, 1.0f);
-		//
-		// 	var t = await Screenshot.ShotWholeScreenAsync();
-		// 	
-		// 	NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
-		// 	{	
-		// 		Log.Print($"success?: {success} / path: {path}");
-		// 	});
-		// }
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			// var r = Random.Range(0.0f, 1.0f);
+			// var g = Random.Range(0.0f, 1.0f);
+			// var b = Random.Range(0.0f, 1.0f);
+			// colorExpression.color = new Color(r, g, b, 1.0f);
+
+			colorExpression.color = colorExpression.color.SetR(1.0f);
+			colorExpression.color = colorExpression.color.SetG(0.0f);
+			colorExpression.color = colorExpression.color.SetB(0.0f);
+
+			// var t = await Screenshot.ShotWholeScreenAsync();
+			//
+			// NativeGallery.SaveImageToGallery(t, "Screenshot", t.name, (success, path) =>
+			// {	
+			// 	Log.Print($"success?: {success} / path: {path}");
+			// });
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			colorExpression.color = colorExpression.color.SetR(0.0f);
+			colorExpression.color = colorExpression.color.SetG(1.0f);
+			colorExpression.color = colorExpression.color.SetB(0.0f);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			colorExpression.color = colorExpression.color.SetR(0.0f);
+			colorExpression.color = colorExpression.color.SetG(0.0f);
+			colorExpression.color = colorExpression.color.SetB(1.0f);
+		}
 
 		transform.Translate(Vector3.down * Time.deltaTime * 10.0f);
 	}
