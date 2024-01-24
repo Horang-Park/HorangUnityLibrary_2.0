@@ -211,10 +211,11 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 			texture.LoadImage(btb);
 
 			var rect = new Rect(0, 0, texture.width, texture.height);
+			var s = Sprite.Create(texture, rect, Vector2.one * 0.5f);
 			
-			Object.Destroy(texture);
-			
-			return Sprite.Create(texture, rect, Vector2.one * 0.5f);
+			Object.DestroyImmediate(texture);
+
+			return s;
 		}
 
 		private static IEnumerable<UniTask<Sprite>> CreateImageLoadTasks(IEnumerable<string> p, TaskDelegate td, CancellationToken ct)
