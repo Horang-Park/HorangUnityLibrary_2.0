@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Networking;
+using Object = UnityEngine.Object;
 
 namespace Horang.HorangUnityLibrary.Utilities.Loaders
 {
@@ -209,6 +211,8 @@ namespace Horang.HorangUnityLibrary.Utilities.Loaders
 			texture.LoadImage(btb);
 
 			var rect = new Rect(0, 0, texture.width, texture.height);
+			
+			Object.Destroy(texture);
 			
 			return Sprite.Create(texture, rect, Vector2.one * 0.5f);
 		}
