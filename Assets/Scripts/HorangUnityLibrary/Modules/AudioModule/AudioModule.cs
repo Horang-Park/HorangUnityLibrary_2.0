@@ -205,6 +205,27 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 		}
 
 		/// <summary>
+		/// Get named audio source is playing currently
+		/// </summary>
+		/// <param name="name">To get audio clip name</param>
+		/// <returns>Named audio source is playing</returns>
+		public bool IsAudioPlaying(string name)
+		{
+			var key = name.GetHashCode();
+
+			if (ValidateAudioClip(key) is false)
+			{
+				Log.Print($"Cannot find audio data named [{name}]. Check your Audio Database.asset file.", LogPriority.Error);
+
+				return default;
+			}
+
+			var audioSource = GetOrCreateInstance(name);
+
+			return audioSource.isPlaying;
+		}
+
+		/// <summary>
 		/// Remove created audio source game objects (except audio datas)
 		/// </summary>
 		public void RemoveAllAudioSources()
