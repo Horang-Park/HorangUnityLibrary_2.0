@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
@@ -110,7 +111,6 @@ namespace Horang.HorangUnityLibrary.Utilities
 				topCanvas.renderMode = RenderMode.ScreenSpaceCamera;
 				topCanvas.worldCamera = mainCamera;
 			}
-
 			
 			targetRectTransform.GetWorldCorners(corners);
 
@@ -123,25 +123,36 @@ namespace Horang.HorangUnityLibrary.Utilities
 			var cHeight = (int)targetRect.height;
 			var cx = (int)corners[0].x;
 			var cy = (int)corners[0].y;
-			
-			var rt = new RenderTexture(resWidth, resHeight, 24);
+			var rt = new RenderTexture(resWidth, resHeight, 24, RenderTextureFormat.ARGB32, 0);
 
 			mainCamera.targetTexture = rt;
 			mainCamera.Render();
+			mainCamera.targetTexture = null;
+			
+			topCanvas.renderMode = beforeCanvasRenderMode;
 
 			RenderTexture.active = rt;
+			
+			var fullShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+			
+			fullShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+			fullShot.Apply();
+			
+			RenderTexture.active = null;
+			
+			var colors = fullShot.GetPixels(cx, cy, cWidth, cHeight, 0);
 
 			var t = new Texture2D(cWidth, cHeight, useTransparency ? TextureFormat.RGBA32 : TextureFormat.RGB24, false)
 			{
 				name = textureName
 			};
 			
-			t.ReadPixels(new Rect(cx, cy, cWidth, cHeight), 0, 0);
+			t.SetPixels(0, 0, cWidth, cHeight, colors, 0);
 			t.Apply();
 
-			topCanvas.renderMode = beforeCanvasRenderMode;
 			mainCamera.targetTexture = null;
-			RenderTexture.active = null;
+			
+			Object.Destroy(rt);
 
 			return t;
 		}

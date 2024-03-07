@@ -46,9 +46,9 @@ public class Tester : MonoBehaviour
 		mouseActions = playerInput.actions["Mouse press action"];
 		mouseActions.performed += MousePerformed;
 
-		// var s = new StateOne("StateOne");
-		// sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
-		//
+		var s = new StateOne("StateOne");
+		sampleFsMachine = new FsmRunner(s, "Sample Finite State Machine");
+		
 		// var htc = ColorExtension.HexToColor("FF0000");
 		// colorExpression.color = htc;
 		
@@ -127,7 +127,7 @@ public class Tester : MonoBehaviour
 			case "f1":
 				sampleFsMachine.ChangeState(new StateOne("StateOne"));
 				
-				ModuleManager.Instance.GetModule<AudioModule>()!.Play("file_example_OOG_5MG");
+				//ModuleManager.Instance.GetModule<AudioModule>()!.Play("file_example_OOG_5MG");
 				break;
 			case "f2":
 				sampleFsMachine.ChangeState(new StateTwo("StateTwo"));
@@ -153,6 +153,8 @@ public class StateOne : State
 	
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "English", "This is test text.", WriteMode.New));
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "한국어", "이것은 테스트 텍스트입니다."));
+		
+		SetPlayerPrefs.Bool("TEST_TEST", true);
 	}
 	
 	public override void Update()
@@ -177,6 +179,8 @@ public class StateTwo : State
 	public override void Enter()
 	{
 		Log.Print("StateTwo state enter");
+		
+		Log.Print($"TEST_TEST -> {GetPlayerPrefs.Bool("TEST_TEST")}");
 		
 		UniTask.Void(GetDatas);
 	}

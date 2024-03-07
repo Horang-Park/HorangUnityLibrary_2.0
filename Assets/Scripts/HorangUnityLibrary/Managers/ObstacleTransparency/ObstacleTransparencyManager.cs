@@ -17,12 +17,13 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 	[InspectorHideScriptField]
 	public sealed class ObstacleTransparencyManager : MonoBaseManager
 	{
+		public bool stop;
+		
 		[Header("Default Settings")]
 		[SerializeField] private Material transparentMaterial;
 		[SerializeField] private Transform fromTarget;
 		[SerializeField] private Transform toTarget;
 		[SerializeField] private LayerMask toTransparentLayerMask;
-
 		[Header("Shader Settings")]
 		[SerializeField] private Color transparentShaderColor = Color.white;
 		[SerializeField] private Color originalShaderColor = Color.white;
@@ -45,7 +46,8 @@ namespace Horang.HorangUnityLibrary.Managers.ObstacleTransparency
 		private void Start()
 		{
 			updateSubscriber = Observable.EveryUpdate()
-				.Subscribe(_ => { ObjectTransparentRevert(); })
+				.Where(_ => stop is false)
+				.Subscribe(_ => ObjectTransparentRevert())
 				.AddTo(gameObject);
 		}
 
