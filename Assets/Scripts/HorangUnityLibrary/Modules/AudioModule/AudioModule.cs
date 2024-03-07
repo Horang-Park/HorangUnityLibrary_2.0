@@ -257,7 +257,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			
 			muteStatus.TryAdd(audioPlayType, true);
 		}
-
+		
 		public void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
 		{
 			if (audioSourcesByCategory.ContainsKey(audioPlayType) is false)
@@ -275,6 +275,22 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 			}
 
 			muteStatus.Remove(audioPlayType);
+		}
+		
+		public void ToggleMuteByName(string name)
+		{
+			var key = name.GetHashCode();
+
+			if (ValidateAudioClip(key) is false)
+			{
+				Log.Print($"Cannot find audio data named [{name}]. Check your Audio Database.asset file.", LogPriority.Error);
+
+				return;
+			}
+
+			var audioSource = GetOrCreateInstance(name);
+
+			audioSource.mute = !audioSource.mute;
 		}
 
 		private void LoadData()

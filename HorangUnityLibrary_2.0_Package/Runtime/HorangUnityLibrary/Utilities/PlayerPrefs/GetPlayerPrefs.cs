@@ -37,7 +37,9 @@ namespace Horang.HorangUnityLibrary.Utilities.PlayerPrefs
 
 			if (PlayerPrefsUtilities.KeyValidation(eK))
 			{
-				return PlayerPrefsUtilities.StringToArrayConverter<bool>(eK);
+				var dV = PlayerPrefsUtilities.StringToArrayConverter<bool>(eK);
+
+				return dV;
 			}
 			
 			Log.Print($"Cannot find the key [{key}] in local player preferences.", LogPriority.Error);
