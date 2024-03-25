@@ -88,5 +88,29 @@ namespace Horang.HorangUnityLibrary.Utilities.UnityExtensions
 
 			return new StringBuilder().Append(r).Append(g).Append(b).ToString();
 		}
+
+		public static Color SetR(this Color color, float red)
+		{
+			var c = color;
+			c.r = Mathf.Clamp01(red);
+
+			return c;
+		}
+		
+		public static Color SetG(this Color color, float green)
+		{
+			var c = color;
+			c.g = Mathf.Clamp01(green);
+
+			return c;
+		}
+		
+		public static Color SetB(this Color color, float blue)
+		{
+			var c = color;
+			c.b = Mathf.Clamp01(blue);
+
+			return c;
+		}
 	}
 }

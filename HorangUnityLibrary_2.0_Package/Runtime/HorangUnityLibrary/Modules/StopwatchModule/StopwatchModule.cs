@@ -192,6 +192,26 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 
 			return stopwatches[key].LastElapsedTime;
 		}
+
+		public void AddTimeTriggerEvent(string name, long milliseconds, Action action)
+		{
+			var key = name.GetHashCode();
+			StopwatchElement stopwatchElement;
+
+			if (ValidateStopwatch(key) is false)
+			{
+				Log.Print($"[{name}] stopwatch is not exist. generate one.", LogPriority.Verbose);
+
+				stopwatchElement = StopwatchElement.Create(name);
+				stopwatches.Add(key, stopwatchElement);
+			}
+			else
+			{
+				stopwatchElement = stopwatches[key];
+			}
+			
+			stopwatchElement.AddTimeTriggerEvent(milliseconds, action);
+		}
 		
 		private bool ValidateStopwatch(int k)
 		{
@@ -204,6 +224,10 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 
 		internal override void Dispose()
 		{
+			foreach (var stopwatchElement in stopwatches.Values)
+			{
+				stopwatchElement.Dispose();
+			}
 		}
 	}
 }

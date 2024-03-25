@@ -9,7 +9,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 	public static class RequestManager
 	{
 		private static CancellationTokenSource delayWaiterCancellationTokenSource = new();
-
+		
 		/// <summary>
 		/// Send web request to remote.
 		/// </summary>
@@ -18,6 +18,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 		/// <param name="onProgress">To get percentage of web request's progress (0~1)</param>
 		/// <param name="timeout">To setting request's timeout</param>
 		/// <param name="delayTimeout">To setting request's delay timeout</param>
+		[Obsolete("Use async of this method.")]
 		public static async UniTaskVoid Send(
 			UnityWebRequest unityWebRequest,
 			IRequestCallbackString callback,
@@ -116,6 +117,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 		/// <param name="onProgress">To get percentage of web request's progress (0~1)</param>
 		/// <param name="timeout">To setting request's timeout</param>
 		/// <param name="delayTimeout">To setting request's delay timeout</param>
+		[Obsolete("Use async of this method.")]
 		public static async UniTaskVoid Send(
 			UnityWebRequest unityWebRequest,
 			IRequestCallbackByteArray callback,
