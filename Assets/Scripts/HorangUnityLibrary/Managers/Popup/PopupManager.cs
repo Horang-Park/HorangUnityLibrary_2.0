@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Horang.HorangUnityLibrary.Foundation.Manager;
-using Horang.HorangUnityLibrary.Foundation.UI;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Horang.HorangUnityLibrary.Managers.Popup
 {
