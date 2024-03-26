@@ -18,11 +18,11 @@ namespace Horang.HorangUnityLibrary.Managers.Popup
 		[System.Serializable]
 		internal struct Popup
 		{
-			public BasePopup BasePopup { get; init; }
-			public GameObject MainGameObject { get; init; }
-			public GameObject DimGameObject { get; init; }
-			public int DefaultSortOrder { get; init; }
-			public Canvas MainGameObjectCanvas { get; init; }
+			public BasePopup BasePopup { get; set; }
+			public GameObject MainGameObject { get; set; }
+			public GameObject DimGameObject { get; set; }
+			public int DefaultSortOrder { get; set; }
+			public Canvas MainGameObjectCanvas { get; set; }
 			public int CurrentSortOrder { get; set; }
 		}
 
@@ -53,7 +53,7 @@ namespace Horang.HorangUnityLibrary.Managers.Popup
 			if (basePopupUseHistory.Count < 1)
 			{
 				result.DimGameObject.SetActive(true);
-				result.MainGameObjectCanvas.sortingOrder = basePopupUseHistory.Peek().CurrentSortOrder;
+				
 				basePopupUseHistory.Push(result);
 
 				return result.BasePopup as T;
@@ -83,8 +83,6 @@ namespace Horang.HorangUnityLibrary.Managers.Popup
 			result.DimGameObject.SetActive(false);
 			result.MainGameObjectCanvas.sortingOrder = result.DefaultSortOrder;
 			result.CurrentSortOrder = result.DefaultSortOrder;
-			
-			result.BasePopup.Hide();
 		}
 		
 		protected override void Awake()
@@ -98,20 +96,26 @@ namespace Horang.HorangUnityLibrary.Managers.Popup
 		{
 			foreach (var data in basePopups.Select((basePopup, index) => (basePopup, index)))
 			{
+				// 키 생성
 				var k = data.basePopup.popupName.GetHashCode();
 				
+				// 팝업 래퍼 게임 오브젝트 생성
 				var mainGameObject = new GameObject(data.basePopup.popupName);
 				mainGameObject.transform.parent = transform;
 				
+				// 딤 게임 오브젝트 생성
 				var dimGameObject = Instantiate(dimPrefab, mainGameObject.transform);
 				
+				// 팝업 래퍼 게임 오브젝트에 캔버스 컴포넌트 추가
 				var mainGameObjectCanvas = mainGameObject.AddComponent<Canvas>();
 				mainGameObjectCanvas.overrideSorting = true;
 				mainGameObjectCanvas.sortingOrder = popupSortOrderOffset + data.index;
 				
+				// 팝업 데이터 생성
 				var newPopup = new Popup
 				{
-					DefaultSortOrder = popupSortOrderOffset + data.index, BasePopup = data.basePopup.basePopup,
+					DefaultSortOrder = popupSortOrderOffset + data.index,
+					BasePopup = data.basePopup.basePopup,
 					MainGameObject = mainGameObject,
 					DimGameObject = dimGameObject,
 					CurrentSortOrder = popupSortOrderOffset + data.index,
