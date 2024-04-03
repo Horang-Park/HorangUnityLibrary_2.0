@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Net;
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Managers.Module;
+using Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking;
+using Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking.Interfaces;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
 using Horang.HorangUnityLibrary.Utilities;
 using Horang.HorangUnityLibrary.Utilities.FiniteStateMachine;
@@ -36,7 +39,7 @@ public class Tester : MonoBehaviour
 		ModuleManager.Instance.RegisterModule(new AudioModule());
 	}
 
-	private void Start()
+	private async void Start()
 	{
 		SetPlayerPrefs.String("test", "HELLO");
 		
@@ -61,6 +64,13 @@ public class Tester : MonoBehaviour
 			Permission.RequestUserPermission(Permission.ExternalStorageRead);
 			Permission.RequestUserPermission(Permission.ExternalStorageWrite);
 		}
+
+		var req = HttpClientFactory.Create();
+		var cal = new Handler();
+
+		await HttpRequestManager.Get("https://jsonplaceholder.typicode.com/tdodos/3", req, cal);
+		
+		req.Dispose();
 	}
 
 	private void Update()
@@ -226,5 +236,21 @@ public class StateThree : State
 
 	public StateThree(string name) : base(name)
 	{
+	}
+}
+
+public class Handler : ICallbackHandlerText
+{
+	public void OnFailure(HttpStatusCode httpStatusCode, string message)
+	{
+	}
+
+	public void OnDelay()
+	{
+	}
+
+	public void OnSuccess(string response)
+	{
+		Log.Print(response);
 	}
 }

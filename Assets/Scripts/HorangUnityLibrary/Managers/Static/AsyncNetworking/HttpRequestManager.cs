@@ -14,7 +14,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 		
 		public static async UniTask Get(string uri, HttpClient httpClient, ICallbackHandlerText callbackHandler)
 		{
-			MainThreadDispatchLog($"HTTP requested by GET to URI: {uri} destination.");
+			MainThreadDispatchLog($"HTTP requested by [GET] to \"{uri}\" destination.");
 			
 			Delay(httpClient.Timeout.Milliseconds * 0.5, callbackHandler.OnDelay).Forget();
 			
@@ -34,7 +34,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 
 			CancellationDelayTask();
 			
-			MainThreadDispatchLog($"HTTP request failed by [{message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.");
+			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
 			callbackHandler.OnFailure(message.StatusCode, message.ReasonPhrase);
 			
 			httpClient.Dispose();
@@ -42,7 +42,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 		
 		public static async UniTask Get(string uri, HttpClient httpClient, ICallbackHandlerBytes callbackHandler)
 		{
-			MainThreadDispatchLog($"HTTP requested by GET to URI: {uri} destination.");
+			MainThreadDispatchLog($"HTTP requested by [GET] to \"{uri}\" destination.");
 			
 			Delay(httpClient.Timeout.Milliseconds * 0.5, callbackHandler.OnDelay).Forget();
 			
@@ -62,7 +62,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 
 			CancellationDelayTask();
 			
-			MainThreadDispatchLog($"HTTP request failed by [{message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.");
+			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
 			callbackHandler.OnFailure(message.StatusCode, message.ReasonPhrase);
 			
 			httpClient.Dispose();
@@ -70,7 +70,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 		
 		public static async UniTask Get(string uri, HttpClient httpClient, ICallbackHandlerStream callbackHandler)
 		{
-			MainThreadDispatchLog($"HTTP requested by GET to URI: {uri} destination.");
+			MainThreadDispatchLog($"HTTP requested by [GET] to \"{uri}\" destination.");
 			
 			Delay(httpClient.Timeout.Milliseconds * 0.5, callbackHandler.OnDelay).Forget();
 			
@@ -90,7 +90,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 
 			CancellationDelayTask();
 			
-			MainThreadDispatchLog($"HTTP request failed by [{message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.");
+			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
 			callbackHandler.OnFailure(message.StatusCode, message.ReasonPhrase);
 			
 			httpClient.Dispose();
