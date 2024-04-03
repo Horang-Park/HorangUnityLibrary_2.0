@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using Cysharp.Threading.Tasks;
 using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking;
@@ -65,10 +67,16 @@ public class Tester : MonoBehaviour
 			Permission.RequestUserPermission(Permission.ExternalStorageWrite);
 		}
 
+		var ms = new MemoryStream();
 		var req = HttpClientFactory.Create();
 		var cal = new Handler();
+		var d = new MultipartFormDataContent
+		{
+			{ new StreamContent(ms) }
+		};
 
 		await HttpRequestManager.Get("https://jsonplaceholder.typicode.com/tdodos/3", req, cal);
+		await HttpRequestManager.Post("", d, req, cal);
 		
 		req.Dispose();
 	}

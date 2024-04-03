@@ -12,22 +12,22 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 	{
 		private static CancellationTokenSource delayWaiterCancellationTokenSource = new();
 		
-		public static async UniTask Get(string uri, HttpClient httpClient, ICallbackHandlerText callbackHandler)
+		public static async UniTask Get(string uri, HttpClient client, ICallbackHandlerText callback)
 		{
 			MainThreadDispatchLog($"HTTP requested by [GET] to \"{uri}\" destination.");
 			
-			Delay(httpClient.Timeout.Milliseconds * 0.5, callbackHandler.OnDelay).Forget();
+			Delay(client.Timeout.Milliseconds * 0.5, callback.OnDelay).Forget();
 			
-			using var message = await httpClient.GetAsync(uri);
+			using var message = await client.GetAsync(uri);
 
 			if (message.IsSuccessStatusCode)
 			{
 				CancellationDelayTask();
 				
 				var result = await message.Content.ReadAsStringAsync();
-				callbackHandler.OnSuccess(result);
+				callback.OnSuccess(result);
 				
-				httpClient.Dispose();
+				client.Dispose();
 
 				return;
 			}
@@ -35,27 +35,27 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 			CancellationDelayTask();
 			
 			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
-			callbackHandler.OnFailure(message.StatusCode, message.ReasonPhrase);
+			callback.OnFailure(message.StatusCode, message.ReasonPhrase);
 			
-			httpClient.Dispose();
+			client.Dispose();
 		}
 		
-		public static async UniTask Get(string uri, HttpClient httpClient, ICallbackHandlerBytes callbackHandler)
+		public static async UniTask Get(string uri, HttpClient client, ICallbackHandlerBytes callback)
 		{
 			MainThreadDispatchLog($"HTTP requested by [GET] to \"{uri}\" destination.");
 			
-			Delay(httpClient.Timeout.Milliseconds * 0.5, callbackHandler.OnDelay).Forget();
+			Delay(client.Timeout.Milliseconds * 0.5, callback.OnDelay).Forget();
 			
-			using var message = await httpClient.GetAsync(uri);
+			using var message = await client.GetAsync(uri);
 
 			if (message.IsSuccessStatusCode)
 			{
 				CancellationDelayTask();
 				
 				var result = await message.Content.ReadAsByteArrayAsync();
-				callbackHandler.OnSuccess(result);
+				callback.OnSuccess(result);
 				
-				httpClient.Dispose();
+				client.Dispose();
 
 				return;
 			}
@@ -63,27 +63,27 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 			CancellationDelayTask();
 			
 			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
-			callbackHandler.OnFailure(message.StatusCode, message.ReasonPhrase);
+			callback.OnFailure(message.StatusCode, message.ReasonPhrase);
 			
-			httpClient.Dispose();
+			client.Dispose();
 		}
 		
-		public static async UniTask Get(string uri, HttpClient httpClient, ICallbackHandlerStream callbackHandler)
+		public static async UniTask Get(string uri, HttpClient client, ICallbackHandlerStream callback)
 		{
 			MainThreadDispatchLog($"HTTP requested by [GET] to \"{uri}\" destination.");
 			
-			Delay(httpClient.Timeout.Milliseconds * 0.5, callbackHandler.OnDelay).Forget();
+			Delay(client.Timeout.Milliseconds * 0.5, callback.OnDelay).Forget();
 			
-			using var message = await httpClient.GetAsync(uri);
+			using var message = await client.GetAsync(uri);
 
 			if (message.IsSuccessStatusCode)
 			{
 				CancellationDelayTask();
 				
 				var result = await message.Content.ReadAsStreamAsync();
-				callbackHandler.OnSuccess(result);
+				callback.OnSuccess(result);
 				
-				httpClient.Dispose();
+				client.Dispose();
 
 				return;
 			}
@@ -91,9 +91,41 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 			CancellationDelayTask();
 			
 			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
-			callbackHandler.OnFailure(message.StatusCode, message.ReasonPhrase);
+			callback.OnFailure(message.StatusCode, message.ReasonPhrase);
 			
-			httpClient.Dispose();
+			client.Dispose();
+		}
+
+		public static async UniTask Post(string uri, HttpContent content, HttpClient client, ICallbackHandlerText callback)
+		{
+			MainThreadDispatchLog($"HTTP requested by [POST] to \"{uri}\" destination.");
+			
+			Delay(client.Timeout.Milliseconds * 0.5, callback.OnDelay).Forget();
+			
+			var message = await client.PostAsync(uri, content);
+
+			if (message.IsSuccessStatusCode)
+			{
+				CancellationDelayTask();
+				
+				var result = await message.Content.ReadAsStringAsync();
+				callback.OnSuccess(result);
+				
+				message.Dispose();
+				content.Dispose();
+				client.Dispose();
+
+				return;
+			}
+
+			CancellationDelayTask();
+			
+			MainThreadDispatchLog($"HTTP request failed by [{(int)message.StatusCode}] code with \"{message.ReasonPhrase}\" reason.", LogPriority.Error);
+			callback.OnFailure(message.StatusCode, message.ReasonPhrase);
+
+			message.Dispose();
+			content.Dispose();
+			client.Dispose();
 		}
 
 		private static async UniTaskVoid Delay(double delayTime, Action onDelayAction)
