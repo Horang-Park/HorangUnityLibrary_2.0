@@ -102,7 +102,7 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 			
 			Delay(client.Timeout.Milliseconds * 0.5, callback.OnDelay).Forget();
 			
-			var message = await client.PostAsync(uri, content);
+			using var message = await client.PostAsync(uri, content);
 
 			if (message.IsSuccessStatusCode)
 			{
@@ -111,7 +111,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking
 				var result = await message.Content.ReadAsStringAsync();
 				callback.OnSuccess(result);
 				
-				message.Dispose();
 				content.Dispose();
 				client.Dispose();
 

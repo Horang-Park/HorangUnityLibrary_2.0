@@ -10,19 +10,10 @@
     "includePlatforms": [],
     "excludePlatforms": [
         "EmbeddedLinux",
-        "GameCoreScarlett",
-        "GameCoreXboxOne",
-        "LinuxStandalone64",
         "CloudRendering",
-        "PS4",
-        "PS5",
+        "macOSStandaloneServer",
         "QNX",
-        "Stadia",
-        "Switch",
-        "tvOS",
-        "WSA",
-        "WindowsStandalone32",
-        "XboxOne"
+        "tvOS"
     ],
     "allowUnsafeCode": false,
     "overrideReferences": true,

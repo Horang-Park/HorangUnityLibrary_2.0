@@ -11,56 +11,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 		private static CancellationTokenSource delayWaiterCancellationTokenSource = new();
 		
 		/// <summary>
-		/// Send web request to remote.
-		/// </summary>
-		/// <param name="unityWebRequest">To send web request</param>
-		/// <param name="callback">callbacks</param>
-		/// <param name="onProgress">To get percentage of web request's progress (0~1)</param>
-		/// <param name="timeout">To setting request's timeout</param>
-		/// <param name="delayTimeout">To setting request's delay timeout</param>
-		[Obsolete("Use async of this method.")]
-		public static async UniTaskVoid Send(
-			UnityWebRequest unityWebRequest,
-			IRequestCallbackString callback,
-			Action<float> onProgress = null,
-			double timeout = 30000D,
-			double delayTimeout = 3000D)
-		{
-			Log.Print($"URI: {unityWebRequest.uri.AbsoluteUri}, API method: {unityWebRequest.method}", LogPriority.Verbose);
-			
-			Delay(callback.OnDelay, delayTimeout).Forget();
-
-			try
-			{
-				unityWebRequest = await unityWebRequest.SendWebRequest()
-					.ToUniTask(progress: Progress.CreateOnlyValueChanged(onProgress))
-					.Timeout(TimeSpan.FromMilliseconds(timeout));
-			}
-			catch (UnityWebRequestException e)
-			{
-				CancelDelayTask();
-				callback.OnFailure(e.UnityWebRequest.responseCode, e.UnityWebRequest.error);
-				unityWebRequest.Dispose();
-
-				throw;
-			}
-			catch (Exception e)
-			{
-				CancelDelayTask();
-				callback.OnFailure(e.HResult, e.Message);
-				unityWebRequest.Dispose();
-
-				throw;
-			}
-
-			CancelDelayTask();
-			Log.Print($"URI: {unityWebRequest.uri.AbsoluteUri}, Response Code: {unityWebRequest.responseCode}", LogPriority.Verbose);
-			callback.OnSuccess(unityWebRequest.downloadHandler.text);
-			
-			unityWebRequest.Dispose();
-		}
-		
-		/// <summary>
 		/// Send async web request to remote.
 		/// </summary>
 		/// <param name="unityWebRequest">To send web request</param>
@@ -105,56 +55,6 @@ namespace Horang.HorangUnityLibrary.Managers.Static.Networking
 			CancelDelayTask();
 			Log.Print($"URI: {unityWebRequest.uri.AbsoluteUri}, Response Code: {unityWebRequest.responseCode}", LogPriority.Verbose);
 			callback.OnSuccess(unityWebRequest.downloadHandler.text);
-			
-			unityWebRequest.Dispose();
-		}
-
-		/// <summary>
-		/// Send web request to remote.
-		/// </summary>
-		/// <param name="unityWebRequest">To send web request</param>
-		/// <param name="callback">callbacks</param>
-		/// <param name="onProgress">To get percentage of web request's progress (0~1)</param>
-		/// <param name="timeout">To setting request's timeout</param>
-		/// <param name="delayTimeout">To setting request's delay timeout</param>
-		[Obsolete("Use async of this method.")]
-		public static async UniTaskVoid Send(
-			UnityWebRequest unityWebRequest,
-			IRequestCallbackByteArray callback,
-			Action<float> onProgress = null,
-			double timeout = 30000D,
-			double delayTimeout = 3000D)
-		{
-			Log.Print($"URI: {unityWebRequest.uri.AbsoluteUri}, API method: {unityWebRequest.method}", LogPriority.Verbose);
-			
-			Delay(callback.OnDelay, delayTimeout).Forget();
-
-			try
-			{
-				unityWebRequest = await unityWebRequest.SendWebRequest()
-					.ToUniTask(progress: Progress.CreateOnlyValueChanged(onProgress))
-					.Timeout(TimeSpan.FromMilliseconds(timeout));
-			}
-			catch (UnityWebRequestException e)
-			{
-				CancelDelayTask();
-				callback.OnFailure(e.UnityWebRequest.responseCode, e.UnityWebRequest.error);
-				unityWebRequest.Dispose();
-
-				throw;
-			}
-			catch (Exception e)
-			{
-				CancelDelayTask();
-				callback.OnFailure(e.HResult, e.Message);
-				unityWebRequest.Dispose();
-
-				throw;
-			}
-
-			CancelDelayTask();
-			Log.Print($"URI: {unityWebRequest.uri.AbsoluteUri}, Response Code: {unityWebRequest.responseCode}", LogPriority.Verbose);
-			callback.OnSuccess(unityWebRequest.downloadHandler.data);
 			
 			unityWebRequest.Dispose();
 		}
