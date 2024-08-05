@@ -5,6 +5,9 @@ using System.IO;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Horang.HorangUnityLibrary.Utilities
 {
@@ -28,13 +31,21 @@ namespace Horang.HorangUnityLibrary.Utilities
 			set => maxHistoryCapacity = value;
 		}
 		
-		private static readonly string[] LoggerPriorityColorPrefix =
+		private static readonly string[] DarkModeLoggerPriorityColorPrefix =
 		{
 			"<color=#2d75eb>",
 			"<color=#ebebeb>",
 			"<color=#fc960f>",
 			"<color=#fc460f>",
 			"<color=#f725a3>"
+		};
+		private static readonly string[] LightModeLoggerPriorityColorPrefix =
+		{
+			"<color=#17448f>",
+			"<color=#333333>",
+			"<color=#ad7223>",
+			"<color=#fc460f>",
+			"<color=#b01371>"
 		};
 		private static readonly char[] PathSeparator = { '\\', '/' };
 		private static readonly Queue<string> LogHistory = new (maxHistoryCapacity);
@@ -49,6 +60,21 @@ namespace Horang.HorangUnityLibrary.Utilities
 
 		private const string LogFileNamePrefix = "+++ LOG +++ ";
 		private const string LogFileExtension = ".log";
+
+		[InitializeOnEnterPlayMode]
+		public static void UseProSkin()
+		{
+			if (EditorGUIUtility.isProSkin)
+			{
+				UnityEngine.Debug.Log("Use pro(dark) skin.");
+			}
+			
+			Print("debug");
+			Print("verbose", LogPriority.Verbose);
+			Print("warning", LogPriority.Warning);
+			Print("error", LogPriority.Error);
+			Print("exception", LogPriority.Exception);
+		}
 
 		/// <summary>
 		/// Show log in Unity console window.
@@ -180,8 +206,18 @@ namespace Horang.HorangUnityLibrary.Utilities
 			var sf = GetStackFrame(st, n) ?? GetStackFrame(st, n - 1);
 			var fn = Path.GetFileNameWithoutExtension(sf.GetFileName()?.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries)[^1]);
 			var sb = new StringBuilder(FontSizePrefix);
+
+#if UNITY_EDITOR
+			if (EditorGUIUtility.isProSkin)
+			{
+				sb.Append(DarkModeLoggerPriorityColorPrefix[(int)p]);
+			}
+			else
+			{
+				sb.Append(LightModeLoggerPriorityColorPrefix[(int)p]);
+			}
+#endif
 			
-			sb.Append(LoggerPriorityColorPrefix[(int)p]);
 			sb.Append(OpenBracket);
 			sb.Append(fn);
 			sb.Append(LineNumberSeparator);
@@ -190,7 +226,11 @@ namespace Horang.HorangUnityLibrary.Utilities
 			sb.Append(sf.GetMethod().Name);
 			sb.Append(Separator);
 			sb.Append(m);
+			
+#if UNITY_EDITOR
 			sb.Append(LoggerPriorityColorPostfix);
+#endif
+			
 			sb.Append(FontSizePostfix);
 
 			return sb.ToString();

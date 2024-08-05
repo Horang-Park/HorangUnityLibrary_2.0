@@ -29,15 +29,15 @@ namespace Horang.HorangUnityLibrary.Utilities.UI
 
 			Refresh();
 		}
-
+		
+#if UNITY_EDITOR
 		private void Start()
 		{
-#if UNITY_EDITOR
 			cornerMarkTexture = new Texture2D(1, 1);
 			cornerMarkTexture.SetPixel(0, 0, ColorExtension.Rgba256ToColor(new ColorFormat256 { a = 190, r = 255, g = 255, b = 0 }));
 			cornerMarkTexture.Apply();
-#endif
 		}
+#endif
 
 		private void Update()
 		{
@@ -49,7 +49,7 @@ namespace Horang.HorangUnityLibrary.Utilities.UI
 			var safeArea = Screen.safeArea;
 
 			if (safeArea.Equals(lastSafeArea) 
-			    && Screen.width.Equals(lastScreenSize.x) && Screen.height.Equals(lastScreenSize.y)
+			    && Screen.width.Equals((int)lastScreenSize.x) && Screen.height.Equals((int)lastScreenSize.y)
 			    && Screen.orientation.Equals(lastScreenOrientation))
 			{
 			    return;
