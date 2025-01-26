@@ -9,44 +9,41 @@ namespace Horang.HorangUnityLibrary.Foundation
 		public bool dontDestroyOnLoadObject;
 		public HideFlags gameObjectHideFlags = HideFlags.NotEditable;
 		
-		private static T instance;
-		// ReSharper disable once StaticMemberInGenericType
-		private static readonly object Gate = new object();
+		private static T _instance;
 
 		public static T Instance
 		{
 			get
 			{
-				lock (Gate)
+				if (_instance != null || _instance)
 				{
-					if (instance is not null)
-					{
-						return instance;
-					}
-					
-					instance = (T)FindObjectOfType(typeof(T));
-
-					if (FindObjectsOfType(typeof(T)).Length > 1)
-					{
-						return instance;
-					}
-
-					if (instance != null)
-					{
-						return instance;
-					}
-					
-					var singleton = new GameObject();
-					instance = singleton.AddComponent<T>();
-					singleton.name = new StringBuilder("[Singleton] ").Append(typeof(T)).ToString();
-					
-					return instance;
+					return _instance;
 				}
+				
+				_instance = (T)FindFirstObjectByType(typeof(T));
+				
+				if (_instance != null || _instance)
+				{
+					return _instance;
+				}
+
+				if (FindObjectsByType(typeof(T), FindObjectsSortMode.None).Length > 1 || _instance)
+				{
+					return _instance;
+				}
+				
+				var singleton = new GameObject();
+				_instance = singleton.AddComponent<T>();
+				singleton.name = new StringBuilder("[Singleton] ").Append(typeof(T)).ToString();
+				
+				return _instance;
 			}
 		}
 
 		protected virtual void Awake()
 		{
+			_instance = this as T;
+			
 			gameObject.hideFlags = gameObjectHideFlags;
 			
 			if (dontDestroyOnLoadObject)
