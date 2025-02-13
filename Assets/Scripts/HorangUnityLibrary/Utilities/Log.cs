@@ -60,23 +60,6 @@ namespace Horang.HorangUnityLibrary.Utilities
 
 		private const string LogFileNamePrefix = "+++ LOG +++ ";
 		private const string LogFileExtension = ".log";
-		
-#if UNITY_EDITOR
-		[InitializeOnEnterPlayMode]
-		public static void UseProSkin()
-		{
-			if (EditorGUIUtility.isProSkin)
-			{
-				UnityEngine.Debug.Log("Use pro(dark) skin.");
-			}
-			
-			Print("debug");
-			Print("verbose", LogPriority.Verbose);
-			Print("warning", LogPriority.Warning);
-			Print("error", LogPriority.Error);
-			Print("exception", LogPriority.Exception);
-		}
-#endif
 
 		/// <summary>
 		/// Show log in Unity console window.
