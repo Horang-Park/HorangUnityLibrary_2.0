@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Horang.HorangUnityLibrary.Foundation.Module;
 using Horang.HorangUnityLibrary.Utilities;
 
 namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 {
-	public sealed class StopwatchModule : BaseModule
+	public static class StopwatchModule
 	{
-		private readonly Dictionary<int, StopwatchElement> stopwatches = new();
+		private static readonly Dictionary<int, StopwatchElement> Stopwatches = new();
 
 		/// <summary>
 		/// Start stopwatch. If parameter named stopwatch is not exist, it will make new one.
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
-		public void Start(string name)
+		public static void Start(string name)
 		{
 			var key = name.GetHashCode();
 			StopwatchElement stopwatchElement;
@@ -23,11 +22,11 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				Log.Print($"[{name}] stopwatch is not exist. generate one.", LogPriority.Verbose);
 
 				stopwatchElement = StopwatchElement.Create(name);
-				stopwatches.Add(key, stopwatchElement);
+				Stopwatches.Add(key, stopwatchElement);
 			}
 			else
 			{
-				stopwatchElement = stopwatches[key];
+				stopwatchElement = Stopwatches[key];
 			}
 
 			if (stopwatchElement.IsRunning)
@@ -52,7 +51,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
 		/// <returns>If stopwatch is invalid, it will return null. otherwise elapsed time into millisecond</returns>
-		public long? Stop(string name)
+		public static long? Stop(string name)
 		{
 			var key = name.GetHashCode();
 
@@ -63,7 +62,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				return null;
 			}
 
-			var stopwatchElement = stopwatches[key];
+			var stopwatchElement = Stopwatches[key];
 
 			if (stopwatchElement.IsRunning is false)
 			{
@@ -79,7 +78,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// Pause stopwatch its status is running.
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
-		public void Pause(string name)
+		public static void Pause(string name)
 		{
 			var key = name.GetHashCode();
 
@@ -90,7 +89,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				return;
 			}
 
-			var stopwatchElement = stopwatches[key];
+			var stopwatchElement = Stopwatches[key];
 
 			if (stopwatchElement.IsRunning is false)
 			{
@@ -113,7 +112,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// Resume stopwatch its status is paused.
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
-		public void Resume(string name)
+		public static void Resume(string name)
 		{
 			var key = name.GetHashCode();
 
@@ -124,7 +123,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				return;
 			}
 
-			var stopwatchElement = stopwatches[key];
+			var stopwatchElement = Stopwatches[key];
 			
 			if (stopwatchElement.IsPaused is false)
 			{
@@ -141,7 +140,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
 		/// <returns>If stopwatch is invalid, it will return null. otherwise first start datetime</returns>
-		public DateTime? StopwatchStartDateTime(string name)
+		public static DateTime? StopwatchStartDateTime(string name)
 		{
 			var key = name.GetHashCode();
 
@@ -152,7 +151,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				return DateTime.MinValue;
 			}
 
-			return stopwatches[key].StopwatchStartDateTime;
+			return Stopwatches[key].StopwatchStartDateTime;
 		}
 		
 		/// <summary>
@@ -160,7 +159,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
 		/// <returns>If stopwatch is invalid, it will return null. otherwise datetime</returns>
-		public DateTime? StopwatchLastStopDateTime(string name)
+		public static DateTime? StopwatchLastStopDateTime(string name)
 		{
 			var key = name.GetHashCode();
 
@@ -171,7 +170,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				return DateTime.MinValue;
 			}
 
-			return stopwatches[key].StopwatchLastStopDateTime;
+			return Stopwatches[key].StopwatchLastStopDateTime;
 		}
 		
 		/// <summary>
@@ -179,7 +178,7 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 		/// </summary>
 		/// <param name="name">Name of stopwatch</param>
 		/// <returns>If stopwatch is invalid, it will return null. otherwise last elapsed time into millisecond</returns>
-		public long? StopwatchLastElapsedTime(string name)
+		public static long? StopwatchLastElapsedTime(string name)
 		{
 			var key = name.GetHashCode();
 
@@ -190,10 +189,10 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				return null;
 			}
 
-			return stopwatches[key].LastElapsedTime;
+			return Stopwatches[key].LastElapsedTime;
 		}
 
-		public void AddTimeTriggerEvent(string name, long milliseconds, Action action)
+		public static void AddTimeTriggerEvent(string name, long milliseconds, Action action)
 		{
 			var key = name.GetHashCode();
 			StopwatchElement stopwatchElement;
@@ -203,31 +202,27 @@ namespace Horang.HorangUnityLibrary.Modules.StopwatchModule
 				Log.Print($"[{name}] stopwatch is not exist. generate one.", LogPriority.Verbose);
 
 				stopwatchElement = StopwatchElement.Create(name);
-				stopwatches.Add(key, stopwatchElement);
+				Stopwatches.Add(key, stopwatchElement);
 			}
 			else
 			{
-				stopwatchElement = stopwatches[key];
+				stopwatchElement = Stopwatches[key];
 			}
 			
 			stopwatchElement.AddTimeTriggerEvent(milliseconds, action);
 		}
-		
-		private bool ValidateStopwatch(int k)
-		{
-			return stopwatches.ContainsKey(k);
-		}
 
-		internal override void OnInitialize()
+		public static void Dispose()
 		{
-		}
-
-		internal override void Dispose()
-		{
-			foreach (var stopwatchElement in stopwatches.Values)
+			foreach (var stopwatchElement in Stopwatches.Values)
 			{
 				stopwatchElement.Dispose();
 			}
+		}
+		
+		private static bool ValidateStopwatch(int k)
+		{
+			return Stopwatches.ContainsKey(k);
 		}
 	}
 }
