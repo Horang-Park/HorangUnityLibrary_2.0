@@ -4,22 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Horang.HorangUnityLibrary.Foundation.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 {
-	public sealed class LocalizationModule : BaseModule
+	public static class LocalizationModule
 	{
-		private readonly Dictionary<SystemLanguage, Dictionary<int, string>> textTables = new();
-		private CancellationTokenSource delayWaiterCancellationTokenSource = new();
-		private SystemLanguage fixedLanguage;
+		private static readonly Dictionary<SystemLanguage, Dictionary<int, string>> TextTables = new();
+		private static CancellationTokenSource _delayWaiterCancellationTokenSource = new();
+		private static SystemLanguage _fixedLanguage;
 
-		public SystemLanguage SetFixedLanguage
+		public static SystemLanguage SetFixedLanguage
 		{
-			set => fixedLanguage = value;
+			set => _fixedLanguage = value;
 		}
 
 		/// <summary>
@@ -28,7 +27,7 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <param name="language">To load language</param>
 		/// <param name="path">To load file path</param>
 		/// <exception cref="FileNotFoundException">Throw if file is not exist</exception>
-		public async UniTask LoadLocalizationFromLocal(SystemLanguage language, string path)
+		public static async UniTask LoadLocalizationFromLocal(SystemLanguage language, string path)
 		{
 			var fileInfo = new FileInfo(path);
 
@@ -55,7 +54,7 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <param name="path">To load file path</param>
 		/// <exception cref="FileNotFoundException">Throw if file is not exist</exception>
 		/// <exception cref="InvalidCastException">Throw if file cannot convert into TextAsset</exception>
-		public async UniTask LoadLocalizationFromResources(SystemLanguage language, string path)
+		public static async UniTask LoadLocalizationFromResources(SystemLanguage language, string path)
 		{
 			var textAssetObject = await Resources.LoadAsync<TextAsset>(path);
 
@@ -84,7 +83,7 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <param name="timeout">To setting request's timeout</param>
 		/// <param name="delayTimeout">To setting request's delay timeout</param>
 		/// <param name="headerParameters">Header parameters</param>
-		public async UniTask LoadLocalizationFromRemote(SystemLanguage language,
+		public static async UniTask LoadLocalizationFromRemote(SystemLanguage language,
 			string uri,
 			Action onSuccess,
 			Action onDelay = null,
@@ -152,23 +151,23 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// <param name="key">To get localization target name</param>
 		/// <param name="language">To get language</param>
 		/// <returns>If can find key in localization table, It return its value. otherwise, string.Empty</returns>
-		public string Get(string key)
+		public static string Get(string key)
 		{
 			var hashKey = key.GetHashCode();
 
-			if (textTables.TryGetValue(fixedLanguage, out var table))
+			if (TextTables.TryGetValue(_fixedLanguage, out var table))
 			{
 				if (table.TryGetValue(hashKey, out var value))
 				{
 					return value;
 				}
 				
-				Log.Print($"There is no key [{key}] in [{fixedLanguage}] localization table.", LogPriority.Error);
+				Log.Print($"There is no key [{key}] in [{_fixedLanguage}] localization table.", LogPriority.Error);
 
 				return string.Empty;
 			}
 			
-			Log.Print($"There is no [{fixedLanguage}] language's localization table.", LogPriority.Error);
+			Log.Print($"There is no [{_fixedLanguage}] language's localization table.", LogPriority.Error);
 
 			return string.Empty;
 		}
@@ -177,30 +176,40 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 		/// Getting current loaded localization language
 		/// </summary>
 		/// <returns>Enumerable of loaded localization languages</returns>
-		public IEnumerable<SystemLanguage> CurrentLoadedLanguages()
+		public static IEnumerable<SystemLanguage> CurrentLoadedLanguages()
 		{
-			return textTables.Select(item => item.Key);
+			return TextTables.Select(item => item.Key);
+		}
+
+		public static void Dispose()
+		{
+			TextTables.Clear();
+			
+			_delayWaiterCancellationTokenSource?.Cancel();
+			_delayWaiterCancellationTokenSource?.Dispose();
+
+			_fixedLanguage = 0;
 		}
 		
-		private async UniTaskVoid Delay(Action oD, double tO)
+		private static async UniTaskVoid Delay(Action oD, double tO)
 		{
 			await UniTask.Delay(
 				TimeSpan.FromMilliseconds(tO),
 				DelayType.DeltaTime,
 				PlayerLoopTiming.Update,
-				delayWaiterCancellationTokenSource.Token);
+				_delayWaiterCancellationTokenSource.Token);
 
 			oD?.Invoke();
 		}
 
-		private void CancelDelayTask()
+		private static void CancelDelayTask()
 		{
-			delayWaiterCancellationTokenSource.Cancel();
-			delayWaiterCancellationTokenSource.Dispose();
-			delayWaiterCancellationTokenSource = new CancellationTokenSource();
+			_delayWaiterCancellationTokenSource.Cancel();
+			_delayWaiterCancellationTokenSource.Dispose();
+			_delayWaiterCancellationTokenSource = new CancellationTokenSource();
 		}
 
-		private void ParsingDataAndSave(SystemLanguage sL, string d)
+		private static void ParsingDataAndSave(SystemLanguage sL, string d)
 		{
 			var table = new Dictionary<int, string>();
 			var separateLines = d.Split('\n');
@@ -262,31 +271,17 @@ namespace Horang.HorangUnityLibrary.Modules.LocalizationModule
 				debugIndex++;
 			}
 
-			if (textTables.ContainsKey(sL))
+			if (TextTables.ContainsKey(sL))
 			{
-				foreach (var item in table.Where(item => !textTables[sL].ContainsKey(item.Key)))
+				foreach (var item in table.Where(item => !TextTables[sL].ContainsKey(item.Key)))
 				{
-					textTables[sL].Add(item.Key, item.Value);
+					TextTables[sL].Add(item.Key, item.Value);
 				}
 
 				return;
 			}
 			
-			textTables.Add(sL, table);
-		}
-
-		internal override void OnInitialize()
-		{
-		}
-
-		internal override void Dispose()
-		{
-			textTables.Clear();
-			
-			delayWaiterCancellationTokenSource?.Cancel();
-			delayWaiterCancellationTokenSource?.Dispose();
-
-			fixedLanguage = 0;
+			TextTables.Add(sL, table);
 		}
 	}
 }

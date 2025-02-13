@@ -1,58 +1,57 @@
 using System.Collections.Generic;
-using Horang.HorangUnityLibrary.Foundation.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Modules.ExternalApplicationLaunchModule
 {
 #pragma warning disable CS0162
-	public sealed class ExternalApplicationLaunchModule : BaseModule
+	public static class ExternalApplicationLaunchModule
 	{
-		private AndroidJavaObject unityActivity;
-		private AndroidJavaObject androidPackageManager;
+		private static AndroidJavaObject _unityActivity;
+		private static AndroidJavaObject _androidPackageManager;
 
 		private const string GetIntentMethodName = "getLaunchIntentForPackage";
 		private const string AddExtraMethodName = "putExtra";
 
-		internal override void OnInitialize()
+		public static void OnInitialize()
 		{
 #if !UNITY_ANDROID || UNITY_EDITOR
-			Log.Print("This module working only built Android application.", LogPriority.Error);
+			Log.Print("Working only built Android application.", LogPriority.Error);
 
 			return;
 #endif
 			var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-			unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-			androidPackageManager = unityActivity.Call<AndroidJavaObject>("getPackageManager");
+			_unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+			_androidPackageManager = _unityActivity.Call<AndroidJavaObject>("getPackageManager");
+		}
+		
+		public static void Dispose()
+		{
+			_unityActivity?.Dispose();
+			_androidPackageManager?.Dispose();
 		}
 
-		internal override void Dispose()
+		public static void LaunchExternalApplication(string applicationPackageName)
 		{
-			unityActivity?.Dispose();
-			androidPackageManager?.Dispose();
-		}
-
-		public void LaunchExternalApplication(string applicationPackageName)
-		{
-			var externalAppIntent = androidPackageManager.Call<AndroidJavaObject>(GetIntentMethodName, applicationPackageName);
+			var externalAppIntent = _androidPackageManager.Call<AndroidJavaObject>(GetIntentMethodName, applicationPackageName);
 			
-			externalAppIntent.Call("startActivity", unityActivity);
+			externalAppIntent.Call("startActivity", _unityActivity);
 			
-			unityActivity.Call("finish");
+			_unityActivity.Call("finish");
 		}
 
-		public void LaunchExternalApplication(string applicationPackageName, Dictionary<string, string> extraDatas)
+		public static void LaunchExternalApplication(string applicationPackageName, Dictionary<string, string> extraData)
 		{
-			var externalAppIntent = androidPackageManager.Call<AndroidJavaObject>(GetIntentMethodName, applicationPackageName);
+			var externalAppIntent = _androidPackageManager.Call<AndroidJavaObject>(GetIntentMethodName, applicationPackageName);
 
-			foreach (var extraData in extraDatas)
+			foreach (var ed in extraData)
 			{
-				externalAppIntent.Call<AndroidJavaObject>(AddExtraMethodName, extraData.Key, extraData.Value);
+				externalAppIntent.Call<AndroidJavaObject>(AddExtraMethodName, ed.Key, ed.Value);
 			}
 		
-			externalAppIntent.Call("startActivity", unityActivity);
+			externalAppIntent.Call("startActivity", _unityActivity);
 			
-			unityActivity.Call("finish");
+			_unityActivity.Call("finish");
 		}
 	}
 #pragma warning restore CS0162
