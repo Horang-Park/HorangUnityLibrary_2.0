@@ -45,7 +45,12 @@ namespace Horang.HorangUnityLibrary.Modules.CameraModule
 			{
 				var key = camera.gameObject.name.GetHashCode();
 
-				Cameras.Add(key, camera);
+				if (Cameras.TryAdd(key, camera))
+				{
+					return;
+				}
+
+				Log.Print("Already exist camera.", LogPriority.Warning);
 			}
 		}
 
