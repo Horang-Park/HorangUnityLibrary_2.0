@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using Cysharp.Threading.Tasks;
-using Horang.HorangUnityLibrary.Managers.Module;
 using Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking;
 using Horang.HorangUnityLibrary.Managers.Static.AsyncNetworking.Interfaces;
 using Horang.HorangUnityLibrary.Modules.AudioModule;
@@ -37,8 +36,6 @@ public class Tester : MonoBehaviour
 		playerInput = GetComponent(typeof(PlayerInput)) as PlayerInput;
 		
 		Log.Print($"{GetPlayerPrefs.String("test")}");
-		
-		ModuleManager.Instance.RegisterModule(new AudioModule());
 	}
 
 	private async void Start()
@@ -171,8 +168,6 @@ public class StateOne : State
 	
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "English", "This is test text.", WriteMode.New));
 		UniTask.Void(() => SaveAndLoad.Save(Application.persistentDataPath + "/MY DATA.txt", "한국어", "이것은 테스트 텍스트입니다."));
-		
-		SetPlayerPrefs.Bool("TEST_TEST", true);
 	}
 	
 	public override void Update()
@@ -197,8 +192,6 @@ public class StateTwo : State
 	public override void Enter()
 	{
 		Log.Print("StateTwo state enter");
-		
-		Log.Print($"TEST_TEST -> {GetPlayerPrefs.Bool("TEST_TEST")}");
 		
 		UniTask.Void(GetDatas);
 	}

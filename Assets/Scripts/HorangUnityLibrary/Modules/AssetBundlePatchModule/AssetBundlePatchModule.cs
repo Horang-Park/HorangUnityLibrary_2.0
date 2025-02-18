@@ -2,16 +2,15 @@ using System;
 using System.IO;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Horang.HorangUnityLibrary.Foundation.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 {
-	public sealed class AssetBundlePatchModule : BaseModule
+	public static class AssetBundlePatchModule
 	{
-		private CancellationTokenSource delayWaiterCancellationTokenSource = new();
+		private static CancellationTokenSource _delayWaiterCancellationTokenSource = new();
 
 		private const string VersionPlayerPrefsKey = "Version";
 
@@ -20,7 +19,7 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 		/// </summary>
 		/// <param name="remoteVersion">To compare remote asset bundle version</param>
 		/// <returns>If local version is difference with remote version, will return false. otherwise true</returns>
-		public bool VersionCheck(string remoteVersion)
+		public static bool VersionCheck(string remoteVersion)
 		{
 			if (PlayerPrefs.HasKey(VersionPlayerPrefsKey) is false)
 			{
@@ -51,7 +50,7 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 		/// <param name="timeout">To setting request's timeout</param>
 		/// <param name="delayTimeout">To setting request's delay timeout</param>
 		/// <param name="headerParameters">Header parameter</param>
-		public async UniTask DownloadLatestVersionFromRemote(string remoteAssetBundleUri,
+		public static async UniTask DownloadLatestVersionFromRemote(string remoteAssetBundleUri,
 			Action<AssetBundle> onSuccess,
 			Action onDelay = null,
 			Action<long> onSizeCheck = null,
@@ -112,22 +111,22 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 			assetBundleRequester.Dispose();
 		}
 
-		private async UniTaskVoid Delay(Action oD, double tO)
+		private static async UniTaskVoid Delay(Action oD, double tO)
 		{
 			await UniTask.Delay(
 				TimeSpan.FromMilliseconds(tO),
 				DelayType.DeltaTime,
 				PlayerLoopTiming.Update,
-				delayWaiterCancellationTokenSource.Token);
+				_delayWaiterCancellationTokenSource.Token);
 
 			oD?.Invoke();
 		}
 
-		private void CancelDelayTask()
+		private static void CancelDelayTask()
 		{
-			delayWaiterCancellationTokenSource.Cancel();
-			delayWaiterCancellationTokenSource.Dispose();
-			delayWaiterCancellationTokenSource = new CancellationTokenSource();
+			_delayWaiterCancellationTokenSource.Cancel();
+			_delayWaiterCancellationTokenSource.Dispose();
+			_delayWaiterCancellationTokenSource = new CancellationTokenSource();
 		}
 
 		private static async UniTask SaveAssetBundleToLocal(byte[] rawAssetBundleData, string fn)
@@ -139,14 +138,6 @@ namespace Horang.HorangUnityLibrary.Modules.AssetBundlePatchModule
 			
 			fileSystem.Close();
 			await fileSystem.DisposeAsync();
-		}
-
-		internal override void OnInitialize()
-		{
-		}
-
-		internal override void Dispose()
-		{
 		}
 	}
 }

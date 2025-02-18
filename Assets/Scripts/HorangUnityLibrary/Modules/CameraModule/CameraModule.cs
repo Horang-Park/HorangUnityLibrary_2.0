@@ -1,22 +1,21 @@
 using System.Collections.Generic;
-using Horang.HorangUnityLibrary.Foundation.Module;
 using Horang.HorangUnityLibrary.Utilities;
 using UnityEngine;
 
 namespace Horang.HorangUnityLibrary.Modules.CameraModule
 {
-	public sealed class CameraModule : BaseModule
+	public static class CameraModule
 	{
-		private readonly Dictionary<int, CameraData> cameras = new();
+		private static readonly Dictionary<int, CameraData> Cameras = new();
 
-		internal override void OnInitialize()
+		public static void OnInitialize()
 		{
 			FindCameras();
 		}
 
-		internal override void Dispose()
+		public static void Dispose()
 		{
-			cameras.Clear();
+			Cameras.Clear();
 		}
 
 		/// <summary>
@@ -24,35 +23,40 @@ namespace Horang.HorangUnityLibrary.Modules.CameraModule
 		/// </summary>
 		/// <param name="cameraName">To get camera game object name</param>
 		/// <returns>If camera name is valid, return its camera. otherwise null</returns>
-		public Camera GetCamera(string cameraName)
+		public static Camera GetCamera(string cameraName)
 		{
 			var key = cameraName.GetHashCode();
 
 			return CameraValidation(key, out var camera) ? camera.Camera : null;
 		}
 
-		private void FindCameras()
+		private static void FindCameras()
 		{
-			var cameraDatas = Object.FindObjectsByType<CameraData>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
+			var cameras = Object.FindObjectsByType<CameraData>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
 
-			if (cameraDatas.Length < 1)
+			if (cameras.Length < 1)
 			{
 				Log.Print("Cannot find camera data.", LogPriority.Error);
 
 				return;
 			}
 
-			foreach (var camera in cameraDatas)
+			foreach (var camera in cameras)
 			{
 				var key = camera.gameObject.name.GetHashCode();
 
-				cameras.Add(key, camera);
+				if (Cameras.TryAdd(key, camera))
+				{
+					return;
+				}
+
+				Log.Print("Already exist camera.", LogPriority.Warning);
 			}
 		}
 
-		private bool CameraValidation(int k, out CameraData cameraData)
+		private static bool CameraValidation(int k, out CameraData cameraData)
 		{
-			if (cameras.TryGetValue(k, out var camera))
+			if (Cameras.TryGetValue(k, out var camera))
 			{
 				cameraData = camera;
 
