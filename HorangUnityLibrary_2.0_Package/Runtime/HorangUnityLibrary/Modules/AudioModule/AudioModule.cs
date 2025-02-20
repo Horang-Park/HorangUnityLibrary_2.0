@@ -185,6 +185,26 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
         }
 
         /// <summary>
+        /// Set volume by category
+        /// </summary>
+        /// <param name="audioPlayType">To set volume audio sources type</param>
+        /// <param name="volume">To set volume (0.0~1.0)</param>
+        public static void VolumeByCategory(AudioDataType.AudioPlayType audioPlayType, float volume = 1.0f)
+        {
+            if (AudioSourcesByCategory.TryGetValue(audioPlayType, out var items) is false)
+            {
+                Log.Print($"The audio play type [{audioPlayType}] is not in Audio Database.", LogPriority.Error);
+
+                return;
+            }
+
+            foreach (var item in items)
+            {
+                item.volume = volume;
+            }
+        }
+
+        /// <summary>
         /// Get audio clip's length
         /// </summary>
         /// <param name="name">To get audio clip name</param>
@@ -227,7 +247,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
         /// <summary>
         /// Mute all audio sources by category
         /// </summary>
-        /// <param name="audioPlayType">To mute audio source type</param>
+        /// <param name="audioPlayType">To mute audio sources type</param>
         public static void MuteByCategory(AudioDataType.AudioPlayType audioPlayType)
         {
             if (AudioSourcesByCategory.TryGetValue(audioPlayType, out var items) is false)
@@ -248,7 +268,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
         /// <summary>
         /// Unmute all audio source by category
         /// </summary>
-        /// <param name="audioPlayType">To unmute audio source type</param>
+        /// <param name="audioPlayType">To unmute audio sources type</param>
         public static void UnmuteByCategory(AudioDataType.AudioPlayType audioPlayType)
         {
             if (AudioSourcesByCategory.ContainsKey(audioPlayType) is false)
