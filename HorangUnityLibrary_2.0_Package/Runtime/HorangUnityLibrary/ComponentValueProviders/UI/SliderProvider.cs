@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Horang.HorangUnityLibrary.Utilities;
 using UniRx;
 using UnityEngine.UI;
@@ -11,36 +10,36 @@ namespace Horang.HorangUnityLibrary.ComponentValueProviders.UI
 	{
 		public static void Subscribe(this Slider slider, Action<float> target)
 		{
-			var key = target.Method;
+			var key = target.Method.MetadataToken;
 			
-			if (subscribers.ContainsKey(key))
+			if (Subscribers.ContainsKey(key))
 			{
 				Log.Print($"Already subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 			
-			subscribers.Add(key, slider.OnValueChangedAsObservable()
+			Subscribers.Add(key, slider.OnValueChangedAsObservable()
 				.DistinctUntilChanged()
 				.Subscribe(target));
 		}
 
 		public static void Unsubscribe(this Slider _, Action<float> target)
 		{
-			var key = target.Method;
+			var key = target.Method.MetadataToken;
 			
-			if (subscribers.ContainsKey(key) is false)
+			if (Subscribers.ContainsKey(key) is false)
 			{
 				Log.Print($"Not subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 
-			var subscriber = subscribers[target.Method];
+			var subscriber = Subscribers[target.Method.MetadataToken];
 			subscriber.Dispose();
-			subscribers.Remove(target.Method);
+			Subscribers.Remove(target.Method.MetadataToken);
 		}
 		
-		private static readonly Dictionary<MethodInfo, IDisposable> subscribers = new();
+		private static readonly Dictionary<int, IDisposable> Subscribers = new();
 	}
 }
