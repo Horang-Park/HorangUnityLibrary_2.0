@@ -82,7 +82,6 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
             audioSource.playOnAwake = false;
             audioSource.loop = audioData.audioPlayType is AudioDataType.AudioPlayType.LoopSfx or AudioDataType.AudioPlayType.BGM;
-            audioSource.volume = audioData.audioClipVolume;
             audioSource.panStereo = audioData.audioClipPan;
             audioSource.clip = audioData.audioClip;
 
