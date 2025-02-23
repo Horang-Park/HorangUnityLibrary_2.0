@@ -11,10 +11,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
     {
         private static Transform _parent;
 
-        private static readonly Dictionary<int, AudioDataType> AudioDatas = new();
+        private static readonly Dictionary<int, AudioDataType> AudioData = new();
         private static readonly Dictionary<int, AudioSource> AudioSources = new();
         private static readonly Dictionary<AudioDataType.AudioPlayType, List<AudioSource>> AudioSourcesByCategory = new();
         private static readonly Dictionary<int, IDisposable> AudioSourceTimeSubscribers = new();
+        private static readonly Dictionary<AudioDataType.AudioPlayType, float> VolumeStatus = new();
         private static readonly Dictionary<AudioDataType.AudioPlayType, bool> MuteStatus = new();
 
         private const string ParentGameObjectName = "Audio Sources";
@@ -53,7 +54,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
                 return;
             }
 
-            var audioData = AudioDatas[key];
+            var audioData = AudioData[key];
             var audioSource = GetOrCreateInstance(name);
 
             if (onPlayTime is not null)
@@ -202,6 +203,11 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
             {
                 item.volume = volume;
             }
+
+            if (VolumeStatus.TryAdd(audioPlayType, volume) is false)
+            {
+                VolumeStatus[audioPlayType] = volume;
+            }
         }
 
         /// <summary>
@@ -218,7 +224,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
                 Log.Print($"Cannot find audio data named [{name}]. Check your [Audio Database.asset] file.", LogPriority.Error);
             }
 
-            var audioData = AudioDatas[key];
+            var audioData = AudioData[key];
 
             return audioData.audioClipAdditionalData.length;
         }
@@ -321,7 +327,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
             foreach (var audioData in audioDataScriptableObject.audioClipDatas)
             {
-                AudioDatas.Add(audioData.name.GetHashCode(), audioData);
+                AudioData.Add(audioData.name.GetHashCode(), audioData);
 
                 if (AudioSourcesByCategory.ContainsKey(audioData.audioPlayType) is false)
                 {
@@ -346,14 +352,19 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
             go.hideFlags = HideFlags.NotEditable;
 
             var co = go.AddComponent(typeof(AudioSource)) as AudioSource;
-            var ad = AudioDatas[key];
+            var ad = AudioData[key];
 
             AudioSources.Add(key, co);
             AudioSourcesByCategory[ad.audioPlayType].Add(co);
 
-            if (MuteStatus.ContainsKey(ad.audioPlayType))
+            if (MuteStatus.TryGetValue(ad.audioPlayType, out var isMute))
             {
-                co!.mute = true;
+                co!.mute = isMute;
+            }
+
+            if (VolumeStatus.TryGetValue(ad.audioPlayType, out var volume))
+            {
+                co!.volume = volume;
             }
 
             return AudioSources[key];
@@ -361,7 +372,7 @@ namespace Horang.HorangUnityLibrary.Modules.AudioModule
 
         private static bool ValidateAudioClip(int n)
         {
-            return AudioDatas.ContainsKey(n.GetHashCode());
+            return AudioData.ContainsKey(n.GetHashCode());
         }
 
         private static bool ValidateAudioSource(int n)
