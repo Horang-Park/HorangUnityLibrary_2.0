@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Horang.HorangUnityLibrary.Utilities;
 using UniRx;
 using UnityEngine;
@@ -12,50 +11,62 @@ namespace Horang.HorangUnityLibrary.ComponentValueProviders.UI
 	{
 		public static void NormalizePositionSubscribe(this ScrollRect scrollRect, Action<Vector2> target)
 		{
-			var key = target.Method;
+			var key = GetKey(target);
 			
-			if (subscribers.ContainsKey(key))
+			if (Subscribers.ContainsKey(key))
 			{
 				Log.Print($"Already subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 			
-			subscribers.Add(key, Observable.EveryUpdate()
+			Subscribers.Add(key, Observable.EveryUpdate()
 				.DistinctUntilChanged(l => NormalizeUpdateCheck(l, scrollRect.normalizedPosition))
 				.Subscribe(_ => target?.Invoke(scrollRect.normalizedPosition)));
 		}
 		
 		public static void Unsubscribe(this ScrollRect _, Action<Vector2> target)
 		{
-			var key = target.Method;
+			var key = GetKey(target);
 			
-			if (subscribers.ContainsKey(key) is false)
+			if (Subscribers.TryGetValue(key, out var subscriber) is false)
 			{
 				Log.Print($"Not subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 
-			var subscriber = subscribers[target.Method];
 			subscriber.Dispose();
-			subscribers.Remove(target.Method);
+			Subscribers.Remove(key);
 		}
 		
-		private static readonly Dictionary<MethodInfo, IDisposable> subscribers = new();
-
-		private static Vector2 beforeNormalizePosition;
+		private static readonly Dictionary<int, IDisposable> Subscribers = new();
+		private static Vector2 _beforeNormalizePosition;
 
 		private static bool NormalizeUpdateCheck(long _, Vector2 current)
 		{
-			if (beforeNormalizePosition.Equals(current))
+			if (_beforeNormalizePosition.Equals(current))
 			{
 				return false;
 			}
 
-			beforeNormalizePosition = current;
+			_beforeNormalizePosition = current;
 
 			return true;
+		}
+
+		private static int GetKey(Action<Vector2> target)
+		{
+			var targetScript = (MonoBehaviour)target.Target;
+
+			if (targetScript is not null)
+			{
+				return targetScript.gameObject.GetInstanceID();
+			}
+
+			Log.Print("Target script is not inheritance MonoBehaviour.", LogPriority.Warning);
+
+			return int.MaxValue;
 		}
 	}
 }

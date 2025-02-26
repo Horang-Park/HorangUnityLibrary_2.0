@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Horang.HorangUnityLibrary.Utilities;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Horang.HorangUnityLibrary.ComponentValueProviders.UI
@@ -11,51 +12,62 @@ namespace Horang.HorangUnityLibrary.ComponentValueProviders.UI
 	{
 		public static void Subscribe(this Image image, Action<float> target)
 		{
-			var key = target.Method;
+			var key = GetKey(target);
 			
-			if (subscribers.ContainsKey(key))
+			if (Subscribers.ContainsKey(key))
 			{
 				Log.Print($"Already subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 			
-			subscribers.Add(key, Observable.EveryUpdate()
+			Subscribers.Add(key, Observable.EveryUpdate()
 				.DistinctUntilChanged(l => UpdateCheck(l, image))
 				.Subscribe(_ => target.Invoke(image.fillAmount)));
 		}
 
 		public static void Unsubscribe(this Image _, Action<float> target)
 		{
-			var key = target.Method;
+			var key = GetKey(target);
 			
-			if (subscribers.ContainsKey(key) is false)
+			if (Subscribers.TryGetValue(key, out var subscriber) is false)
 			{
 				Log.Print($"Not subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 
-			var subscriber = subscribers[target.Method];
 			subscriber.Dispose();
-			
-			subscribers.Remove(target.Method);
+			Subscribers.Remove(key);
 		}
 		
-		private static readonly Dictionary<MethodInfo, IDisposable> subscribers = new();
-
-		private static float beforeFillAmount;
+		private static readonly Dictionary<int, IDisposable> Subscribers = new();
+		private static float _beforeFillAmount;
 
 		private static bool UpdateCheck(long _, Image target)
 		{
-			if (beforeFillAmount.Equals(target.fillAmount))
+			if (_beforeFillAmount.Equals(target.fillAmount))
 			{
 				return false;
 			}
 
-			beforeFillAmount = target.fillAmount;
+			_beforeFillAmount = target.fillAmount;
 
 			return true;
+		}
+
+		private static int GetKey(Action<float> target)
+		{
+			var targetScript = (MonoBehaviour)target.Target;
+
+			if (targetScript is not null)
+			{
+				return targetScript.gameObject.GetInstanceID();
+			}
+
+			Log.Print("Target script is not inheritance MonoBehaviour.", LogPriority.Warning);
+
+			return int.MaxValue;
 		}
 	}
 }
