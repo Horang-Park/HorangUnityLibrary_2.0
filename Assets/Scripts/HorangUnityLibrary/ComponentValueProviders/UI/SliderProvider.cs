@@ -2,15 +2,18 @@ using System;
 using System.Collections.Generic;
 using Horang.HorangUnityLibrary.Utilities;
 using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Horang.HorangUnityLibrary.ComponentValueProviders.UI
 {
 	public static class SliderProvider
 	{
+		private static readonly Dictionary<int, IDisposable> Subscribers = new();
+
 		public static void Subscribe(this Slider slider, Action<float> target)
 		{
-			var key = target.Method.MetadataToken;
+			var key = GetKey(target);
 			
 			if (Subscribers.ContainsKey(key))
 			{
@@ -26,20 +29,31 @@ namespace Horang.HorangUnityLibrary.ComponentValueProviders.UI
 
 		public static void Unsubscribe(this Slider _, Action<float> target)
 		{
-			var key = target.Method.MetadataToken;
+			var key = GetKey(target);
 			
-			if (Subscribers.ContainsKey(key) is false)
+			if (Subscribers.TryGetValue(key, out var subscriber) is false)
 			{
 				Log.Print($"Not subscribed method. [{target.Method.Name}]", LogPriority.Error);
 
 				return;
 			}
 
-			var subscriber = Subscribers[target.Method.MetadataToken];
 			subscriber.Dispose();
-			Subscribers.Remove(target.Method.MetadataToken);
+			Subscribers.Remove(key);
 		}
-		
-		private static readonly Dictionary<int, IDisposable> Subscribers = new();
+
+		private static int GetKey(Action<float> target)
+		{
+			var targetScript = (MonoBehaviour)target.Target;
+
+			if (targetScript is not null)
+			{
+				return targetScript.gameObject.GetInstanceID();
+			}
+
+			Log.Print("Target script is not inheritance MonoBehaviour.", LogPriority.Warning);
+
+			return int.MaxValue;
+		}
 	}
 }
